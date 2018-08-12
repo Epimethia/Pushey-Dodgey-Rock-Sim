@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="clock.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TextLabel.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelOne.cpp">
+      <Filter>NotEngine\Levels</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="clock.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="TextLabel.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelOne.h">
+      <Filter>NotEngine\Levels</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\FragmentShader.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\VertexShader.vs">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{888425a2-20c5-45f9-bab6-a58e0216f2a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{3137f153-f0bd-42be-af45-ef1b12240fa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine">
+      <UniqueIdentifier>{5ceb80cc-ebaa-44f4-9fd4-6a5d6d6747fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Levels">
+      <UniqueIdentifier>{5ddb91b1-47c3-4154-bc69-9592e5842f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Entities">
+      <UniqueIdentifier>{1c94b13e-6934-4541-94c0-350e068ce876}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

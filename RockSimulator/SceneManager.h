@@ -1,0 +1,36 @@
+#pragma once
+#include <vector>
+#include <memory>
+
+enum SceneState
+{
+	MENU_SCENE,
+	LEVEL1_SCENE
+};
+
+class LevelOne;
+class SceneManager
+{
+#pragma region Singleton
+public:
+	static std::shared_ptr<SceneManager> GetInstance();
+	static void DestroyInstance();
+	~SceneManager();
+private:
+	static std::shared_ptr<SceneManager> s_pSceneManager;
+	SceneManager(SceneManager const&);
+	void operator=(SceneManager const&);
+	SceneManager();
+#pragma endregion
+
+public:
+	void SetCurrentScene(SceneState);	
+	void InitializeScene(SceneState);
+	void RenderCurrentScene();
+	void UpdateCurrentScene();
+
+private:
+	SceneState m_CurrentScene;		
+	std::shared_ptr<LevelOne> m_LevelOneScene;
+};
+
