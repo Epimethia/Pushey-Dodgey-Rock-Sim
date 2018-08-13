@@ -1,5 +1,22 @@
 #include "Camera.h"
 
+std::shared_ptr<Camera> Camera::s_pCamera;
+
+std::shared_ptr<Camera> Camera::GetInstance()
+{
+	if (!s_pCamera)
+	{
+		s_pCamera = std::shared_ptr<Camera>(new Camera());
+	}
+	return s_pCamera;
+}
+
+void Camera::DestroyInstance()
+{
+	s_pCamera.reset();
+	//s_pSceneManager = nullptr;
+}
+
 
 Camera::Camera()
 {
@@ -28,12 +45,12 @@ glm::mat4 Camera::GetProj()
 void Camera::SetProj(int _screenWidth, int _screenHeight)
 {
 	m_proj = glm::ortho(
-		0.0f,					// Left
-		(float)_screenWidth,	// Right
-		0.0f,					// Top
-		(float)_screenHeight,   // Bottom
-		0.1f,					// Near
-		100.0f);				// Far
+		-(float)_screenWidth / 156.25f,		// Left
+		(float)_screenWidth / 156.25f,		// Right
+		-(float)_screenHeight / 100.0f,		// Bottom
+		(float)_screenHeight / 100.0f,		// Top		
+		0.1f,								// Near
+		100.0f);							// Far
 }
 
 void Camera::Update()

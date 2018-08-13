@@ -1,18 +1,35 @@
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2005 - 2018 Media Design School
+//
+// Author		:	Jasper Lyons
+// Email		:	Jasper.Lyo7552@mediadesign.school.nz
+// File Name	:	ShaderLoader.cpp
+// Description	:	Implimentation for the ShaderLoader class
+
 #include "ShaderLoader.h" 
 #include<iostream>
 #include<fstream>
 #include<vector>
 
-ShaderLoader::ShaderLoader(void){}
-ShaderLoader::~ShaderLoader(void){}
+ShaderLoader::ShaderLoader(void) {}
+ShaderLoader::~ShaderLoader(void) {}
 
-
+//Name:			    ReadShader
+//Parameters:		char* filename
+//Return Type:		std::string
+//Description:		Reads the filename and returns a shadercode
+//                  
+//                  
 std::string ShaderLoader::ReadShader(char *filename)
 {
 	std::string shaderCode;
 	std::ifstream file(filename, std::ios::in);
 
-	if (!file.good()){
+	if (!file.good()) {
 		std::cout << "Can't read file " << filename << std::endl;
 		std::terminate();
 	}
@@ -25,6 +42,12 @@ std::string ShaderLoader::ReadShader(char *filename)
 	return shaderCode;
 }
 
+//Name:			    CreateShader
+//Parameters:		GLenum, string source, char* shadername
+//Return Type:		GLuint
+//Description:		Creates shader
+//                  
+//                  
 GLuint ShaderLoader::CreateShader(GLenum shaderType, std::string
 	source, char* shaderName)
 {
@@ -53,6 +76,12 @@ GLuint ShaderLoader::CreateShader(GLenum shaderType, std::string
 	return shader;
 }
 
+//Name:			    CreateProgram
+//Parameters:		char* vertex shader file, fragment shader file
+//Return Type:		GLuint
+//Description:		Creates a program with specified shaders
+//                  
+//                  
 GLuint ShaderLoader::CreateProgram(char* vertexShaderFilename,
 	char* fragmentShaderFilename)
 {
@@ -73,7 +102,7 @@ GLuint ShaderLoader::CreateProgram(char* vertexShaderFilename,
 	{
 		vertex_shader = it->second;
 	}
-	
+
 	it = FragmentShaders.find(_fragmentShaderFilename);
 	if (it == FragmentShaders.end())
 	{
@@ -89,7 +118,7 @@ GLuint ShaderLoader::CreateProgram(char* vertexShaderFilename,
 	GLuint program;
 	it = Programs.find(_vertexShaderFilename + ":" + _fragmentShaderFilename);
 	if (it == Programs.end())
-	{		
+	{
 		int link_result = 0;
 		program = glCreateProgram();
 		glAttachShader(program, vertex_shader);
@@ -116,5 +145,5 @@ GLuint ShaderLoader::CreateProgram(char* vertexShaderFilename,
 		int link_result = 0;
 		program = it->second;
 		return program;
-	}	
+	}
 }

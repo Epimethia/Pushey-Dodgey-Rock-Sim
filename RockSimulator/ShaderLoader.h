@@ -1,7 +1,5 @@
 #pragma once
 
-#include "glew.h"
-#include "freeglut.h"
 #include <iostream>
 #include <map>
 #include <string>

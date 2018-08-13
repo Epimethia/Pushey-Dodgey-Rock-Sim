@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Camera.h"
 #include <assert.h>
 
 
@@ -13,7 +14,16 @@ Sprite::~Sprite()
 }
 
 void Sprite::Initialize(const char * _TextureFilepath)
-{		
+{	
+	
+	GLfloat m_vertices[32] = {
+		// Positions					    // Colors					// Tex Coords
+		-1.0f * kf_NORMALX, 1.0f, 0.0f,		0.0f, 1.0f, 0.0f,		0.0f, 0.0f, // Top Left
+		1.0f * kf_NORMALX, 1.0f, 0.0f,		1.0f, 0.0f, 0.0f,		1.0f, 0.0f, // Top Right
+		1.0f * kf_NORMALX, -1.0f, 0.0f,		1.0f, 1.0f, 0.0f,		1.0f, 1.0f, // Bottom Right
+		-1.0f * kf_NORMALX, -1.0f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f, // Bottom Left
+	};
+
 	GLuint indices[] = {
 		0, 1, 2, // First Triangle
 		0, 2, 3 // Second Triangle
@@ -91,12 +101,6 @@ void Sprite::Initialize(const char * _TextureFilepath)
 		sizeof(indices),
 		indices,
 		GL_STATIC_DRAW);
-
-	glCullFace(GL_BACK); // Cull the Back faces
-	glFrontFace(GL_CW); // Front face is Clockwise order
-	glEnable(GL_CULL_FACE); // Turn on the back face culling
-
-	m_SpriteInitialized = true;
 }
 
 void Sprite::Update()
@@ -104,17 +108,28 @@ void Sprite::Update()
 	
 }
 
-void Sprite::Render(void)
+void Sprite::Render(glm::mat4 _ModelMatrix)
 {
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	// Set Culling and Use program
+	glCullFace(GL_BACK); // Cull the Back faces
+	glFrontFace(GL_CW); // Front face is Clockwise order
+	glEnable(GL_CULL_FACE); // Turn on the back face culling	
 	glUseProgram(m_program);
+
+	// Pass mvp to shader
+	glm::mat4 MVP = Camera::GetInstance()->GetProj() * Camera::GetInstance()->GetView() * _ModelMatrix;
+	GLint MVPloc = glGetUniformLocation(m_program, "MVP");
+	glUniformMatrix4fv(MVPloc, 1, GL_FALSE, value_ptr(MVP));
+
+	// Pass texture to shader
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glUniform1i(glGetUniformLocation(m_program, "tex"), 0);	
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glutSwapBuffers();
+	glUniform1i(glGetUniformLocation(m_program, "tex"), 0);
+
+	// Bind vao and draw object, unbind vao
+	glBindVertexArray(m_vao);		
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);	
+	glBindVertexArray(0);
 }
 
 

@@ -31,6 +31,10 @@
     <ClCompile Include="LevelOne.cpp">
       <Filter>NotEngine\Levels</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>NotEngine\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCharacter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -63,6 +67,10 @@
     <ClInclude Include="LevelOne.h">
       <Filter>NotEngine\Levels</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>NotEngine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCharacter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs">
@@ -87,6 +95,9 @@
     </Filter>
     <Filter Include="NotEngine\Entities">
       <UniqueIdentifier>{1c94b13e-6934-4541-94c0-350e068ce876}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Entities\Player">
+      <UniqueIdentifier>{94baf2f3-69af-40f0-afbb-f0a543ef51f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

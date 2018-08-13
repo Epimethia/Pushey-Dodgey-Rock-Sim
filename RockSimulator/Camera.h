@@ -1,13 +1,23 @@
-#include "Dependencies\glm\glm.hpp"
-#include "Dependencies\glm\gtc\matrix_transform.hpp"
-#include "Dependencies\glm\gtc\type_ptr.hpp"
+#include "Utilities.h"
 
 #pragma once
 class Camera
 {
+#pragma region Singleton
 public:
-	Camera();
+	static std::shared_ptr<Camera> GetInstance();
+	static void DestroyInstance();
 	~Camera();
+	/*!!!!!!!!! YOU SHOULD NOT BE CALLING THIS DIRECTLY !!!!!!!*/
+	Camera();
+private:
+	static std::shared_ptr<Camera> s_pCamera;
+	Camera(Camera const&);
+	void operator=(Camera const&);
+	
+#pragma endregion
+
+public:	
 	//Getters
 	glm::mat4 GetView();
 	glm::mat4 GetProj();
