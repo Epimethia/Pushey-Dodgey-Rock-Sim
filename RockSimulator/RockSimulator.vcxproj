@@ -137,7 +137,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="LevelOne.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
@@ -146,12 +146,13 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextLabel.cpp" />
+    <ClCompile Include="XboxControllerInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="LevelOne.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="SceneManager.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="Utilities.h" />
+    <ClInclude Include="XboxControllerInput.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs" />

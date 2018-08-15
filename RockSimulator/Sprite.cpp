@@ -18,11 +18,19 @@ void Sprite::Initialize(const char * _TextureFilepath)
 	
 	GLfloat m_vertices[32] = {
 		// Positions					    // Colors					// Tex Coords
-		-1.0f * kf_NORMALX, 1.0f, 0.0f,		0.0f, 1.0f, 0.0f,		0.0f, 0.0f, // Top Left
-		1.0f * kf_NORMALX, 1.0f, 0.0f,		1.0f, 0.0f, 0.0f,		1.0f, 0.0f, // Top Right
-		1.0f * kf_NORMALX, -1.0f, 0.0f,		1.0f, 1.0f, 0.0f,		1.0f, 1.0f, // Bottom Right
-		-1.0f * kf_NORMALX, -1.0f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f, // Bottom Left
+		-1.0f, 1.0f, 0.0f,		0.0f, 1.0f, 0.0f,		0.0f, 0.0f, // Top Left
+		1.0f, 1.0f, 0.0f,		1.0f, 0.0f, 0.0f,		1.0f, 0.0f, // Top Right
+		1.0f, -1.0f, 0.0f,		1.0f, 1.0f, 0.0f,		1.0f, 1.0f, // Bottom Right
+		-1.0f, -1.0f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f, // Bottom Left
 	};
+
+	//GLfloat m_vertices[32] = {
+	//	// Positions					    // Colors					// Tex Coords
+	//	-1.0f, 1.0f, 0.0f,		0.0f, 1.0f, 0.0f,		0.0f, 0.0f, // Top Left
+	//	1.0f, 1.0f, 0.0f,		1.0f, 0.0f, 0.0f,		1.0f, 0.0f, // Top Right
+	//	1.0f, -1.0f, 0.0f,		1.0f, 1.0f, 0.0f,		1.0f, 1.0f, // Bottom Right
+	//	-1.0f, -1.0f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f, // Bottom Left
+	//};
 
 	GLuint indices[] = {
 		0, 1, 2, // First Triangle

@@ -56,7 +56,6 @@ void SceneManager::UpdateCurrentScene()
 {
 	m_Clock->Process();
 	float fDeltaTick = m_Clock->GetDeltaTick() / 1000.0f;
-	std::cout << fDeltaTick << std::endl;
 	switch (m_CurrentScene) {
 	case MENU_SCENE:
 	{

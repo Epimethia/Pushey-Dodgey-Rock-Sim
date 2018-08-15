@@ -7,9 +7,6 @@
     <ClCompile Include="clock.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -35,15 +32,16 @@
       <Filter>NotEngine\Entities</Filter>
     </ClCompile>
     <ClCompile Include="PlayerCharacter.cpp" />
+    <ClCompile Include="XboxControllerInput.cpp" />
+    <ClCompile Include="KeyboardInput.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="clock.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
@@ -71,6 +69,12 @@
       <Filter>NotEngine\Entities</Filter>
     </ClInclude>
     <ClInclude Include="PlayerCharacter.h" />
+    <ClInclude Include="XboxControllerInput.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardInput.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs">

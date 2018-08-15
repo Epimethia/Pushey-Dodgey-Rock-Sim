@@ -15,6 +15,7 @@ public:
 	void Update();
 	void AddVelocity(float _Speed);
 	void AddRotation(float _Angle);
+	void Brake();
 
 	void Initialize();
 

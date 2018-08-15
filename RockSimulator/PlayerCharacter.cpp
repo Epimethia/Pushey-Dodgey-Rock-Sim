@@ -8,9 +8,9 @@
 PlayerCharacter::PlayerCharacter()
 {
 	m_Sprite = std::make_shared<Sprite>();
-	m_Translate = glm::vec3(0.0f, 0.0f, 0.0f);
+	m_Translate = glm::vec3(800.0f, 450.0f, 0.0f);
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
-	m_Scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	m_Scale = glm::vec3(50.0f, 50.0f, 1.0f);
 	m_fRotation = 0.0f;
 	m_ForwardVector = glm::vec3(0.0f, 1.0f, 0.0f);
 }
@@ -31,20 +31,25 @@ void PlayerCharacter::Render()
 
 void PlayerCharacter::Update()
 {
-	std::cout << glm::to_string(m_Translate) << std::endl;
-	if (m_Translate.x < -10.0f) m_Translate.x = 10.0f;
-	if (m_Translate.x > 10.0f) m_Translate.x = -10.0f;
-	if (m_Translate.y < -10.0f) m_Translate.y = 10.0f;
-	if (m_Translate.y > 10.0f) m_Translate.y = -10.0f;
+	if (m_Translate.x < -50.0f) m_Translate.x = 1649.0f;
+	if (m_Translate.x > 1650.0f) m_Translate.x = -49.0f;
+	if (m_Translate.y < -49.0f) m_Translate.y = 899.0f;
+	if (m_Translate.y > 899.0f) m_Translate.y = -49.0f;
 	m_Translate += m_Velocity;
+
 }
 
 //Update Overload
 //Moves the player character by the input Translate
 void PlayerCharacter::AddVelocity(float _Speed)
 {
+	m_Velocity *= 0.995f;
 	m_Velocity += m_ForwardVector * _Speed * 0.1f;
-	m_Velocity = glm::clamp(m_Velocity, glm::vec3(-0.3f), glm::vec3(0.3f));
+	m_Velocity = glm::clamp(m_Velocity, glm::vec3(-10.0f), glm::vec3(10.0f));
+}
+
+void PlayerCharacter::Brake() {
+	m_Velocity *= 0.98f;
 }
 
 void PlayerCharacter::AddRotation(float _Angle)
