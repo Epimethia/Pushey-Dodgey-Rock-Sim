@@ -2,13 +2,18 @@
 #include <vector>
 #include <memory>
 
+
 enum SceneState
 {
 	MENU_SCENE,
 	LEVEL1_SCENE
 };
 
+//Forward Declarations
 class LevelOne;
+class Input;
+class CClock;
+
 class SceneManager
 {
 #pragma region Singleton
@@ -32,5 +37,7 @@ public:
 private:
 	SceneState m_CurrentScene;		
 	std::shared_ptr<LevelOne> m_LevelOneScene;
+	//CClock singleton reference
+	std::shared_ptr<CClock> m_Clock;
 };
 

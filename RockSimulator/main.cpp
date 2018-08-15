@@ -28,6 +28,7 @@ int main(int argc, char** argv)
 
 	glutDisplayFunc(Render);
 	glutIdleFunc(Update);
+	glutIgnoreKeyRepeat(1);
 	glutMainLoop();
 	return 0;
 }
@@ -42,6 +43,5 @@ void Render()
 void Update()
 {			
 	SceneManager::GetInstance()->UpdateCurrentScene();
-
 	glutPostRedisplay();
 }

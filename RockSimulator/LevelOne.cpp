@@ -36,6 +36,26 @@ void LevelOne::InitializeObjects()
 	}
 }
 
+void LevelOne::ProcessLevel(float _DeltaTick) {
+	//Reading inputs
+	if (Input::KeyState['w'] == INPUT_HOLD) {
+		m_PlayerOne->AddVelocity(1.0f * _DeltaTick);
+	}
+	if (Input::KeyState['a'] == INPUT_HOLD) {
+		m_PlayerOne->AddRotation(3.0f * _DeltaTick);
+	}
+	if (Input::KeyState['s'] == INPUT_HOLD) {
+		m_PlayerOne->AddVelocity(-3.0f * _DeltaTick);
+	}
+	if (Input::KeyState['d'] == INPUT_HOLD) {
+		m_PlayerOne->AddRotation(-3.0f * _DeltaTick);
+
+	}
+	Input::Update();
+
+	m_PlayerOne->Update();
+}
+
 void LevelOne::RenderObjects()
 {
 	// Render Background

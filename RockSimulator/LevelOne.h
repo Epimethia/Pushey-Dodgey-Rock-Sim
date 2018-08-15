@@ -1,10 +1,12 @@
 #pragma once
 #include "Utilities.h"
+#include "Input.h"
 
 class Entity;
 class PlayerCharacter;
 class Camera;
 class Sprite;
+class Input;
 class LevelOne	
 {
 public:
@@ -13,6 +15,7 @@ public:
 
 	void InitializeObjects();
 	void RenderObjects();
+	void ProcessLevel(float _DeltaTick);
 
 private:
 	std::vector<std::shared_ptr<PlayerCharacter>> m_PlayerVec;

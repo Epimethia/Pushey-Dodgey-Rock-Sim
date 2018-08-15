@@ -15,6 +15,9 @@
 #include "Dependencies\freeglut\freeglut.h"
 
 std::shared_ptr<Input> Input::s_pInput;
+unsigned int Input::KeyState[255];
+unsigned int Input::MouseState[3];
+
 
 // Prototypes
 void LprocessNormalKeysDown(unsigned char _key, int _x, int _y);
@@ -78,13 +81,13 @@ Input::Input()
 //                  
 void Input::Initialize()
 {
-	glutIgnoreKeyRepeat(1);
-	glutKeyboardFunc(LprocessNormalKeysDown);
-	glutKeyboardUpFunc(LprocessNormalKeysUp);
-	glutSpecialFunc(LprocessSpecialKeys);
-	glutPassiveMotionFunc(LmouseInput);
-	glutMouseFunc(LmouseButton);
 	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
+	for (int i = 0; i < 255; ++i) {
+		KeyState[i] = INPUT_RELEASED;
+	}
+	for (int i = 0; i < 3; ++i) {
+		MouseState[i] = INPUT_RELEASED;
+	}
 }
 
 //Name:			    Update
@@ -95,11 +98,22 @@ void Input::Initialize()
 //                  
 void Input::Update()
 {
+	//Running the OpenGL input functions
+	glutKeyboardFunc(LprocessNormalKeysDown);
+	glutKeyboardUpFunc(LprocessNormalKeysUp);
+	glutSpecialFunc(LprocessSpecialKeys);
+	glutPassiveMotionFunc(LmouseInput);
+	glutMouseFunc(LmouseButton);
+
+	//Processing all of the keys
 	for (int i = 0; i < 255; i++)
 	{
 		if (KeyState[i] == INPUT_FIRST_PRESS)
 		{
 			KeyState[i] = INPUT_HOLD;
+		}
+		else if (KeyState[i] == INPUT_FIRST_RELEASE) {
+			KeyState[i] = INPUT_RELEASED;
 		}
 	}
 }
