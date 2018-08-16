@@ -13,6 +13,7 @@ PlayerCharacter::PlayerCharacter()
 	m_Scale = glm::vec3(50.0f, 50.0f, 1.0f);
 	m_fRotation = 0.0f;
 	m_ForwardVector = glm::vec3(0.0f, 1.0f, 0.0f);
+	m_fVibrationRate = 0.0f;
 }
 
 
@@ -33,10 +34,10 @@ void PlayerCharacter::Update()
 {
 	if (m_Translate.x < -50.0f) m_Translate.x = 1649.0f;
 	if (m_Translate.x > 1650.0f) m_Translate.x = -49.0f;
-	if (m_Translate.y < -49.0f) m_Translate.y = 899.0f;
-	if (m_Translate.y > 899.0f) m_Translate.y = -49.0f;
+	if (m_Translate.y < -49.0f) m_Translate.y = 949.0f;
+	if (m_Translate.y > 950.0f) m_Translate.y = -49.0f;
 	m_Translate += m_Velocity;
-
+	m_fVibrationRate *= 0.90f;
 }
 
 //Update Overload
@@ -46,10 +47,12 @@ void PlayerCharacter::AddVelocity(float _Speed)
 	m_Velocity *= 0.995f;
 	m_Velocity += m_ForwardVector * _Speed * 0.1f;
 	m_Velocity = glm::clamp(m_Velocity, glm::vec3(-10.0f), glm::vec3(10.0f));
+	m_fVibrationRate = 3.0f;
 }
 
 void PlayerCharacter::Brake() {
 	m_Velocity *= 0.98f;
+	m_fVibrationRate = glm::length(m_Velocity);
 }
 
 void PlayerCharacter::AddRotation(float _Angle)

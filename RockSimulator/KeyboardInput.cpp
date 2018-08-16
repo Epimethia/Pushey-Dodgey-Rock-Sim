@@ -14,6 +14,8 @@
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
 
+#include <iostream>
+
 std::shared_ptr<Input> Input::s_pInput;
 unsigned int Input::KeyState[255];
 unsigned int Input::MouseState[3];
@@ -127,6 +129,7 @@ void Input::Update()
 void Input::ProcessNormalKeysDown(unsigned char _key, int _x, int _y)
 {
 	KeyState[_key] = INPUT_FIRST_PRESS;
+	std::cout << "Key Pressed: " << _key << std::endl;
 }
 
 //Name:			    ProcessNormalKeysUp
