@@ -63,5 +63,5 @@ void PlayerCharacter::AddRotation(float _Angle)
 
 void PlayerCharacter::Initialize()
 {
-	m_Sprite->Initialize("Resources/Images/AwesomeFace.png");
+	m_Sprite->Initialize("Resources/Images/Player_Sprite.png");
 }
