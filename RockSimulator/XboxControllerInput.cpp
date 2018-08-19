@@ -129,17 +129,17 @@ void XBOXController::Update()
 	float normalizedLMagnitude = 0;
 
 	//check if the controller is outside a circular dead zone
-	if (Lmagnitude > 20000)
+	if (Lmagnitude > 30000)
 	{
 		//clip the magnitude at its expected maximum value
 		if (Lmagnitude > 32767) Lmagnitude = 32767;
 
 		//adjust magnitude relative to the end of the dead zone
-		Lmagnitude -= 20000;
+		Lmagnitude -= 30000;
 
 		//optionally normalize the magnitude with respect to its expected range
 		//giving a magnitude value of 0.0 to 1.0
-		normalizedLMagnitude = Lmagnitude / (32767 - 20000);
+		normalizedLMagnitude = Lmagnitude / (32767 - 30000);
 	}
 	else //if the controller is in the deadzone zero out the magnitude
 	{

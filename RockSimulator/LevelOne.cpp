@@ -34,7 +34,7 @@ void LevelOne::InitializeObjects()
 	m_EntityVec.push_back(m_PlayerOne);
 
 	m_PlayerTwo = std::make_shared<PlayerCharacter>();	
-	m_PlayerTwo->SetPosition(b2Vec2(400.0f, 112.5f));
+	m_PlayerTwo->SetPosition(b2Vec2(250.0f, 112.5f));
 	m_PlayerVec.push_back(m_PlayerTwo);
 	m_EntityVec.push_back(m_PlayerTwo);
 
@@ -51,7 +51,8 @@ void LevelOne::InitializeObjects()
 void LevelOne::ProcessLevel(float _DeltaTick) {
 
 	// Process Physics
-	Physics::GetInstance()->Process();		
+	Physics::GetInstance()->Process();		
+
 	//Reading inputs
 	//PLAYER_0 INPUTS
 	auto& p0_Controller = CurrentPlayers[0];
@@ -60,12 +61,12 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 		m_PlayerOne->AddVelocity(5000.0f * _DeltaTick);		
 	}
 	if (Input::KeyState['s'] == INPUT_HOLD || p0_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
-		m_PlayerOne->AddVelocity(-5000.0f * _DeltaTick);
+		m_PlayerOne->Brake(_DeltaTick);
 	}
-	if (Input::KeyState['a'] == INPUT_HOLD || p0_Controller->normalizedLX < -0.8f) {
+	if (Input::KeyState['a'] == INPUT_HOLD || p0_Controller->normalizedLX < -0.9f) {
 		m_PlayerOne->AddRotation(300.0f * _DeltaTick);
 	}
-	if (Input::KeyState['d'] == INPUT_HOLD || p0_Controller->normalizedLX > 0.8f) {
+	if (Input::KeyState['d'] == INPUT_HOLD || p0_Controller->normalizedLX > 0.9f) {
 		m_PlayerOne->AddRotation(-300.0f * _DeltaTick);
 	}
 

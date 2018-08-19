@@ -15,6 +15,7 @@ public:
 	void Update();
 	void AddVelocity(float _Speed);
 	void AddRotation(float _Angle);
+	void Brake(float _DeltaTick);
 	void SetPosition(b2Vec2 _position);
 	float GetVibrateRate() { return m_fVibrationRate; };	
 	void Initialize();
@@ -28,5 +29,7 @@ private:
 	// Physics
 	b2BodyDef m_bodyDef;
 	b2Body* m_body;		
+
+	b2PolygonShape dynamicBox;
 };
 

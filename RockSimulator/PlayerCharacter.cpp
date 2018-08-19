@@ -14,14 +14,14 @@ PlayerCharacter::PlayerCharacter()
 
 	// Physics
 	b2FixtureDef fixtureDef;
-	b2PolygonShape dynamicBox;
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.position.Set(200.0f, 112.5f);
 	m_body = Physics::GetInstance()->CreateBody(m_bodyDef);
-	dynamicBox.SetAsBox(2.0f, 2.0f);
+	dynamicBox.SetAsBox(6.0f, 6.0f);
 	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 0.1f;
+	fixtureDef.density = 0.05f;
 	fixtureDef.friction = 0.3f;
+	fixtureDef.restitution = 2.0f;
 	m_body->CreateFixture(&fixtureDef);
 }
 
@@ -37,6 +37,17 @@ void PlayerCharacter::Render()
 		glm::rotate(glm::mat4(), m_body->GetAngle(), m_RotationAxis) * 
 		glm::scale(glm::mat4(), m_Scale) // might need to change this later, idk what to do 
 	);
+
+	int count = dynamicBox.m_count;
+	auto verts = dynamicBox.m_vertices;
+
+	for (int i = 0; i < count; i++)
+	{
+		verts[i] = m_body->GetWorldPoint(verts[i]);
+	}
+
+	//verts now contains world co-ords of all the verts
+
 }
 
 void PlayerCharacter::Update()
@@ -53,7 +64,7 @@ void PlayerCharacter::Update()
 	m_body->SetLinearVelocity(vel);
 	m_body->SetAngularVelocity(m_body->GetAngularVelocity() * 0.90f);
 
-	std::cout << m_body->GetPosition().y << std::endl;
+	std::cout << m_body->GetLinearVelocity().y << std::endl;
 
 	m_fVibrationRate *= 0.90f;
 }
@@ -63,16 +74,23 @@ void PlayerCharacter::Update()
 void PlayerCharacter::AddVelocity(float _Speed)
 {
 	m_body->ApplyForceToCenter(
-	b2Vec2(m_body->GetWorldVector(b2Vec2(0, 1)).x * _Speed,
-		   m_body->GetWorldVector(b2Vec2(0, 1)).y * _Speed), 
+	b2Vec2(m_body->GetWorldVector(b2Vec2(0, 1)).x * 5.0f * _Speed,
+		   m_body->GetWorldVector(b2Vec2(0, 1)).y * 5.0f * _Speed),
 		   true);
 
-	m_fVibrationRate = 3.0f;
+	m_fVibrationRate = 10.0f;
 }
 
 void PlayerCharacter::AddRotation(float _Angle)
 {	
-	m_body->ApplyTorque(_Angle * 10.0f, true);
+	m_body->ApplyTorque(_Angle * 1000.0f, true);
+}
+
+void PlayerCharacter::Brake(float _DeltaTick) {
+	b2Vec2 vel = m_body->GetLinearVelocity();
+	vel *= 0.97f;
+	m_body->SetLinearVelocity(vel);
+	m_fVibrationRate = m_body->GetLinearVelocity().Length() * 0.25f;
 }
 
 void PlayerCharacter::SetPosition(b2Vec2 _position)
