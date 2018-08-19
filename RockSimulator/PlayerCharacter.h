@@ -19,6 +19,7 @@ public:
 
 	float GetVibrateRate() { return m_fVibrationRate; };
 	void SetPosition(glm::vec2 _Pos) { m_Translate = glm::vec3(_Pos, 0.0f); };
+	glm::vec3 GetForwardVec() const {	return m_ForwardVector;	}
 
 	void Initialize();
 

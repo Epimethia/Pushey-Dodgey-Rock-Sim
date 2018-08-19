@@ -1,6 +1,7 @@
 #pragma once
 #include "Utilities.h"
 #include "XboxControllerInput.h"
+#include "Dependencies\Box2D\Box2D.h"
 
 class Entity;
 class PlayerCharacter;
@@ -28,5 +29,16 @@ private:
 	//BOOTLEGGING CONTROLLER INPUT RIGHT NOW -- CHANGE
 
 	std::vector<std::shared_ptr<XBOXController>> CurrentPlayers;
+
+	// Physics Shit - jasper
+	b2Vec2 gravity = b2Vec2(0.0f, 0.0f);
+	b2World world = b2World(gravity);
+	b2BodyDef bodyDef;
+	b2Body* body;
+	b2PolygonShape dynamicBox;
+	b2FixtureDef fixtureDef;
+	float32 timeStep;
+	int32 velocityIterations;
+	int32 positionIterations;
 };
 

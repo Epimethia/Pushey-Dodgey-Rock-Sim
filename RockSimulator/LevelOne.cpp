@@ -14,6 +14,19 @@ LevelOne::LevelOne()
 
 	CurrentPlayers.push_back(std::make_shared<XBOXController>(1));
 	CurrentPlayers.push_back(std::make_shared<XBOXController>(2));
+
+	// Physics stuff
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(800.0f, 450.0f);
+	body = world.CreateBody(&bodyDef);
+	dynamicBox.SetAsBox(1.0f, 1.0f);
+	fixtureDef.shape = &dynamicBox;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.3f;
+	body->CreateFixture(&fixtureDef);
+	timeStep = 1.0f / 60.0f;
+	velocityIterations = 8;
+	positionIterations = 3;
 }
 
 LevelOne::~LevelOne()
@@ -49,12 +62,17 @@ void LevelOne::InitializeObjects()
 
 void LevelOne::ProcessLevel(float _DeltaTick) {
 
+	// Process Physics
+	world.Step(timeStep, velocityIterations, positionIterations);	m_PlayerOne->SetPosition(glm::vec2(body->GetPosition().x, body->GetPosition().y));
 	//Reading inputs
 	//PLAYER_0 INPUTS
 	auto& p0_Controller = CurrentPlayers[0];
 	p0_Controller->Vibrate(0, static_cast<int>(1000.0f * m_PlayerOne->GetVibrateRate()));
 	if (Input::KeyState['w'] == INPUT_HOLD || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
-		m_PlayerOne->AddVelocity(50.0f * _DeltaTick);
+		//m_PlayerOne->AddVelocity(50.0f * _DeltaTick);
+
+		glm::vec2 Forward = glm::vec2(m_PlayerOne->GetForwardVec().x, m_PlayerOne->GetForwardVec().y) * 5000.0f;
+		body->ApplyForceToCenter(b2Vec2(Forward.x, Forward.y), true);
 	}
 	if (Input::KeyState['s'] == INPUT_HOLD || p0_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
 		m_PlayerOne->Brake();
