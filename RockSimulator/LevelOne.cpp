@@ -29,12 +29,12 @@ void LevelOne::InitializeObjects()
 	// Initialize Other Objects..
 	// Push objects to their appropriate vectors
 	m_PlayerOne = std::make_shared<PlayerCharacter>();	
-	m_PlayerOne->SetPosition(b2Vec2(300.0f, 450.0f));
+	m_PlayerOne->SetPosition(b2Vec2(200.0f, 112.5f));
 	m_PlayerVec.push_back(m_PlayerOne);
 	m_EntityVec.push_back(m_PlayerOne);
 
 	m_PlayerTwo = std::make_shared<PlayerCharacter>();	
-	m_PlayerTwo->SetPosition(b2Vec2(1300.0f, 450.0f));
+	m_PlayerTwo->SetPosition(b2Vec2(400.0f, 112.5f));
 	m_PlayerVec.push_back(m_PlayerTwo);
 	m_EntityVec.push_back(m_PlayerTwo);
 

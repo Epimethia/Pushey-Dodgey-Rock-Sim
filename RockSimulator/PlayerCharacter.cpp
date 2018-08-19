@@ -8,7 +8,7 @@
 PlayerCharacter::PlayerCharacter()
 {
 	m_Sprite = std::make_shared<Sprite>();	
-	m_Scale = glm::vec3(50.0f, 50.0f, 1.0f);
+	m_Scale = glm::vec3(10.0f, 10.0f, 1.0f);
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_fVibrationRate = 0.0f;
 
@@ -16,11 +16,11 @@ PlayerCharacter::PlayerCharacter()
 	b2FixtureDef fixtureDef;
 	b2PolygonShape dynamicBox;
 	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(800.0f, 450.0f);
+	m_bodyDef.position.Set(200.0f, 112.5f);
 	m_body = Physics::GetInstance()->CreateBody(m_bodyDef);
-	dynamicBox.SetAsBox(1.0f, 1.0f);
+	dynamicBox.SetAsBox(2.0f, 2.0f);
 	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
+	fixtureDef.density = 0.1f;
 	fixtureDef.friction = 0.3f;
 	m_body->CreateFixture(&fixtureDef);
 }
@@ -42,10 +42,18 @@ void PlayerCharacter::Render()
 void PlayerCharacter::Update()
 {
 	// Screen wrapping
-	if (m_body->GetPosition().x < -50.0f) m_body->SetTransform(b2Vec2(1649.0f, m_body->GetPosition().y), m_body->GetAngle());
-	if (m_body->GetPosition().x > 1650.0f) m_body->SetTransform(b2Vec2(-49.0f, m_body->GetPosition().y), m_body->GetAngle());
-	if (m_body->GetPosition().y < -49.0f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, 949.0f), m_body->GetAngle());
-	if (m_body->GetPosition().y > 950.0f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -49.0f), m_body->GetAngle());
+	if (m_body->GetPosition().x < -10.0f) m_body->SetTransform(b2Vec2(410.0f, m_body->GetPosition().y), m_body->GetAngle());
+	if (m_body->GetPosition().x > 410.0f) m_body->SetTransform(b2Vec2(-10.0f, m_body->GetPosition().y), m_body->GetAngle());
+	if (m_body->GetPosition().y < -10.0f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, 235.0f), m_body->GetAngle());
+	if (m_body->GetPosition().y > 235.0f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -10.0f), m_body->GetAngle());
+
+	
+	b2Vec2 vel = m_body->GetLinearVelocity();
+	vel *= 0.999f;
+	m_body->SetLinearVelocity(vel);
+	m_body->SetAngularVelocity(m_body->GetAngularVelocity() * 0.90f);
+
+	std::cout << m_body->GetPosition().y << std::endl;
 
 	m_fVibrationRate *= 0.90f;
 }
@@ -64,7 +72,7 @@ void PlayerCharacter::AddVelocity(float _Speed)
 
 void PlayerCharacter::AddRotation(float _Angle)
 {	
-	m_body->ApplyTorque(_Angle, true);
+	m_body->ApplyTorque(_Angle * 10.0f, true);
 }
 
 void PlayerCharacter::SetPosition(b2Vec2 _position)
