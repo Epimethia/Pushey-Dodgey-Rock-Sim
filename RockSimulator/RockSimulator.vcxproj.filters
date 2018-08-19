@@ -36,6 +36,7 @@
     <ClCompile Include="KeyboardInput.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -75,6 +76,7 @@
     <ClInclude Include="KeyboardInput.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Physics.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs">
