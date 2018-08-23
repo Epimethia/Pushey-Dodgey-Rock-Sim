@@ -1,4 +1,13 @@
 #pragma once
+//	Library includes.
+
+
+//	Local includes.
+
+
+class Sprite;
+
+
 class Entity
 {
 public:
@@ -14,5 +23,10 @@ public:
 
 private:
 	// Member Variables
+
+
+protected:
+
+
 };
 

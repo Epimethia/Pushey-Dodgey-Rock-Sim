@@ -1,6 +1,11 @@
 #pragma once
+//	Library includes.
+
+
+//	Local includes.
 #include "Entity.h"
 #include "Utilities.h"
+
 
 class Sprite;
 class PlayerCharacter :

@@ -56,7 +56,7 @@ GLuint ShaderLoader::CreateShader(GLenum shaderType, std::string
 
 	GLuint shader = glCreateShader(shaderType);
 	const char *shader_code_ptr = source.c_str();
-	const int shader_code_size = source.size();
+	const int shader_code_size = static_cast<int>(source.size());
 
 	glShaderSource(shader, 1, &shader_code_ptr, &shader_code_size);
 	glCompileShader(shader);

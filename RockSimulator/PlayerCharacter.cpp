@@ -62,6 +62,7 @@ void PlayerCharacter::AddVelocity(float _Speed)
 	m_fVibrationRate = 3.0f;
 }
 
+//	Radians or Degrees?
 void PlayerCharacter::AddRotation(float _Angle)
 {	
 	m_body->ApplyTorque(_Angle, true);

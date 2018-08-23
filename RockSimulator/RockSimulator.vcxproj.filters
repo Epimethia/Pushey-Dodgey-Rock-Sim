@@ -37,6 +37,9 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="Asteroid.cpp">
+      <Filter>NotEngine\Entities\Asteroid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -77,6 +80,9 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="Asteroid.h">
+      <Filter>NotEngine\Entities\Asteroid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs">
@@ -104,6 +110,9 @@
     </Filter>
     <Filter Include="NotEngine\Entities\Player">
       <UniqueIdentifier>{94baf2f3-69af-40f0-afbb-f0a543ef51f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Entities\Asteroid">
+      <UniqueIdentifier>{0aacea6f-0d9e-4ba8-bc9f-1bd91db0dfd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
