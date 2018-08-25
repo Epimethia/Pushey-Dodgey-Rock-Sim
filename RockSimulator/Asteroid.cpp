@@ -50,20 +50,28 @@ Asteroid::Initialize()
 }
 
 void
-Asteroid::Update()
+Asteroid::Update(const float& _DeltaTick)
 {
-	review functionality
-	//
+
+	if (m_body->GetPosition().x < -50.0f) m_body->SetTransform(b2Vec2(1649.0f, m_body->GetPosition().y), m_body->GetAngle());
+	else if (m_body->GetPosition().x > 1650.0f) m_body->SetTransform(b2Vec2(-49.0f, m_body->GetPosition().y), m_body->GetAngle());
+	else if (m_body->GetPosition().y < -49.0f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, 949.0f), m_body->GetAngle());
+	else if (m_body->GetPosition().y > 950.0f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -49.0f), m_body->GetAngle());
+
 	m_body->ApplyForceToCenter(
-		b2Vec2(m_body->GetWorldVector(b2Vec2(0, 1)).x * v_fAcceleration,
-			m_body->GetWorldVector(b2Vec2(0, 1)).y * v_fAcceleration),
+		b2Vec2(m_body->GetWorldVector(b2Vec2(0, 1)).x * (v_fAcceleration * _DeltaTick),
+			m_body->GetWorldVector(b2Vec2(0, 1)).y * (v_fAcceleration * _DeltaTick)),
 		true);
 }
 
 void
 Asteroid::Render()
 {
-
+	m_Sprite->Render(
+		glm::translate(glm::mat4(), glm::vec3(m_body->GetPosition().x, m_body->GetPosition().y, 0.0f)) *
+		glm::rotate(glm::mat4(), m_body->GetAngle(), m_RotationAxis) *
+		glm::scale(glm::mat4(), m_Scale) // might need to change this later, idk what to do 
+	);
 }
 
 void

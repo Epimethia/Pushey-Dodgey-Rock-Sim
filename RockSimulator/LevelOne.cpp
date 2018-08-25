@@ -19,6 +19,7 @@ LevelOne::LevelOne()
 
 LevelOne::~LevelOne()
 {
+
 }
 
 void LevelOne::InitializeObjects()

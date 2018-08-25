@@ -19,7 +19,7 @@ public:
 
 	//	Process data and update.
 	void Initialize();
-	void Update();
+	void Update(const float& _DeltaTick);
 	void Render();
 
 	void SetSprite(const char* _Filepath);
@@ -34,13 +34,13 @@ private:
 
 	glm::vec3 m_vForward;
 	
-	std::shared_ptr<Sprite> m_Sprite;
+	std::shared_ptr<Sprite> m_Sprite{ nullptr };
 	glm::vec3 m_Scale;
 	glm::vec3 m_RotationAxis;
 	float m_fVibrationRate;
 	
 	// Physics
 	b2BodyDef m_bodyDef;
-	b2Body* m_body;
+	b2Body* m_body{ nullptr };
 
 };
