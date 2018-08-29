@@ -8,7 +8,7 @@
 PlayerCharacter::PlayerCharacter()
 {
 	m_Sprite = std::make_shared<Sprite>();	
-	m_Scale = glm::vec3(50.0f, 50.0f, 1.0f);
+	m_Scale = glm::vec3(0.3f, 0.3f, 0.3f);
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_fVibrationRate = 0.0f;
 
@@ -16,7 +16,7 @@ PlayerCharacter::PlayerCharacter()
 	b2FixtureDef fixtureDef;
 	b2PolygonShape dynamicBox;
 	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(800.0f, 450.0f);
+	m_bodyDef.position.Set(8.0f, 4.5f);
 	m_body = Physics::GetInstance()->CreateBody(m_bodyDef);
 	dynamicBox.SetAsBox(1.0f, 1.0f);
 	fixtureDef.shape = &dynamicBox;
@@ -42,10 +42,10 @@ void PlayerCharacter::Render()
 void PlayerCharacter::Update()
 {
 	// Screen wrapping
-	if (m_body->GetPosition().x < -50.0f) m_body->SetTransform(b2Vec2(1649.0f, m_body->GetPosition().y), m_body->GetAngle());
-	if (m_body->GetPosition().x > 1650.0f) m_body->SetTransform(b2Vec2(-49.0f, m_body->GetPosition().y), m_body->GetAngle());
-	if (m_body->GetPosition().y < -49.0f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, 949.0f), m_body->GetAngle());
-	if (m_body->GetPosition().y > 950.0f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -49.0f), m_body->GetAngle());
+	if (m_body->GetPosition().x < -0.4f) m_body->SetTransform(b2Vec2(16.5f, m_body->GetPosition().y), m_body->GetAngle());
+	if (m_body->GetPosition().x > 16.5f) m_body->SetTransform(b2Vec2(-0.4f, m_body->GetPosition().y), m_body->GetAngle());
+	if (m_body->GetPosition().y < -0.4f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, 9.4f), m_body->GetAngle());
+	if (m_body->GetPosition().y > 9.5f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -0.4f), m_body->GetAngle());
 
 	m_fVibrationRate *= 0.90f;
 }

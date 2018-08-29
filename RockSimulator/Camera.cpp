@@ -46,9 +46,9 @@ void Camera::SetProj(int _screenWidth, int _screenHeight)
 {
 	m_proj = glm::ortho(
 		0.0f,		// Left
-		(float)_screenWidth,		// Right
+		(float)_screenWidth / 100,		// Right
 		0.0f,		// Bottom
-		(float)_screenHeight,		// Top		
+		(float)_screenHeight / 100,		// Top		
 		0.1f,								// Near
 		100.0f);							// Far
 

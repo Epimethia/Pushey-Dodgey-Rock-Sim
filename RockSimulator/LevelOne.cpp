@@ -29,12 +29,12 @@ void LevelOne::InitializeObjects()
 	// Initialize Other Objects..
 	// Push objects to their appropriate vectors
 	m_PlayerOne = std::make_shared<PlayerCharacter>();	
-	m_PlayerOne->SetPosition(b2Vec2(300.0f, 450.0f));
+	m_PlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
 	m_PlayerVec.push_back(m_PlayerOne);
 	m_EntityVec.push_back(m_PlayerOne);
 
 	m_PlayerTwo = std::make_shared<PlayerCharacter>();	
-	m_PlayerTwo->SetPosition(b2Vec2(1300.0f, 450.0f));
+	m_PlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
 	m_PlayerVec.push_back(m_PlayerTwo);
 	m_EntityVec.push_back(m_PlayerTwo);
 
@@ -100,7 +100,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 void LevelOne::RenderObjects()
 {
 	// Render Background
-	m_Background->Render(glm::scale(glm::mat4(), glm::vec3(1600.0f, 900.0f, 0.0f))); // spawn in the center
+	m_Background->Render(glm::scale(glm::mat4(), glm::vec3(16.0f, 9.0f, 0.0f))); // spawn in the center
 
 	// Render Object Vectors (check that the vectors are not empty)
 	if (!m_EntityVec.empty())
