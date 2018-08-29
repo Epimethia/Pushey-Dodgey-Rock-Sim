@@ -1,6 +1,11 @@
 #pragma once
+//	Library includes.
+
+
+//	Local includes.
 #include "Entity.h"
 #include "Utilities.h"
+
 
 class Sprite;
 class PlayerCharacter :
@@ -9,6 +14,7 @@ class PlayerCharacter :
 public:
 	PlayerCharacter();
 	~PlayerCharacter();
+	
 
 	// Virtual Functions
 	void Render();
@@ -16,17 +22,12 @@ public:
 	void AddVelocity(float _Speed);
 	void AddRotation(float _Angle);
 	void SetPosition(b2Vec2 _position);
+	glm::vec2 GetPosition() { return glm::vec2(m_body->GetPosition().x, m_body->GetPosition().y); }
 	float GetVibrateRate() { return m_fVibrationRate; };	
 	void Initialize();
 
-private:
-	std::shared_ptr<Sprite> m_Sprite;
-	glm::vec3 m_Scale;	
-	glm::vec3 m_RotationAxis;
-	float m_fVibrationRate;
 
-	// Physics
-	b2BodyDef m_bodyDef;
-	b2Body* m_body;		
+private:	
+	float m_fVibrationRate;	
 };
 

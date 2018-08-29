@@ -42,6 +42,11 @@ glm::mat4 Camera::GetProj()
 	return m_proj;
 }
 
+glm::vec3 Camera::GetPos()
+{
+	return m_cameraPos;
+}
+
 void Camera::SetProj(int _screenWidth, int _screenHeight)
 {
 	m_proj = glm::ortho(

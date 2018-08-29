@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="XboxControllerInput.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Asteroid.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="Entity.h" />
@@ -167,7 +169,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs" />
+    <None Include="Resources\Shaders\Fragment_DebugShader.fs" />
     <None Include="Resources\Shaders\VertexShader.vs" />
+    <None Include="Resources\Shaders\Vertex_DebugShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

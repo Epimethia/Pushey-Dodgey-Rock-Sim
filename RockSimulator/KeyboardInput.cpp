@@ -11,9 +11,8 @@
 // Description	:	Implimentation for the Input class
 
 #include "KeyboardInput.h"
-#include "Dependencies\glew\glew.h"
-#include "Dependencies\freeglut\freeglut.h"
-
+#include "Utilities.h"
+#include "Camera.h"
 #include <iostream>
 
 std::shared_ptr<Input> Input::s_pInput;
@@ -105,6 +104,7 @@ void Input::Update()
 	glutKeyboardUpFunc(LprocessNormalKeysUp);
 	glutSpecialFunc(LprocessSpecialKeys);
 	glutPassiveMotionFunc(LmouseInput);
+	glutMotionFunc(LmouseInput);
 	glutMouseFunc(LmouseButton);
 
 	//Processing all of the keys
@@ -118,6 +118,15 @@ void Input::Update()
 			KeyState[i] = INPUT_RELEASED;
 		}
 	}
+
+	// Processing mouse buttons
+	for (int i = 0; i < 3; i++)
+	{
+		if (MouseState[i] == INPUT_FIRST_PRESS)
+		{
+			MouseState[i] = INPUT_HOLD;
+		}
+	}
 }
 
 //Name:			    ProcessNormalKeysDown
@@ -129,7 +138,6 @@ void Input::Update()
 void Input::ProcessNormalKeysDown(unsigned char _key, int _x, int _y)
 {
 	KeyState[_key] = INPUT_FIRST_PRESS;
-	std::cout << "Key Pressed: " << _key << std::endl;
 }
 
 //Name:			    ProcessNormalKeysUp
@@ -188,14 +196,7 @@ void Input::MouseButton(int _button, int _state, int _x, int _y)
 	{
 		if (_state == GLUT_DOWN)
 		{
-			if (MouseState[_button] == INPUT_FIRST_PRESS)
-			{
-				MouseState[_button] = INPUT_HOLD;
-			}
-			else
-			{
-				MouseState[_button] = INPUT_FIRST_PRESS;
-			}
+			MouseState[_button] = INPUT_FIRST_PRESS;
 		}
 		else if (_state == GLUT_UP)
 		{
@@ -234,7 +235,33 @@ void Input::SetCursor(int _cursorSetting)
 //                  
 glm::vec2 Input::GetMousePos()
 {
-	return m_MousePos;
+	// Converts XY to NDC and returns
+	glm::vec2 NDC = glm::vec2();
+	NDC.x = (2.0f * m_MousePos.x) / static_cast<float>(ki_SCREENWIDTH) - 1.0f;
+	NDC.y = 1.0f - (2.0f * m_MousePos.y) / static_cast<float>(ki_SCREENHEIGHT);
+	return NDC;
+}
+
+glm::vec2 Input::GetMouseWorldPos()
+{
+	//screen pos
+	glm::vec2 normalizedScreenPos = glm::vec2((2.0f * m_MousePos.x) / static_cast<float>(ki_SCREENWIDTH) - 1.0f,
+		1.0f - (2.0f * m_MousePos.y) / static_cast<float>(ki_SCREENHEIGHT));
+
+	//screenpos to Proj Space
+	glm::vec4 clipCoords = glm::vec4(normalizedScreenPos.x, normalizedScreenPos.y, -1.0f, 1.0f);
+
+	//Proj Space to eye space
+	glm::mat4 invProjMat = glm::inverse(Camera::GetInstance()->GetProj());
+	glm::vec4 eyeCoords = invProjMat * clipCoords;
+	eyeCoords = glm::vec4(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
+
+	//eyespace to world space
+	glm::mat4 invViewMat = glm::inverse(Camera::GetInstance()->GetView());
+	glm::vec4 rayWorld = invViewMat * eyeCoords;
+	glm::vec3 rayDirection = glm::normalize(glm::vec3(rayWorld));
+
+	return glm::vec2(rayWorld.x, rayWorld.y);
 }
 
 //Name:			    LprocessNormalKeysDown

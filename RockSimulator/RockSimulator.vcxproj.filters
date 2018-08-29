@@ -28,15 +28,24 @@
     <ClCompile Include="LevelOne.cpp">
       <Filter>NotEngine\Levels</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>NotEngine\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCharacter.cpp" />
-    <ClCompile Include="XboxControllerInput.cpp" />
     <ClCompile Include="KeyboardInput.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="Asteroid.cpp">
+      <Filter>NotEngine\Entities\Asteroid</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCharacter.cpp">
+      <Filter>NotEngine\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="XboxControllerInput.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -66,23 +75,36 @@
     <ClInclude Include="LevelOne.h">
       <Filter>NotEngine\Levels</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>NotEngine\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="XboxControllerInput.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardInput.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Physics.h" />
+    <ClInclude Include="Asteroid.h">
+      <Filter>NotEngine\Entities\Asteroid</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCharacter.h">
+      <Filter>NotEngine\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\VertexShader.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\Fragment_DebugShader.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\Vertex_DebugShader.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
@@ -104,6 +126,9 @@
     </Filter>
     <Filter Include="NotEngine\Entities\Player">
       <UniqueIdentifier>{94baf2f3-69af-40f0-afbb-f0a543ef51f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Entities\Asteroid">
+      <UniqueIdentifier>{0aacea6f-0d9e-4ba8-bc9f-1bd91db0dfd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

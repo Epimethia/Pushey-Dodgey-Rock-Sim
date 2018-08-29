@@ -5,7 +5,7 @@
 
 Sprite::Sprite()
 {
-	
+
 }
 
 
@@ -14,8 +14,8 @@ Sprite::~Sprite()
 }
 
 void Sprite::Initialize(const char * _TextureFilepath)
-{	
-	
+{
+
 	GLfloat m_vertices[32] = {
 		// Positions					    // Colors					// Tex Coords
 		-1.0f, 1.0f, 0.0f,		0.0f, 1.0f, 0.0f,		0.0f, 0.0f, // Top Left
@@ -36,7 +36,7 @@ void Sprite::Initialize(const char * _TextureFilepath)
 		0, 1, 2, // First Triangle
 		0, 2, 3 // Second Triangle
 	};
-	
+
 	m_program = m_shaderLoader.CreateProgram("Resources\\Shaders\\VertexShader.vs",
 		"Resources\\Shaders\\FragmentShader.fs");
 
@@ -113,7 +113,7 @@ void Sprite::Initialize(const char * _TextureFilepath)
 
 void Sprite::Update()
 {
-	
+
 }
 
 void Sprite::Render(glm::mat4 _ModelMatrix)
@@ -135,8 +135,8 @@ void Sprite::Render(glm::mat4 _ModelMatrix)
 	glUniform1i(glGetUniformLocation(m_program, "tex"), 0);
 
 	// Bind vao and draw object, unbind vao
-	glBindVertexArray(m_vao);		
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);	
+	glBindVertexArray(m_vao);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
