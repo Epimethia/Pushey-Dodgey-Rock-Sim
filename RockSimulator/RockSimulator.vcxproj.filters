@@ -130,5 +130,8 @@
     <Filter Include="NotEngine\Entities\Asteroid">
       <UniqueIdentifier>{0aacea6f-0d9e-4ba8-bc9f-1bd91db0dfd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NotEngine\Entities\Projectile">
+      <UniqueIdentifier>{98bec5b6-8154-4d14-bfe0-e78fda56122b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

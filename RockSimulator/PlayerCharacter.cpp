@@ -21,7 +21,11 @@ PlayerCharacter::PlayerCharacter()
 	fixtureDef.shape = &m_shape;
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
+	fixtureDef.restitution = 1.0f;
 	m_body->CreateFixture(&fixtureDef);
+
+	//projectile physics
+
 }
 
 
@@ -47,6 +51,8 @@ void PlayerCharacter::Update()
 	if (m_body->GetPosition().y > 9.5f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -0.4f), m_body->GetAngle());
 
 	m_fVibrationRate *= 0.90f;
+	m_body->SetLinearVelocity(0.98f * m_body->GetLinearVelocity());
+	m_body->SetAngularVelocity(0.975f * m_body->GetAngularVelocity());
 }
 
 //Update Overload
@@ -55,12 +61,12 @@ void PlayerCharacter::AddVelocity(float _Speed)
 {
 	m_body->ApplyForceToCenter(
 	b2Vec2(m_body->GetWorldVector(b2Vec2(0, 1)).x * _Speed,
-		   m_body->GetWorldVector(b2Vec2(0, 1)).y * _Speed), 
+		   m_body->GetWorldVector(b2Vec2(0, 1)).y * _Speed),
 		   true);
 
 	// Limit/Clamp velocity
 	b2Vec2 LinearVelocity = m_body->GetLinearVelocity();
-	m_body->SetLinearVelocity(b2Vec2(glm::clamp(LinearVelocity.x, -2.1f, 2.1f), glm::clamp(LinearVelocity.y, -2.1f, 2.1f)));
+	m_body->SetLinearVelocity(b2Vec2(glm::clamp(LinearVelocity.x, -4.1f, 4.1f), glm::clamp(LinearVelocity.y, -4.1f, 4.1f)));
 
 	m_fVibrationRate = 3.0f;
 }
@@ -74,6 +80,11 @@ void PlayerCharacter::AddRotation(float _Angle)
 void PlayerCharacter::SetPosition(b2Vec2 _position)
 {
 	m_body->SetTransform(_position, m_body->GetAngle());
+}
+
+void PlayerCharacter::Shoot()
+{
+
 }
 
 

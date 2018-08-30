@@ -18,6 +18,8 @@ public:
 	void RenderObjects();
 	void ProcessLevel(float _DeltaTick);
 
+	void ProcessPlayerInput(float _DeltaTick);
+
 private:
 	std::vector<std::shared_ptr<PlayerCharacter>> m_PlayerVec;
 	std::vector<std::shared_ptr<Asteroid>> m_AsteroidVec;

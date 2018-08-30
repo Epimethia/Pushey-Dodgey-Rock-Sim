@@ -24,6 +24,7 @@ Asteroid::Asteroid()
 	fixtureDef.shape = &dynamicCircle;
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
+	fixtureDef.restitution = 1.0f;
 	m_body->CreateFixture(&fixtureDef);
 }
 
@@ -68,10 +69,9 @@ void Asteroid::AddVelocity(b2Vec2 _direction, float _Speed)
 	m_fVibrationRate = 3.0f;
 }
 
-//	Radians or Degrees?
-void Asteroid::AddRotation(float _Angle)
+void Asteroid::AddRotation(float _AngularForce)
 {
-	m_body->ApplyTorque(_Angle, true);
+	m_body->ApplyTorque(_AngularForce, true);
 }
 
 void Asteroid::SetPosition(b2Vec2 _position)
