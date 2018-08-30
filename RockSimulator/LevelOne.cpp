@@ -117,13 +117,13 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 		m_PlayerOne->AddVelocity(-40.0f * _DeltaTick);
 	}
 	if (Input::KeyState['a'] == INPUT_HOLD || p0_Controller->normalizedLX < -0.8f) {
-		m_PlayerOne->AddRotation(1.0f * _DeltaTick);
+		m_PlayerOne->AddRotation(3.0f * _DeltaTick);
 	}
 	if (Input::KeyState['d'] == INPUT_HOLD || p0_Controller->normalizedLX > 0.8f) {
-		m_PlayerOne->AddRotation(-1.0f * _DeltaTick);
+		m_PlayerOne->AddRotation(-3.0f * _DeltaTick);
 	}
-	if (Input::KeyState['f'] == INPUT_HOLD || p0_Controller->normalizedLX > 0.8f) {
-		m_PlayerOne->AddRotation(-1.0f * _DeltaTick);
+	if (Input::KeyState['f'] == INPUT_FIRST_PRESS) {
+		m_PlayerOne->Shoot();
 	}
 
 	//Reading inputs

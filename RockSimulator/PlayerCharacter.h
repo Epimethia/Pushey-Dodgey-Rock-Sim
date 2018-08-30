@@ -5,6 +5,7 @@
 //	Local includes.
 #include "Entity.h"
 #include "Utilities.h"
+#include "Projectile.h"
 
 
 class Sprite;
@@ -29,6 +30,6 @@ public:
 
 private:	
 	float m_fVibrationRate;	
-	b2Body* m_Projectile;	//Bullet pointer
+	Projectile* Bullet;
 };
 

@@ -143,6 +143,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="LevelOne.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PlayerCharacter.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="SoundManager.h" />
