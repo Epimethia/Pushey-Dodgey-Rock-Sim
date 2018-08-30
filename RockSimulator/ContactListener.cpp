@@ -40,33 +40,51 @@ MyContactListener::SetPlayer(PlayerCharacter* _Player)
 void
 MyContactListener::BeginContact(b2Contact* contact)
 {
-	std::cout << "Impact" << std::endl;
+	std::cout << "Impact " << std::endl;
 	unsigned int iX = 0;
+	unsigned int iY = 0;
 	while (m_vPlayers.size() > iX)
 	{
 		if (contact->GetFixtureA()->GetBody() == m_vPlayers[iX]->GetBody())
 		{
+			std::cout << "Player: " << iX + 1 << std::endl;
+			std::cout << "Health: ";
 			m_vPlayers[iX]->TakeDamage();
 			break;
 		}
 		iX++;
 	}
+	
+	while (m_vPlayers.size() > iY)
+	{
+		if (contact->GetFixtureA()->GetBody()->GetContactList()->other == m_vPlayers[iY]->GetBody()
+			&& m_vPlayers[iY]->GetBody() != m_vPlayers[iX]->GetBody())
+		{
+			std::cout << std::endl;
+			std::cout << "Impact Player: " << iY + 1 << std::endl;
+			std::cout << "Health: ";
+			m_vPlayers[iY]->TakeDamage();
+			break;
+		}
+		iY++;
+	}
+	std::cout << std::endl;
 }
 
 void
 MyContactListener::EndContact(b2Contact* contact)
 {
-
+	
 }
 
 void
 MyContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
-
+	
 }
 
 void
 MyContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
 {
-
+	
 }
