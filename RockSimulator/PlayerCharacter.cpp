@@ -5,17 +5,19 @@
 #include "Dependencies/glm/gtx/rotate_vector.hpp"
 
 
-PlayerCharacter::PlayerCharacter()
+PlayerCharacter::PlayerCharacter(glm::vec2 _spawnPosition)
 {
 	m_Sprite = std::make_shared<Sprite>();	
 	m_Scale = glm::vec3(0.3f, 0.3f, 0.0f);
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_fVibrationRate = 0.0f;
+	m_SpawnPos = _spawnPosition;
+	m_fHealthPoints = 100.0f;
 
 	// Physics
 	b2FixtureDef fixtureDef;	
 	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(8.0f, 4.5f);
+	m_bodyDef.position.Set(_spawnPosition.x, _spawnPosition.y);
 	m_body = Physics::GetInstance()->CreateBody(m_bodyDef);
 	m_shape.SetAsBox(0.2f, 0.25f);
 	fixtureDef.shape = &m_shape;
@@ -76,6 +78,18 @@ void PlayerCharacter::SetPosition(b2Vec2 _position)
 	m_body->SetTransform(_position, m_body->GetAngle());
 }
 
+void PlayerCharacter::ResetPosition()
+{
+	m_body->SetTransform(b2Vec2(m_SpawnPos.x, m_SpawnPos.y), 0.0f);
+	m_body->SetAwake(false);
+	m_body->SetAwake(true);
+}
+
+/** this doesnt do anything yet*/
+void PlayerCharacter::PlayerDied()
+{
+
+}
 
 void PlayerCharacter::Initialize()
 {

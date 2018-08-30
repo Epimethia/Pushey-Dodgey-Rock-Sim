@@ -17,6 +17,8 @@ public:
 	void InitializeObjects();
 	void RenderObjects();
 	void ProcessLevel(float _DeltaTick);
+	void ResetLevel();
+	
 
 private:
 	std::vector<std::shared_ptr<PlayerCharacter>> m_PlayerVec;

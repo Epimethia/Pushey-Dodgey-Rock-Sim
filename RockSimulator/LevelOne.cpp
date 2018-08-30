@@ -30,13 +30,11 @@ void LevelOne::InitializeObjects()
 
 	// Initialize Other Objects..
 	// Push objects to their appropriate vectors
-	m_PlayerOne = std::make_shared<PlayerCharacter>();	
-	m_PlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
+	m_PlayerOne = std::make_shared<PlayerCharacter>(glm::vec2(3.0f, 4.5f));		
 	m_PlayerVec.push_back(m_PlayerOne);
 	m_EntityVec.push_back(m_PlayerOne);
 
-	m_PlayerTwo = std::make_shared<PlayerCharacter>();	
-	m_PlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
+	m_PlayerTwo = std::make_shared<PlayerCharacter>(glm::vec2(13.0f, 4.5f));	
 	m_PlayerVec.push_back(m_PlayerTwo);
 	m_EntityVec.push_back(m_PlayerTwo);	
 
@@ -70,6 +68,9 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	if (Input::KeyState['d'] == INPUT_HOLD || p0_Controller->normalizedLX > 0.8f) {
 		m_PlayerOne->AddRotation(-1.0f * _DeltaTick);
 	}
+	if (Input::KeyState['r'] == INPUT_HOLD) {
+		ResetLevel();
+	}
 
 	//Reading inputs
 	//PLAYER_1 INPUTS
@@ -96,7 +97,15 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	for (const auto& it : CurrentPlayers) it->Update();
 
 	//Updating the players
-	for (const auto& it : m_PlayerVec) it->Update();
+	for (const auto& it : m_PlayerVec)
+	{
+		it->Update();
+		// If the player has 0 hp or less they're dead.
+		if (it->GetHealth() <= 0.0f)
+		{
+			it->PlayerDied();
+		}
+	}
 
 	// Spawn Asteroids
 	m_SpawnTime += _DeltaTick;
@@ -132,6 +141,24 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 			{
 				m_AsteroidVec.erase(m_AsteroidVec.begin() + i);
 			}
+		}
+	}
+}
+
+void LevelOne::ResetLevel()
+{
+	//Reset the players
+	for (const auto& it : m_PlayerVec)
+	{
+		it->ResetPosition();
+	}	
+
+	// Destroy all asteroids	
+	for (int i = 0; i < m_AsteroidVec.size(); i++)
+	{
+		if (m_AsteroidVec[i] != nullptr)
+		{			
+			m_AsteroidVec.erase(m_AsteroidVec.begin() + i);			
 		}
 	}
 }
