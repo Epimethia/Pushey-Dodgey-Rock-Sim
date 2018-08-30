@@ -14,6 +14,8 @@ class PlayerCharacter :
 public:
 	PlayerCharacter();
 	~PlayerCharacter();
+	void TakeDamage();
+	b2Body* GetBody() const;
 	
 
 	// Virtual Functions
@@ -27,7 +29,10 @@ public:
 	void Initialize();
 
 
-private:	
+private:
 	float m_fVibrationRate;	
+	float m_fHealth{ 0.0f };
+
+
 };
 

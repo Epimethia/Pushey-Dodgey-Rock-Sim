@@ -1,13 +1,22 @@
 #pragma once
+//	Library includes.
 #include "Utilities.h"
 #include "XboxControllerInput.h"
 
+
+//	Local includes.
+
+
+//	Class prototypes.
 class Asteroid;
 class Entity;
 class PlayerCharacter;
 class Camera;
 class Sprite;
 class Input;
+class MyContactListener;
+
+
 class LevelOne	
 {
 public:
@@ -26,6 +35,7 @@ private:
 	std::shared_ptr<PlayerCharacter> m_PlayerTwo;
 	std::shared_ptr<Sprite> m_Background;
 	std::shared_ptr<Camera> m_Camera;
+	MyContactListener* m_pContactListener;
 	float m_SpawnTime;
 
 

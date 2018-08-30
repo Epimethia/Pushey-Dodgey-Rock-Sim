@@ -1,4 +1,13 @@
+//	This include.
 #include "Physics.h"
+
+
+//	Library includes.
+
+
+//	Local includes.
+#include "ContactListener.h"
+
 
 std::shared_ptr<Physics> Physics::s_pPhysics;
 
@@ -22,7 +31,7 @@ Physics::Physics()
 	m_timeStep = 1.0f / 60.0f;
 	m_velocityIterations = 8;
 	m_positionIterations = 3;
-
+	m_world->SetContactListener(&MyContactListener::GetInstance());
 }
 
 void Physics::Process()
@@ -44,4 +53,5 @@ b2World* Physics::GetWorld() const
 
 Physics::~Physics()
 {
+	MyContactListener::GetInstance().DestroyInstance();
 }

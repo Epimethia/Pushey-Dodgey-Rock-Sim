@@ -44,7 +44,10 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Engine</Filter>
+      <Filter>NotEngine\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactListener.cpp">
+      <Filter>NotEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,7 +94,10 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Engine</Filter>
+      <Filter>NotEngine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactListener.h">
+      <Filter>NotEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

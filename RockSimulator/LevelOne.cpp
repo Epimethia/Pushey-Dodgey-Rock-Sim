@@ -1,10 +1,18 @@
+//	This include.
 #include "LevelOne.h"
+
+
+//	Library includes.
+
+
+//	Local includes.
 #include "Sprite.h"
 #include "Camera.h"
 #include "Utilities.h"
 #include "PlayerCharacter.h"
 #include "Physics.h"
 #include "Asteroid.h"
+#include "ContactListener.h"
 
 
 LevelOne::LevelOne()
@@ -39,7 +47,9 @@ void LevelOne::InitializeObjects()
 	m_PlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
 	m_PlayerVec.push_back(m_PlayerTwo);
 	m_EntityVec.push_back(m_PlayerTwo);	
-
+	m_pContactListener = &MyContactListener::GetInstance();
+	m_pContactListener->SetPlayer(&(*m_PlayerOne));
+	m_pContactListener->SetPlayer(&(*m_PlayerTwo));
 	// Iterate through the entity vector and initialize all objects
 	if (!m_EntityVec.empty())
 	{
@@ -53,7 +63,8 @@ void LevelOne::InitializeObjects()
 void LevelOne::ProcessLevel(float _DeltaTick) {
 
 	// Process Physics
-	Physics::GetInstance()->Process();		
+	Physics::GetInstance()->Process();		
+
 	//Reading inputs
 	//PLAYER_0 INPUTS
 	auto& p0_Controller = CurrentPlayers[0];
@@ -112,7 +123,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	}
 
 	// Move Asteroids
-	for (int i = 0; i < m_AsteroidVec.size(); i++)
+	for (unsigned int i = 0; i < m_AsteroidVec.size(); i++)
 	{
 		m_AsteroidVec[i]->AddVelocity(b2Vec2(1.0f, 0.0f), 50.0f * _DeltaTick);
 		// Destroy asteroid if it goes off screen
@@ -124,7 +135,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	}		
 
 	// Clean up offscreen asteroids
-	for (int i = 0; i < m_AsteroidVec.size(); i++)
+	for (unsigned int i = 0; i < m_AsteroidVec.size(); i++)
 	{
 		if (m_AsteroidVec[i] != nullptr)
 		{

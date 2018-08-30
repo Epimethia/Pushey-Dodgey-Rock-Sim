@@ -1,4 +1,12 @@
+//	This include.
 #include "PlayerCharacter.h"
+
+
+//	Library includes.
+#include <iostream>
+
+
+//	Local includes.
 #include "Sprite.h"
 #include "Physics.h"
 #include "Dependencies/glm/gtx/string_cast.hpp"
@@ -11,6 +19,7 @@ PlayerCharacter::PlayerCharacter()
 	m_Scale = glm::vec3(0.3f, 0.3f, 0.0f);
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_fVibrationRate = 0.0f;
+	m_fHealth = 100.0f;
 
 	// Physics
 	b2FixtureDef fixtureDef;	
@@ -27,6 +36,19 @@ PlayerCharacter::PlayerCharacter()
 
 PlayerCharacter::~PlayerCharacter()
 {
+}
+
+void
+PlayerCharacter::TakeDamage()
+{
+	m_fHealth -= 5.0f;
+	std::cout << m_fHealth << std::endl;
+}
+
+b2Body*
+PlayerCharacter::GetBody() const
+{
+	return m_body;
 }
 
 void PlayerCharacter::Render()
