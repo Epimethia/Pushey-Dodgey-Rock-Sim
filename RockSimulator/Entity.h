@@ -34,9 +34,9 @@ private:
 	// Member Variables
 
 	// Variables for Debug Drawing
-	GLuint m_VAO;
-	GLuint m_VBO;
-	GLuint m_program;
-	ShaderLoader m_shaderLoader;
+	GLuint m_iVAO;	//	uint
+	GLuint m_iVBO;	//	uint
+	GLuint m_iProgram;	//	uint
+	ShaderLoader m_ShaderLoader;	//	ShaderLoader instance.
 };
 

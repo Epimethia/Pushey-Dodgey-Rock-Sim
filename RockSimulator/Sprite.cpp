@@ -37,11 +37,11 @@ void Sprite::Initialize(const char * _TextureFilepath)
 		0, 2, 3 // Second Triangle
 	};
 
-	m_program = m_shaderLoader.CreateProgram("Resources\\Shaders\\VertexShader.vs",
+	m_iProgram = m_shaderLoader.CreateProgram("Resources\\Shaders\\VertexShader.vs",
 		"Resources\\Shaders\\FragmentShader.fs");
 
-	glGenTextures(1, &m_texture);
-	glBindTexture(GL_TEXTURE_2D, m_texture);
+	glGenTextures(1, &m_iTexture);
+	glBindTexture(GL_TEXTURE_2D, m_iTexture);
 	int width, height;
 	unsigned char* image = SOIL_load_image(
 		_TextureFilepath, // File path/name 
@@ -67,10 +67,10 @@ void Sprite::Initialize(const char * _TextureFilepath)
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
-	glGenBuffers(1, &m_vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glGenVertexArrays(1, &m_iVAO);
+	glBindVertexArray(m_iVAO);
+	glGenBuffers(1, &m_iVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_iVBO);
 	glBufferData(GL_ARRAY_BUFFER,
 		sizeof(m_vertices),
 		m_vertices,
@@ -103,8 +103,8 @@ void Sprite::Initialize(const char * _TextureFilepath)
 		(GLvoid*)(6 * sizeof(GLfloat))); // Offset from beginning of Vert	
 	glEnableVertexAttribArray(2);
 
-	glGenBuffers(1, &m_ebo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+	glGenBuffers(1, &m_iEBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iEBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
 		sizeof(indices),
 		indices,
@@ -122,20 +122,20 @@ void Sprite::Render(glm::mat4 _ModelMatrix)
 	glCullFace(GL_BACK); // Cull the Back faces
 	glFrontFace(GL_CW); // Front face is Clockwise order
 	glEnable(GL_CULL_FACE); // Turn on the back face culling	
-	glUseProgram(m_program);
+	glUseProgram(m_iProgram);
 
 	// Pass mvp to shader
 	glm::mat4 MVP = Camera::GetInstance()->GetProj() * Camera::GetInstance()->GetView() * _ModelMatrix;
-	GLint MVPloc = glGetUniformLocation(m_program, "MVP");
+	GLint MVPloc = glGetUniformLocation(m_iProgram, "MVP");
 	glUniformMatrix4fv(MVPloc, 1, GL_FALSE, value_ptr(MVP));
 
 	// Pass texture to shader
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glUniform1i(glGetUniformLocation(m_program, "tex"), 0);
+	glBindTexture(GL_TEXTURE_2D, m_iTexture);
+	glUniform1i(glGetUniformLocation(m_iProgram, "tex"), 0);
 
 	// Bind vao and draw object, unbind vao
-	glBindVertexArray(m_vao);
+	glBindVertexArray(m_iVAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }

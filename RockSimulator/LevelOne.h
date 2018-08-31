@@ -28,15 +28,15 @@ public:
 	void ProcessLevel(float _DeltaTick);
 
 private:
-	std::vector<std::shared_ptr<PlayerCharacter>> m_PlayerVec;
-	std::vector<std::shared_ptr<Asteroid>> m_AsteroidVec;
-	std::vector<std::shared_ptr<Entity>> m_EntityVec;
-	std::shared_ptr<PlayerCharacter> m_PlayerOne;
-	std::shared_ptr<PlayerCharacter> m_PlayerTwo;
-	std::shared_ptr<Sprite> m_Background;
-	std::shared_ptr<Camera> m_Camera;
+	std::vector<std::shared_ptr<PlayerCharacter>> m_vpPlayerVec;
+	std::vector<std::shared_ptr<Asteroid>> m_vpAsteroidVec;
+	std::vector<std::shared_ptr<Entity>> m_vpEntityVec;
+	std::shared_ptr<PlayerCharacter> m_pPlayerOne;
+	std::shared_ptr<PlayerCharacter> m_pPlayerTwo;
+	std::shared_ptr<Sprite> m_pBackground;
+	std::shared_ptr<Camera> m_pCamera;
 	MyContactListener* m_pContactListener;
-	float m_SpawnTime;
+	float m_fSpawnTime;
 
 
 	//BOOTLEGGING CONTROLLER INPUT RIGHT NOW -- CHANGE

@@ -19,9 +19,9 @@ private:
 
 public:	
 	//Getters
-	glm::mat4 GetView();
-	glm::mat4 GetProj();	
-	glm::vec3 GetPos();
+	const glm::mat4& GetView();
+	const glm::mat4& GetProj();
+	const glm::vec3& GetPos();
 	//Setters	
 	void SetProj(int _screenWidth, int _screenHeight);
 	//Other functions
@@ -30,11 +30,11 @@ public:
 	void MoveRight();
 	
 private:
-	glm::mat4 m_view;
-	glm::mat4 m_proj;
-	glm::vec3 m_cameraPos;
-	glm::vec3 m_cameraFront;
-	glm::vec3 m_upVec;
+	glm::mat4 m_mView;
+	glm::mat4 m_mProj;
+	glm::vec3 m_vCameraPos;
+	glm::vec3 m_vCameraFront;
+	glm::vec3 m_vUpVec;
 	float m_fCameraSpeed;
 };
 

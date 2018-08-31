@@ -20,7 +20,7 @@ void Entity::DrawDebug()
 		return;
 	}
 
-	m_program = m_shaderLoader.CreateProgram("Resources\\Shaders\\Vertex_DebugShader.vs",
+	m_iProgram = m_ShaderLoader.CreateProgram("Resources\\Shaders\\Vertex_DebugShader.vs",
 		"Resources\\Shaders\\Fragment_DebugShader.fs");
 	glm::vec3 Color = glm::vec3(1.0f, 0.0f, 0.0f);
 
@@ -39,11 +39,11 @@ void Entity::DrawDebug()
 	}
 
 	//generating and binding the buffers
-	glGenVertexArrays(1, &m_VAO);
-	glGenBuffers(1, &m_VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glGenVertexArrays(1, &m_iVAO);
+	glGenBuffers(1, &m_iVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_iVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLuint) * (6 * m_shape.m_count), verts, GL_STATIC_DRAW);
-	glBindVertexArray(m_VAO);
+	glBindVertexArray(m_iVAO);
 
 	glVertexAttribPointer(
 		0, // Layout location on vertex shader
@@ -68,7 +68,7 @@ void Entity::DrawDebug()
 	glCullFace(GL_BACK); // Cull the Back faces
 	glFrontFace(GL_CW); // Front face is Clockwise order
 	glEnable(GL_CULL_FACE); // Turn on the back face culling	
-	glUseProgram(m_program);
+	glUseProgram(m_iProgram);
 
 	// Pass mvp to shader
 	glm::mat4 Model =
@@ -77,11 +77,11 @@ void Entity::DrawDebug()
 
 
 	glm::mat4 MVP = Camera::GetInstance()->GetProj() * Camera::GetInstance()->GetView() * Model;
-	GLint MVPloc = glGetUniformLocation(m_program, "MVP");
+	GLint MVPloc = glGetUniformLocation(m_iProgram, "MVP");
 	glUniformMatrix4fv(MVPloc, 1, GL_FALSE, value_ptr(MVP));
 
 	//// Bind vao and draw object, unbind vao
-	glBindVertexArray(m_VAO);
+	glBindVertexArray(m_iVAO);
 	glDrawArrays(GL_LINE_LOOP, 0, 4);
 	glBindVertexArray(0);
 
