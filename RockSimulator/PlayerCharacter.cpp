@@ -45,6 +45,10 @@ PlayerCharacter::TakeDamage()
 	SoundManager::GetInstance()->SoundTakeDamage();
 	m_fHealth -= 5.0f;
 	std::cout << m_fHealth << std::endl;
+	if (0.0f > m_fHealth)
+	{
+		Respawn();
+	}
 }
 
 b2Body*
@@ -104,4 +108,18 @@ void PlayerCharacter::SetPosition(b2Vec2 _position)
 void PlayerCharacter::Initialize()
 {
 	m_Sprite->Initialize("Resources/Images/Player_Sprite.png");
+}
+
+void PlayerCharacter::LinkScore(short* _Deaths)
+{
+	m_pDeaths = _Deaths;
+}
+
+void PlayerCharacter::Respawn()
+{
+	*m_pDeaths += 1;
+	
+	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
+	m_body->SetTransform(b2Vec2(3.0f, 4.5f), m_body->GetAngle());
+	m_fHealth = 100.0f;
 }

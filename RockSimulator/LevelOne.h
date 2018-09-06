@@ -15,6 +15,7 @@ class Camera;
 class Sprite;
 class Input;
 class MyContactListener;
+class CClock;
 
 
 class LevelOne	
@@ -37,6 +38,11 @@ private:
 	std::shared_ptr<Camera> m_pCamera;
 	MyContactListener* m_pContactListener;
 	float m_fSpawnTime;
+
+	//	Cloe adding score and time.
+	CClock* m_pClock{ nullptr };
+	short m_sDeathCount[2]{ 0, 0 };
+	float m_fTimer{ 0.0f };
 
 
 	//BOOTLEGGING CONTROLLER INPUT RIGHT NOW -- CHANGE

@@ -13,6 +13,7 @@
 #include "Physics.h"
 #include "Asteroid.h"
 #include "ContactListener.h"
+#include "clock.h"
 
 
 LevelOne::LevelOne()
@@ -20,6 +21,8 @@ LevelOne::LevelOne()
 	m_pBackground = std::make_shared<Sprite>();	
 	Camera::GetInstance()->SetProj(ki_SCREENWIDTH, ki_SCREENHEIGHT);
 	Camera::GetInstance()->Update();
+
+	m_pClock = &(*CClock::GetInstance());
 
 	CurrentPlayers.push_back(std::make_shared<XBOXController>(1));
 	CurrentPlayers.push_back(std::make_shared<XBOXController>(2));	
@@ -42,11 +45,14 @@ void LevelOne::InitializeObjects()
 	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
 	m_vpPlayerVec.push_back(m_pPlayerOne);
 	m_vpEntityVec.push_back(m_pPlayerOne);
+	m_pPlayerOne->LinkScore(&m_sDeathCount[0]);
 
 	m_pPlayerTwo = std::make_shared<PlayerCharacter>();	
 	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
 	m_vpPlayerVec.push_back(m_pPlayerTwo);
-	m_vpEntityVec.push_back(m_pPlayerTwo);	
+	m_vpEntityVec.push_back(m_pPlayerTwo);
+	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
+
 	m_pContactListener = &MyContactListener::GetInstance();
 	m_pContactListener->SetPlayer(&(*m_pPlayerOne));
 	m_pContactListener->SetPlayer(&(*m_pPlayerTwo));
@@ -64,6 +70,9 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 
 	// Process Physics
 	Physics::GetInstance()->Process();		
+	m_fTimer += m_pClock->GetDeltaTick();
+
+
 
 	//Reading inputs
 	//PLAYER_0 INPUTS
@@ -170,4 +179,9 @@ void LevelOne::RenderObjects()
 			it->DrawDebug();
 		}
 	}  
+
+	//	Render score.
+
+	//	m_sDeaths[1] + "    -    " + m_sDeaths[0];
+	//	m_fTimer;
 }
