@@ -5,6 +5,8 @@
 //	Local includes.
 #include "Entity.h"
 #include "Utilities.h"
+#include "Projectile.h"
+#include "SoundManager.h"
 
 
 class Sprite;
@@ -24,6 +26,7 @@ public:
 	void AddVelocity(float _Speed);
 	void AddRotation(float _Angle);
 	void SetPosition(b2Vec2 _position);
+	void Shoot();
 	glm::vec2 GetPosition() { return glm::vec2(m_body->GetPosition().x, m_body->GetPosition().y); }
 	float GetVibrateRate() { return m_fVibrationRate; };	
 	void Initialize();
@@ -36,7 +39,7 @@ private:
 	float m_fHealth{ 0.0f };
 
 	short* m_pDeaths{ 0 };
-
-
+	
+	Projectile* Bullet;
 };
 

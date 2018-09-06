@@ -51,7 +51,7 @@ SoundManager::~SoundManager()
 SoundManager::SoundManager()
 {	
 	m_fBGMVolume = 0.04f;
-	m_fEffectsVolume = 0.5f;	
+	m_fEffectsVolume = 1.0f;	
 }
 
 //Name:			    Initialize
@@ -75,13 +75,13 @@ bool SoundManager::Initialize()
 		return false;
 	}
 
-	LoadAudio("Resources/Sounds/Breezin.mp3", m_BGMusic, FMOD_LOOP_NORMAL);
-	LoadAudio("Resources/Sounds/powerup.wav", m_EffectPowerup, FMOD_DEFAULT);
-	LoadAudio("Resources/Sounds/pew.wav", m_EffectPew, FMOD_DEFAULT);
-	LoadAudio("Resources/Sounds/spawning.wav", m_EffectSpawn, FMOD_DEFAULT);
-	LoadAudio("Resources/Sounds/death.wav", m_EffectPlayerDeath, FMOD_DEFAULT);
-	LoadAudio("Resources/Sounds/enemydeath.wav", m_EffectEnemyDeath, FMOD_DEFAULT);	
-	LoadAudio("Resources/Sounds/damage.wav", m_EffectDamage, FMOD_DEFAULT);
+	//LoadAudio("Resources/Sounds/Breezin.mp3", m_BGMusic, FMOD_LOOP_NORMAL);
+	//LoadAudio("Resources/Sounds/powerup.wav", m_EffectPowerup, FMOD_DEFAULT);
+	LoadAudio("Resources/Sounds/Shoot_1.wav", m_EffectPew, FMOD_DEFAULT);
+	//LoadAudio("Resources/Sounds/spawning.wav", m_EffectSpawn, FMOD_DEFAULT);
+	//LoadAudio("Resources/Sounds/death.wav", m_EffectPlayerDeath, FMOD_DEFAULT);
+	//LoadAudio("Resources/Sounds/enemydeath.wav", m_EffectEnemyDeath, FMOD_DEFAULT);	
+	//LoadAudio("Resources/Sounds/damage.wav", m_EffectDamage, FMOD_DEFAULT);
 
 	return true;
 }
@@ -162,7 +162,6 @@ void SoundManager::SoundPew()
 void
 SoundManager::SoundTakeDamage()
 {
-	x
 		//	Add sound for this.
 	m_audioMgr->playSound(m_EffectDamage, 0, false, &m_EffectChannel);
 	m_EffectChannel->setVolume(m_fEffectsVolume);

@@ -24,7 +24,6 @@ public:
 	void SetPosition(b2Vec2 _position);
 	void AddRotation(float _Angle);
 	void AddVelocity(b2Vec2 _direction, float _Speed);
-	float GetVibrateRate() { return m_fVibrationRate; }
 	bool GetOffScreenBool() { return m_bOffScreen; }
 	void SetOffScreenBool(bool _bool) { m_bOffScreen = _bool; }
 	

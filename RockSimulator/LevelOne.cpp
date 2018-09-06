@@ -13,6 +13,7 @@
 #include "Physics.h"
 #include "Asteroid.h"
 #include "ContactListener.h"
+#include "KeyboardInput.h"
 #include "clock.h"
 
 
@@ -70,44 +71,9 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 
 	// Process Physics
 	Physics::GetInstance()->Process();		
-	m_fTimer += m_pClock->GetDeltaTick();
 
-
-
-	//Reading inputs
-	//PLAYER_0 INPUTS
-	auto& p0_Controller = CurrentPlayers[0];
-	p0_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
-	if (Input::m_iKeyState['w'] == INPUT_HOLD || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
-		m_pPlayerOne->AddVelocity(15.0f * _DeltaTick);		
-	}
-	if (Input::m_iKeyState['s'] == INPUT_HOLD || p0_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
-		m_pPlayerOne->AddVelocity(-15.0f * _DeltaTick);
-	}
-	if (Input::m_iKeyState['a'] == INPUT_HOLD || p0_Controller->normalizedLX < -0.8f) {
-		m_pPlayerOne->AddRotation(1.0f * _DeltaTick);
-	}
-	if (Input::m_iKeyState['d'] == INPUT_HOLD || p0_Controller->normalizedLX > 0.8f) {
-		m_pPlayerOne->AddRotation(-1.0f * _DeltaTick);
-	}
-
-	//Reading inputs
-	//PLAYER_1 INPUTS
-	auto& p1_Controller = CurrentPlayers[1];
-	//Making the controller vibrate
-	p1_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
-	if (Input::m_iKeyState['8'] == INPUT_HOLD || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
-		m_pPlayerTwo->AddVelocity(50.0f * _DeltaTick);
-	}
-	if (Input::m_iKeyState['5'] == INPUT_HOLD || p1_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
-		m_pPlayerOne->AddVelocity(-50.0f * _DeltaTick);
-	}	
-	if (Input::m_iKeyState['4'] == INPUT_HOLD || p1_Controller->normalizedLX < -0.9f) {
-		m_pPlayerTwo->AddRotation(3.0f * _DeltaTick);
-	}
-	if (Input::m_iKeyState['6'] == INPUT_HOLD || p1_Controller->normalizedLX > 0.9f) {
-		m_pPlayerTwo->AddRotation(-3.0f * _DeltaTick);
-	}
+	//Processing the palye rinput
+	ProcessPlayerInput(_DeltaTick);
 
 	//Updating the keyboard input
 	Input::Update();
@@ -153,6 +119,47 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 				m_vpAsteroidVec.erase(m_vpAsteroidVec.begin() + i);
 			}
 		}
+	}
+}
+
+void LevelOne::ProcessPlayerInput(float _DeltaTick)
+{
+	//Reading inputs
+	//PLAYER_0 INPUTS
+	auto& p0_Controller = CurrentPlayers[0];
+	p0_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
+	if (Input::m_iKeyState['w'] == INPUT_HOLD || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
+		m_pPlayerOne->AddVelocity(40.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['s'] == INPUT_HOLD || p0_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
+		m_pPlayerOne->AddVelocity(-40.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['a'] == INPUT_HOLD || p0_Controller->normalizedLX < -0.8f) {
+		m_pPlayerOne->AddRotation(3.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['d'] == INPUT_HOLD || p0_Controller->normalizedLX > 0.8f) {
+		m_pPlayerOne->AddRotation(-3.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['f'] == INPUT_FIRST_PRESS) {
+		m_pPlayerOne->Shoot();
+	}
+
+	//Reading inputs
+	//PLAYER_1 INPUTS
+	auto& p1_Controller = CurrentPlayers[1];
+	//Making the controller vibrate
+	p1_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerTwo->GetVibrateRate()));
+	if (Input::m_iKeyState['8'] == INPUT_HOLD || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
+		m_pPlayerTwo->AddVelocity(40.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['5'] == INPUT_HOLD || p1_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
+		m_pPlayerTwo->AddVelocity(-40.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['4'] == INPUT_HOLD || p1_Controller->normalizedLX < -0.8f) {
+		m_pPlayerTwo->AddRotation(1.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['6'] == INPUT_HOLD || p1_Controller->normalizedLX > 0.8f) {
+		m_pPlayerTwo->AddRotation(-1.0f * _DeltaTick);
 	}
 }
 

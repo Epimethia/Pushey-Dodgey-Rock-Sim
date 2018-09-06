@@ -10,7 +10,6 @@ Asteroid::Asteroid()
 	m_Sprite = std::make_shared<Sprite>();
 	m_Scale = glm::vec3(0.3f, 0.3f, 0.0f);
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
-	m_fVibrationRate = 0.0f;
 	m_bOffScreen = false;
 
 	// Physics
@@ -24,6 +23,7 @@ Asteroid::Asteroid()
 	fixtureDef.shape = &dynamicCircle;
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
+	fixtureDef.restitution = 1.0f;
 	m_body->CreateFixture(&fixtureDef);
 }
 
@@ -48,8 +48,6 @@ void Asteroid::Update()
 	if (m_body->GetPosition().x > 16.5f) m_body->SetTransform(b2Vec2(-0.4f, m_body->GetPosition().y), m_body->GetAngle());
 	if (m_body->GetPosition().y < -0.4f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, 9.4f), m_body->GetAngle());
 	if (m_body->GetPosition().y > 9.5f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -0.4f), m_body->GetAngle());
-
-	m_fVibrationRate *= 0.90f;
 }
 
 //Update Overload
@@ -65,13 +63,11 @@ void Asteroid::AddVelocity(b2Vec2 _direction, float _Speed)
 	b2Vec2 LinearVelocity = m_body->GetLinearVelocity();
 	m_body->SetLinearVelocity(b2Vec2(glm::clamp(LinearVelocity.x, -2.1f, 2.1f), glm::clamp(LinearVelocity.y, -2.1f, 2.1f)));
 
-	m_fVibrationRate = 3.0f;
 }
 
-//	Radians or Degrees?
-void Asteroid::AddRotation(float _Angle)
+void Asteroid::AddRotation(float _AngularForce)
 {
-	m_body->ApplyTorque(_Angle, true);
+	m_body->ApplyTorque(_AngularForce, true);
 }
 
 void Asteroid::SetPosition(b2Vec2 _position)

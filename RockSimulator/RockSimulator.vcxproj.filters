@@ -49,6 +49,7 @@
     <ClCompile Include="ContactListener.cpp">
       <Filter>NotEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Projectile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -99,6 +100,9 @@
     <ClInclude Include="ContactListener.h">
       <Filter>NotEngine</Filter>
     </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>NotEngine\Entities\Projectile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs">
@@ -135,6 +139,9 @@
     </Filter>
     <Filter Include="NotEngine\Entities\Asteroid">
       <UniqueIdentifier>{0aacea6f-0d9e-4ba8-bc9f-1bd91db0dfd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Entities\Projectile">
+      <UniqueIdentifier>{98bec5b6-8154-4d14-bfe0-e78fda56122b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
