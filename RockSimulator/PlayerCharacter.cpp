@@ -11,6 +11,7 @@
 #include "Physics.h"
 #include "Dependencies/glm/gtx/string_cast.hpp"
 #include "Dependencies/glm/gtx/rotate_vector.hpp"
+#include "SoundManager.h"
 
 
 PlayerCharacter::PlayerCharacter()
@@ -41,6 +42,7 @@ PlayerCharacter::~PlayerCharacter()
 void
 PlayerCharacter::TakeDamage()
 {
+	SoundManager::GetInstance()->SoundTakeDamage();
 	m_fHealth -= 5.0f;
 	std::cout << m_fHealth << std::endl;
 }

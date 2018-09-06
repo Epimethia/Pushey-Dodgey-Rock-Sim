@@ -29,7 +29,7 @@ TextLabel::TextLabel(std::string newText, std::string newFont, glm::vec2 pos)
 	m_fScale = 1.0;
 	SetPosition(pos);
 	
-	m_iProgram = m_ShaderLoader.CreateProgram("Resources/Shaders/Text.vs", "Resources/Shaders/Text.fs");
+	m_iProgram = ShaderLoader::GetInstance().CreateProgram("Resources/Shaders/Text.vs", "Resources/Shaders/Text.fs");
 	
 	glm::mat4 proj = glm::ortho(0.0f, (GLfloat)ki_SCREENWIDTH, 0.0f, (GLfloat)ki_SCREENHEIGHT);
 	glUseProgram(m_iProgram);

@@ -11,6 +11,7 @@ Sprite::Sprite()
 
 Sprite::~Sprite()
 {
+
 }
 
 void Sprite::Initialize(const char * _TextureFilepath)
@@ -37,7 +38,7 @@ void Sprite::Initialize(const char * _TextureFilepath)
 		0, 2, 3 // Second Triangle
 	};
 
-	m_iProgram = m_shaderLoader.CreateProgram("Resources\\Shaders\\VertexShader.vs",
+	m_iProgram = ShaderLoader::GetInstance().CreateProgram("Resources\\Shaders\\VertexShader.vs",
 		"Resources\\Shaders\\FragmentShader.fs");
 
 	glGenTextures(1, &m_iTexture);

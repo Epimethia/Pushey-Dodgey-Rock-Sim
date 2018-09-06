@@ -23,6 +23,5 @@ private:
 	GLuint m_iVAO;	//	uint
 	GLuint m_iEBO;	//	uint
 	GLuint m_iTexture;	//	uint
-	ShaderLoader m_shaderLoader;	//	Shader loader instance.
 };
 

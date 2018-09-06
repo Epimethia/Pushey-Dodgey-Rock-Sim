@@ -10,6 +10,7 @@ Entity::Entity()
 
 Entity::~Entity()
 {
+
 }
 
 void Entity::DrawDebug()
@@ -20,7 +21,7 @@ void Entity::DrawDebug()
 		return;
 	}
 
-	m_iProgram = m_ShaderLoader.CreateProgram("Resources\\Shaders\\Vertex_DebugShader.vs",
+	m_iProgram = ShaderLoader::GetInstance().CreateProgram("Resources\\Shaders\\Vertex_DebugShader.vs",
 		"Resources\\Shaders\\Fragment_DebugShader.fs");
 	glm::vec3 Color = glm::vec3(1.0f, 0.0f, 0.0f);
 

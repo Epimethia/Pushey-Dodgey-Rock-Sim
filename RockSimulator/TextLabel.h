@@ -58,5 +58,4 @@ private:
 
 	GLuint m_iVAO, m_iVBO, m_iProgram;	//	uint
 	std::map<GLchar, Character> m_Characters;	//	map
-	ShaderLoader m_ShaderLoader;	//	ShaderLoader instance
 };

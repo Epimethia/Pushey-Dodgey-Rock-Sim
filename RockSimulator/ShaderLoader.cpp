@@ -15,8 +15,33 @@
 #include<fstream>
 #include<vector>
 
+
+ShaderLoader* ShaderLoader::s_pInstance = 0;
+
+
 ShaderLoader::ShaderLoader(void) {}
 ShaderLoader::~ShaderLoader(void) {}
+
+
+ShaderLoader&
+ShaderLoader::GetInstance()
+{
+	if (0 == s_pInstance)
+	{
+		s_pInstance = new ShaderLoader();
+	}
+	return *s_pInstance;
+}
+
+void
+ShaderLoader::DestroyInstance()
+{
+	if (0 != s_pInstance)
+	{
+		delete s_pInstance;
+		s_pInstance = 0;
+	}
+}
 
 //Name:			    ReadShader
 //Parameters:		char* filename

@@ -38,6 +38,7 @@ public:
 	void SoundPlayerDeath();
 	void SoundEnemyDeath();
 	void SoundPowerup();
+	void SoundTakeDamage();
 	
 protected:
 
@@ -53,5 +54,6 @@ private:
 	FMOD::Sound* m_EffectPlayerDeath;
 	FMOD::Sound* m_EffectEnemyDeath;
 	FMOD::Sound* m_EffectPowerup;
+	FMOD::Sound* m_EffectDamage;
 };
 
