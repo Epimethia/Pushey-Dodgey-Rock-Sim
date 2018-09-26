@@ -27,6 +27,8 @@ public:
 	void InitializeObjects();
 	void RenderObjects();
 	void ProcessLevel(float _DeltaTick);
+	void ResetLevel();
+	
 
 	void ProcessPlayerInput(float _DeltaTick);
 
