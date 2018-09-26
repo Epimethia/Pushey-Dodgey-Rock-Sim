@@ -2,7 +2,7 @@
 
 Projectile::Projectile() {}
 
-Projectile::Projectile(b2Vec2 _Pos, b2Vec2 _Direction)
+Projectile::Projectile(b2Vec2 _Pos, b2Vec2 _Direction, float _Angle)
 {
 	m_Sprite = std::make_shared<Sprite>();
 	m_Scale = glm::vec3(0.13f, 0.13f, 0.13f);
@@ -24,6 +24,7 @@ Projectile::Projectile(b2Vec2 _Pos, b2Vec2 _Direction)
 	fixtureDef.restitution = 1.0f;
 	m_body->CreateFixture(&fixtureDef);
 
+	m_body->SetTransform(_Pos, _Angle);
 	b2Vec2 dir = _Direction;
 	dir.Normalize();
 	m_body->ApplyForceToCenter(
@@ -38,6 +39,10 @@ Projectile::Projectile(b2Vec2 _Pos, b2Vec2 _Direction)
 
 void Projectile::Initialize() {
 
+}
+
+void Projectile::InitializeDebugDraw()
+{
 }
 
 void Projectile::Update()

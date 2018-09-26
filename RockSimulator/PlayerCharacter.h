@@ -30,6 +30,7 @@ public:
 	glm::vec2 GetPosition() { return glm::vec2(m_body->GetPosition().x, m_body->GetPosition().y); }
 	float GetVibrateRate() { return m_fVibrationRate; };	
 	void Initialize();
+	void InitializeDebugDraw();
 	void LinkScore(short* _Deaths);
 	void Respawn();
 

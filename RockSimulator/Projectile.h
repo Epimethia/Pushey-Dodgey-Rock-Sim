@@ -13,10 +13,11 @@ class Sprite;
 class Projectile : public Entity {
 public:
 	Projectile();
-	Projectile(b2Vec2 _Pos, b2Vec2 Direction);
+	Projectile(b2Vec2 _Pos, b2Vec2 Direction, float _Angle);
 	void Update();
 	void Render();
 	void Initialize();
+	void InitializeDebugDraw();
 	glm::vec2 GetPosition() { return glm::vec2(); };
 
 	bool m_bValid;

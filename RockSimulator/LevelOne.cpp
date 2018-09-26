@@ -116,6 +116,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 		{
 			if (m_vpAsteroidVec[i]->GetOffScreenBool())
 			{
+				
 				m_vpAsteroidVec.erase(m_vpAsteroidVec.begin() + i);
 			}
 		}
@@ -174,7 +175,7 @@ void LevelOne::RenderObjects()
 		for (const auto& it : m_vpEntityVec)
 		{
 			it->Render();
-			it->DrawDebug();
+			//it->DrawDebug();
 		}
 	}
 	
@@ -183,7 +184,7 @@ void LevelOne::RenderObjects()
 		for (const auto& it : m_vpAsteroidVec)
 		{
 			it->Render();
-			it->DrawDebug();
+			//it->DrawDebug();
 		}
 	}  
 

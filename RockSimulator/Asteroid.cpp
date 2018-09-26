@@ -80,3 +80,7 @@ void Asteroid::Initialize()
 {
 	m_Sprite->Initialize("Resources/Images/Asteroid.png");
 }
+
+void Asteroid::InitializeDebugDraw()
+{
+}
