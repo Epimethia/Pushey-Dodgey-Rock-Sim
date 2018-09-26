@@ -5,10 +5,10 @@ Projectile::Projectile() {}
 Projectile::Projectile(b2Vec2 _Pos, b2Vec2 _Direction, float _Angle)
 {
 	m_Sprite = std::make_shared<Sprite>();
-	m_Scale = glm::vec3(0.13f, 0.13f, 0.13f);
+	m_Scale = glm::vec3(0.20f, 0.20f, 0.0f);
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_fMaxLifeTime = 300.0f;
-	m_fBulletSpeed = 100.0f;
+	m_fBulletSpeed = 300.0f;
 
 	// Physics
 	b2FixtureDef fixtureDef;
@@ -17,7 +17,7 @@ Projectile::Projectile(b2Vec2 _Pos, b2Vec2 _Direction, float _Angle)
 	m_body = Physics::GetInstance()->CreateBody(m_bodyDef);
 	b2CircleShape dynamicCircle;
 	dynamicCircle.m_p.Set(0.0f, 0.0f);
-	dynamicCircle.m_radius = 0.1f;
+	dynamicCircle.m_radius = 0.2f;
 	fixtureDef.shape = &dynamicCircle;
 	fixtureDef.density = 10.0f;
 	fixtureDef.friction = 0.3f;

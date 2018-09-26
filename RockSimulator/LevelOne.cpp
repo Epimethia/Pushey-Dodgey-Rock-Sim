@@ -101,8 +101,12 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	m_fSpawnTime += _DeltaTick;
 	if (m_fSpawnTime > 1.0f)
 	{
+		std::random_device rd;  //Will be used to obtain a seed for the random number engine
+		std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+		std::uniform_real_distribution<> dis(0.0, 9.0);
+
 		std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>();
-		TempAsteroid->SetPosition(b2Vec2(-1.0f, 2.5f));
+		TempAsteroid->SetPosition(b2Vec2(-1.0f, dis(gen)));
 		TempAsteroid->Initialize();		
 		m_vpAsteroidVec.push_back(TempAsteroid);
 

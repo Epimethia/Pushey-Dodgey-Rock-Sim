@@ -49,7 +49,9 @@
     <ClCompile Include="ContactListener.cpp">
       <Filter>NotEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Projectile.cpp">
+      <Filter>NotEngine\Entities\Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
