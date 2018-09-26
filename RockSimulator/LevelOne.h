@@ -30,12 +30,13 @@ public:
 
 	void ProcessPlayerInput(float _DeltaTick);
 
-private:
-	std::vector<std::shared_ptr<PlayerCharacter>> m_vpPlayerVec;
+private:	
 	std::vector<std::shared_ptr<Asteroid>> m_vpAsteroidVec;
 	std::vector<std::shared_ptr<Entity>> m_vpEntityVec;
 	std::shared_ptr<PlayerCharacter> m_pPlayerOne;
 	std::shared_ptr<PlayerCharacter> m_pPlayerTwo;
+	std::shared_ptr<XBOXController> m_pPlayerOneController;
+	std::shared_ptr<XBOXController> m_pPlayerTwoController;
 	std::shared_ptr<Sprite> m_pBackground;
 	std::shared_ptr<Camera> m_pCamera;
 	MyContactListener* m_pContactListener;
@@ -44,12 +45,6 @@ private:
 	//	Cloe adding score and time.
 	CClock* m_pClock{ nullptr };
 	short m_sDeathCount[2]{ 0, 0 };
-	float m_fTimer{ 0.0f };
-
-
-	//BOOTLEGGING CONTROLLER INPUT RIGHT NOW -- CHANGE
-
-	std::vector<std::shared_ptr<XBOXController>> CurrentPlayers;
-	
+	float m_fTimer{ 0.0f };	
 };
 

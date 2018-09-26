@@ -5,7 +5,6 @@
 #include "Dependencies/glm/gtx/string_cast.hpp"
 #include "Dependencies/glm/gtx/rotate_vector.hpp"
 
-
 PlayerCharacter::PlayerCharacter()
 {
 	m_Sprite = std::make_shared<Sprite>();	
@@ -13,6 +12,7 @@ PlayerCharacter::PlayerCharacter()
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_fVibrationRate = 0.0f;
 	m_fHealth = 100.0f;
+	m_bPlayerDead = false;
 
 	// Physics
 	b2FixtureDef fixtureDef;	
@@ -23,7 +23,7 @@ PlayerCharacter::PlayerCharacter()
 	fixtureDef.shape = &m_shape;
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
-	fixtureDef.restitution = 20.0f;
+	fixtureDef.restitution = 3.0f;
 	m_body->CreateFixture(&fixtureDef);
 
 	Bullet = nullptr;
@@ -98,12 +98,8 @@ void PlayerCharacter::Initialize()
 void PlayerCharacter::TakeDamage()
 {
 	//SoundManager::GetInstance()->SoundTakeDamage();
-	m_fHealth -= 5.0f;
-	std::cout << m_fHealth << std::endl;
-	if (0.0f > m_fHealth)
-	{
-		Respawn();
-	}
+	m_fHealth -= 50.0f;
+	std::cout << m_fHealth << std::endl;	
 }
 
 b2Body * PlayerCharacter::GetBody() const
@@ -147,6 +143,11 @@ void PlayerCharacter::Render()
 
 void PlayerCharacter::Update()
 {
+	if (0.0f > m_fHealth)
+	{
+		m_bPlayerDead = true;
+	}
+
 	// Screen wrapping
 	if (m_body->GetPosition().x < -0.4f) m_body->SetTransform(b2Vec2(16.5f, m_body->GetPosition().y), m_body->GetAngle());
 	if (m_body->GetPosition().x > 16.5f) m_body->SetTransform(b2Vec2(-0.4f, m_body->GetPosition().y), m_body->GetAngle());
@@ -209,9 +210,6 @@ void PlayerCharacter::Shoot()
 	}
 }
 
-
-
-
 void PlayerCharacter::LinkScore(short * _Deaths)
 {
 	m_pDeaths = _Deaths;
@@ -219,9 +217,13 @@ void PlayerCharacter::LinkScore(short * _Deaths)
 
 void PlayerCharacter::Respawn()
 {		
-	*m_pDeaths += 1;
+	assert(m_body != nullptr);
 
+	*m_pDeaths += 1;
+	m_bPlayerDead = false;
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
-	m_body->SetTransform(b2Vec2(3.0f, 4.5f), m_body->GetAngle());
+	m_body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+	m_body->SetAngularVelocity(0.0f);	
+	m_body->SetTransform(b2Vec2(3.0f, 4.5f), 0.0f);
 	m_fHealth = 100.0f;
 }
