@@ -16,6 +16,7 @@ class Sprite;
 class Input;
 class MyContactListener;
 class CClock;
+class TextLabel;
 
 
 class LevelOne	
@@ -48,5 +49,6 @@ private:
 	CClock* m_pClock{ nullptr };
 	short m_sDeathCount[2]{ 0, 0 };
 	float m_fTimer{ 0.0f };	
+	std::shared_ptr<TextLabel> m_text;
 };
 

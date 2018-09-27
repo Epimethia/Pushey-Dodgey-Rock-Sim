@@ -24,16 +24,16 @@
 //                  
 TextLabel::TextLabel(std::string newText, std::string newFont, glm::vec2 pos)
 {	
-	m_sText = newText;
-	m_vColor = glm::vec3(1.0, 1.0, 1.0);
-	m_fScale = 1.0;
+	text = newText;
+	color = glm::vec3(1.0, 1.0, 1.0);
+	scale = 1.0;
 	SetPosition(pos);
 	
-	m_iProgram = ShaderLoader::GetInstance().CreateProgram("Resources/Shaders/Text.vs", "Resources/Shaders/Text.fs");
+	program = ShaderLoader::GetInstance().CreateProgram("Resources/Shaders/Text.vs", "Resources/Shaders/Text.fs");
 	
 	glm::mat4 proj = glm::ortho(0.0f, (GLfloat)ki_SCREENWIDTH, 0.0f, (GLfloat)ki_SCREENHEIGHT);
-	glUseProgram(m_iProgram);
-	glUniformMatrix4fv(glGetUniformLocation(m_iProgram, "proj"), 1, GL_FALSE, glm::value_ptr(proj));
+	glUseProgram(program);
+	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_FALSE, glm::value_ptr(proj));
 
 	// Initiate the font Lib
 	FT_Library ft;
@@ -79,7 +79,7 @@ TextLabel::TextLabel(std::string newText, std::string newFont, glm::vec2 pos)
 			glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
 			(GLuint)face->glyph->advance.x
 		};
-		m_Characters.insert(std::pair<GLchar, Character>(c, character));
+		Characters.insert(std::pair<GLchar, Character>(c, character));
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -88,11 +88,11 @@ TextLabel::TextLabel(std::string newText, std::string newFont, glm::vec2 pos)
 	FT_Done_FreeType(ft);
 
 	//Configure VAO/VBO for texture quads
-	glGenVertexArrays(1, &m_iVAO);
-	glBindVertexArray(m_iVAO);
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
 
-	glGenBuffers(1, &m_iVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_iVBO);
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
 
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
@@ -104,7 +104,7 @@ TextLabel::TextLabel(std::string newText, std::string newFont, glm::vec2 pos)
 
 TextLabel::~TextLabel()
 {
-	m_Characters.clear();
+	Characters.clear();
 }
 
 //Name:			    Render
@@ -115,7 +115,7 @@ TextLabel::~TextLabel()
 //                  
 void TextLabel::Render()
 {
-	glm::vec2 textPos = m_vPosition;
+	glm::vec2 textPos = position;
 
 	// Enable blending
 	glEnable(GL_CULL_FACE);
@@ -123,21 +123,21 @@ void TextLabel::Render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Activate corresponding render state
-	glUseProgram(m_iProgram);
-	glUniform3f(glGetUniformLocation(m_iProgram, "textColor"), m_vColor.x, m_vColor.y, m_vColor.z);
+	glUseProgram(program);
+	glUniform3f(glGetUniformLocation(program, "textColor"), color.x, color.y, color.z);
 	glActiveTexture(GL_TEXTURE0);	
-	glBindVertexArray(m_iVAO);
+	glBindVertexArray(VAO);
 
 	// Iterate through the Characters
-	for (std::string::const_iterator c = m_sText.begin(); c != m_sText.end(); c++)
+	for (std::string::const_iterator c = text.begin(); c != text.end(); c++)
 	{
-		Character ch = m_Characters[*c];
+		Character ch = Characters[*c];
 
-		GLfloat xpos = textPos.x + ch.Bearing.x * m_fScale;
-		GLfloat ypos = textPos.y - (ch.Size.y - ch.Bearing.y) * m_fScale;
+		GLfloat xpos = textPos.x + ch.Bearing.x * scale;
+		GLfloat ypos = textPos.y - (ch.Size.y - ch.Bearing.y) * scale;
 
-		GLfloat w = ch.Size.x * m_fScale;
-		GLfloat h = ch.Size.y * m_fScale;
+		GLfloat w = ch.Size.x * scale;
+		GLfloat h = ch.Size.y * scale;
 
 		// Update VBO for each character
 		GLfloat vertices[6][4] = {
@@ -147,32 +147,31 @@ void TextLabel::Render()
 
 		// Render the glyph texture over the quad
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-		glBindBuffer(GL_ARRAY_BUFFER, m_iVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDrawArrays(GL_TRIANGLES, 0, 6);		
 
 		// Now advance cursors for the next glyph
-		textPos.x += (ch.Advance >> 6) * m_fScale;
+		textPos.x += (ch.Advance >> 6) * scale;
 	}
 
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_BLEND);
+	glDisable(GL_CULL_FACE);	
 }
 
-const glm::vec2& TextLabel::GetPosition() const
+glm::vec2 TextLabel::GetPosition()
 {
-	return m_vPosition;
+	return position;
 }
 
-const std::string& TextLabel::GetText() const
+std::string TextLabel::GetText()
 {
-	return m_sText;
+	return text;
 }
 
-const GLfloat& TextLabel::GetScale() const
+GLfloat TextLabel::GetScale()
 {
-	return m_fScale;
+	return scale;
 }
