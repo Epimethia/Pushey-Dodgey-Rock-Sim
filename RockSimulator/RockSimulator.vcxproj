@@ -139,6 +139,7 @@
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="healthbar.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="LevelOne.cpp" />
     <ClCompile Include="main.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="clock.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="healthbar.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="LevelOne.h" />
     <ClInclude Include="Physics.h" />

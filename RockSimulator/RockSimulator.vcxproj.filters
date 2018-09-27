@@ -52,6 +52,9 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>NotEngine\Entities\Projectile</Filter>
     </ClCompile>
+    <ClCompile Include="healthbar.cpp">
+      <Filter>NotEngine\HealthBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -105,6 +108,9 @@
     <ClInclude Include="Projectile.h">
       <Filter>NotEngine\Entities\Projectile</Filter>
     </ClInclude>
+    <ClInclude Include="healthbar.h">
+      <Filter>NotEngine\HealthBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs">
@@ -144,6 +150,9 @@
     </Filter>
     <Filter Include="NotEngine\Entities\Projectile">
       <UniqueIdentifier>{98bec5b6-8154-4d14-bfe0-e78fda56122b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\HealthBar">
+      <UniqueIdentifier>{0cad809a-a2b9-4d1a-ba5d-c8275a53382d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

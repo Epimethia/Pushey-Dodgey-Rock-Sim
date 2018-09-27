@@ -11,7 +11,7 @@ Sprite::Sprite()
 
 Sprite::~Sprite()
 {
-
+	glDeleteTextures(1, &m_iTexture);
 }
 
 void Sprite::Initialize(const char * _TextureFilepath)

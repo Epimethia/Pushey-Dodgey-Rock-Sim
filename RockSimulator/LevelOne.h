@@ -17,6 +17,7 @@ class Input;
 class MyContactListener;
 class CClock;
 class TextLabel;
+class C_HealthBar;
 
 
 class LevelOne	
@@ -38,6 +39,8 @@ private:
 	std::vector<std::shared_ptr<Entity>> m_vpEntityVec;
 	std::shared_ptr<PlayerCharacter> m_pPlayerOne;
 	std::shared_ptr<PlayerCharacter> m_pPlayerTwo;
+	std::shared_ptr<C_HealthBar> m_pP1HealthBar;
+	std::shared_ptr<C_HealthBar> m_pP2HealthBar;
 	std::shared_ptr<XBOXController> m_pPlayerOneController;
 	std::shared_ptr<XBOXController> m_pPlayerTwoController;
 	std::shared_ptr<Sprite> m_pBackground;
@@ -50,5 +53,9 @@ private:
 	short m_sDeathCount[2]{ 0, 0 };
 	float m_fTimer{ 0.0f };	
 	std::shared_ptr<TextLabel> m_text;
+	std::shared_ptr<TextLabel> m_P1Score;
+	std::shared_ptr<TextLabel> m_P2Score;
+
+
 };
 

@@ -14,6 +14,7 @@ PlayerCharacter::PlayerCharacter()
 	m_fHealth = 100.0f;
 	m_bPlayerDead = false;
 
+
 	// Physics
 	b2FixtureDef fixtureDef;	
 	m_bodyDef.type = b2_dynamicBody;
@@ -143,7 +144,7 @@ void PlayerCharacter::Render()
 
 void PlayerCharacter::Update()
 {
-	if (0.0f > m_fHealth)
+	if (0.0001f > m_fHealth)
 	{
 		m_bPlayerDead = true;
 	}
@@ -210,7 +211,7 @@ void PlayerCharacter::Shoot()
 	}
 }
 
-void PlayerCharacter::LinkScore(short * _Deaths)
+void PlayerCharacter::LinkScore(short* _Deaths)
 {
 	m_pDeaths = _Deaths;
 }
@@ -226,4 +227,10 @@ void PlayerCharacter::Respawn()
 	m_body->SetAngularVelocity(0.0f);	
 	m_body->SetTransform(b2Vec2(3.0f, 4.5f), 0.0f);
 	m_fHealth = 100.0f;
+}
+
+float
+PlayerCharacter::GetHealth()
+{
+	return m_fHealth;
 }

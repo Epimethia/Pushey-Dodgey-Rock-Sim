@@ -8,7 +8,10 @@
 #include "Projectile.h"
 #include "SoundManager.h"
 
+
 class Sprite;
+
+
 class PlayerCharacter :
 	public Entity
 {
@@ -33,13 +36,18 @@ public:
 	void InitializeDebugDraw();
 	void LinkScore(short* _Deaths);
 	void Respawn();
+	float GetHealth();
 
 
 private:
-	float m_fVibrationRate;	
+	float m_fVibrationRate;
+
 	float m_fHealth{ 0.0f };
-	short* m_pDeaths{ 0 };	
+	short* m_pDeaths{ 0 };
+
 	Projectile* Bullet;
 	bool m_bPlayerDead;
+
+
 };
 

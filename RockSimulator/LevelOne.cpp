@@ -3,6 +3,8 @@
 
 
 //	Library includes.
+#include <iostream>
+#include <string>
 
 
 //	Local includes.
@@ -16,6 +18,7 @@
 #include "KeyboardInput.h"
 #include "clock.h"
 #include "TextLabel.h"
+#include "healthbar.h"
 
 
 LevelOne::LevelOne()
@@ -41,17 +44,27 @@ void LevelOne::InitializeObjects()
 	// Initialize Scene Background	
 	m_pBackground->Initialize("Resources/Images/Background.png");
 
+	m_pP1HealthBar = std::make_shared<C_HealthBar>("Resources/Images/HealthBar100.png");
+	m_pP1HealthBar->SetPosition(glm::vec3(1.0f, 7.0f, 1.0f));
+
+	m_pP2HealthBar = std::make_shared<C_HealthBar>("Resources/Images/HealthBar100.png");
+	m_pP2HealthBar->SetPosition(glm::vec3(15.0f, 7.0f, 1.0f));
+
 	// Initialize Other Objects..
 	// Push objects to their appropriate vectors
 	m_pPlayerOne = std::make_shared<PlayerCharacter>();	
 	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));	
 	m_vpEntityVec.push_back(m_pPlayerOne);
 	m_pPlayerOne->LinkScore(&m_sDeathCount[0]);
+	std::string ScoreText1 = "xesrt4574rdyh";//std::to_string(m_sDeathCount[1]);
+	m_P1Score = std::make_shared<TextLabel>(std::to_string(m_sDeathCount[1]), "Resources/fonts/arial.ttf", glm::vec2(400.0f, 700.0f));
 
 	m_pPlayerTwo = std::make_shared<PlayerCharacter>();	
 	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));	
 	m_vpEntityVec.push_back(m_pPlayerTwo);
 	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
+	std::string ScoreText2 = std::to_string(m_sDeathCount[0]);
+	m_P2Score = std::make_shared<TextLabel>(std::to_string(m_sDeathCount[0]), "Resources/fonts/arial.ttf", glm::vec2(1200.0f, 700.0f));
 
 	m_pContactListener = &MyContactListener::GetInstance();
 	m_pContactListener->SetPlayer(&(*m_pPlayerOne));
@@ -93,12 +106,14 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 		m_pPlayerOne->Respawn();
 		m_vpAsteroidVec.clear();
 		m_fSpawnTime = 0.0f;
+		m_P2Score->SetText(std::to_string(m_sDeathCount[0]));
 	}
 	if (m_pPlayerTwo->GetPlayerDead())
 	{
 		m_pPlayerTwo->Respawn();
 		m_vpAsteroidVec.clear();
 		m_fSpawnTime = 0.0f;
+		m_P1Score->SetText(std::to_string(m_sDeathCount[1]));
 	}
 
 	// Spawn Asteroids
@@ -110,7 +125,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 		std::uniform_real_distribution<> dis(0.0, 9.0);
 
 		std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>();
-		TempAsteroid->SetPosition(b2Vec2(-1.0f, dis(gen)));
+		TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
 		TempAsteroid->Initialize();		
 		m_vpAsteroidVec.push_back(TempAsteroid);
 
@@ -182,12 +197,27 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	if (Input::m_iKeyState['6'] == INPUT_HOLD || p1_Controller->normalizedLX > 0.8f) {
 		m_pPlayerTwo->AddRotation(-1.0f * _DeltaTick);
 	}
+
+	//	Update Health.
+	glm::vec3 TempScale = m_pP1HealthBar->GetScale();
+	TempScale.x = 1.0f * (m_pPlayerOne->GetHealth() / 100.0f);
+	m_pP1HealthBar->SetScale(TempScale);
+
+	TempScale = m_pP2HealthBar->GetScale();
+	TempScale.x = 1.0f * (m_pPlayerTwo->GetHealth() / 100.0f);
+	m_pP2HealthBar->SetScale(TempScale);
 }
 
 void LevelOne::RenderObjects()
 {
 	// Render Background
 	m_pBackground->Render(glm::scale(glm::mat4(), glm::vec3(16.0f, 9.0f, 0.0f))); // spawn in the center
+	m_pP1HealthBar->Render();
+	m_pP2HealthBar->Render();
+
+	m_text->Render();
+	m_P1Score->Render();
+	m_P2Score->Render();
 
 	// Render Object Vectors (check that the vectors are not empty)
 	if (!m_vpEntityVec.empty())
@@ -209,7 +239,8 @@ void LevelOne::RenderObjects()
 	}  
 
 
-	m_text->Render();
+
+
 	//	Render score.
 
 	//	m_sDeaths[1] + "    -    " + m_sDeaths[0];
