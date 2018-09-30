@@ -35,9 +35,9 @@ public:
 	void UpdateCurrentScene();
 
 private:
-	SceneState m_CurrentScene;		
-	std::shared_ptr<LevelOne> m_LevelOneScene;
+	SceneState m_iCurrentScene;		
+	std::shared_ptr<LevelOne> m_pLevelOneScene;
 	//CClock singleton reference
-	std::shared_ptr<CClock> m_Clock;
+	std::shared_ptr<CClock> m_pClock;
 };
 

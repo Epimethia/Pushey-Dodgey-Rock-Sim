@@ -1,5 +1,5 @@
 //	Library includes.
-
+#include <time.h>
 
 //	Local includes.
 #include "Dependencies\glew\glew.h"
@@ -27,6 +27,7 @@ int main(int argc, char** argv)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glewInit();
 
+	std::srand(time(NULL));
 	// Set the starting scene
 	SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
 	// Initialize the starting scene

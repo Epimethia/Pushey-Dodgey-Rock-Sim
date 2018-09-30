@@ -49,8 +49,8 @@ private:
 #pragma endregion
 
 public:
-	static unsigned int KeyState[255];
-	static unsigned int MouseState[3];
+	static unsigned int m_iKeyState[255];
+	static unsigned int m_iMouseState[3];
 
 	// Setters
 	void SetCursor(int _cursorSetting);
@@ -69,6 +69,6 @@ public:
 	void MouseInput(int _x, int _y);
 
 private:
-	glm::vec2 m_MousePos;
+	glm::vec2 m_vMousePos;
 };
 

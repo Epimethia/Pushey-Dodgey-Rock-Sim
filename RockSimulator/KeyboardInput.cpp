@@ -16,8 +16,8 @@
 #include <iostream>
 
 std::shared_ptr<Input> Input::s_pInput;
-unsigned int Input::KeyState[255];
-unsigned int Input::MouseState[3];
+unsigned int Input::m_iKeyState[255];
+unsigned int Input::m_iMouseState[3];
 
 
 // Prototypes
@@ -84,10 +84,10 @@ void Input::Initialize()
 {
 	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
 	for (int i = 0; i < 255; ++i) {
-		KeyState[i] = INPUT_RELEASED;
+		m_iKeyState[i] = INPUT_RELEASED;
 	}
 	for (int i = 0; i < 3; ++i) {
-		MouseState[i] = INPUT_RELEASED;
+		m_iMouseState[i] = INPUT_RELEASED;
 	}
 }
 
@@ -110,21 +110,21 @@ void Input::Update()
 	//Processing all of the keys
 	for (int i = 0; i < 255; i++)
 	{
-		if (KeyState[i] == INPUT_FIRST_PRESS)
+		if (m_iKeyState[i] == INPUT_FIRST_PRESS)
 		{
-			KeyState[i] = INPUT_HOLD;
+			m_iKeyState[i] = INPUT_HOLD;
 		}
-		else if (KeyState[i] == INPUT_FIRST_RELEASE) {
-			KeyState[i] = INPUT_RELEASED;
+		else if (m_iKeyState[i] == INPUT_FIRST_RELEASE) {
+			m_iKeyState[i] = INPUT_RELEASED;
 		}
 	}
 
 	// Processing mouse buttons
 	for (int i = 0; i < 3; i++)
 	{
-		if (MouseState[i] == INPUT_FIRST_PRESS)
+		if (m_iMouseState[i] == INPUT_FIRST_PRESS)
 		{
-			MouseState[i] = INPUT_HOLD;
+			m_iMouseState[i] = INPUT_HOLD;
 		}
 	}
 }
@@ -137,7 +137,7 @@ void Input::Update()
 //                  
 void Input::ProcessNormalKeysDown(unsigned char _key, int _x, int _y)
 {
-	KeyState[_key] = INPUT_FIRST_PRESS;
+	m_iKeyState[_key] = INPUT_FIRST_PRESS;
 }
 
 //Name:			    ProcessNormalKeysUp
@@ -148,7 +148,7 @@ void Input::ProcessNormalKeysDown(unsigned char _key, int _x, int _y)
 //                  
 void Input::ProcessNormalKeysUp(unsigned char _key, int _x, int _y)
 {
-	KeyState[_key] = INPUT_FIRST_RELEASE;
+	m_iKeyState[_key] = INPUT_FIRST_RELEASE;
 }
 
 //Name:			    ProcessSpecialKeys
@@ -196,11 +196,11 @@ void Input::MouseButton(int _button, int _state, int _x, int _y)
 	{
 		if (_state == GLUT_DOWN)
 		{
-			MouseState[_button] = INPUT_FIRST_PRESS;
+			m_iMouseState[_button] = INPUT_FIRST_PRESS;
 		}
 		else if (_state == GLUT_UP)
 		{
-			MouseState[_button] = INPUT_RELEASED;
+			m_iMouseState[_button] = INPUT_RELEASED;
 		}
 	}
 }
@@ -213,7 +213,7 @@ void Input::MouseButton(int _button, int _state, int _x, int _y)
 //                  
 void Input::MouseInput(int _x, int _y)
 {
-	m_MousePos = glm::vec2(_x, _y);
+	m_vMousePos = glm::vec2(_x, _y);
 }
 
 //Name:			    SetCursor
@@ -237,16 +237,16 @@ glm::vec2 Input::GetMousePos()
 {
 	// Converts XY to NDC and returns
 	glm::vec2 NDC = glm::vec2();
-	NDC.x = (2.0f * m_MousePos.x) / static_cast<float>(ki_SCREENWIDTH) - 1.0f;
-	NDC.y = 1.0f - (2.0f * m_MousePos.y) / static_cast<float>(ki_SCREENHEIGHT);
+	NDC.x = (2.0f * m_vMousePos.x) / static_cast<float>(ki_SCREENWIDTH) - 1.0f;
+	NDC.y = 1.0f - (2.0f * m_vMousePos.y) / static_cast<float>(ki_SCREENHEIGHT);
 	return NDC;
 }
 
 glm::vec2 Input::GetMouseWorldPos()
 {
 	//screen pos
-	glm::vec2 normalizedScreenPos = glm::vec2((2.0f * m_MousePos.x) / static_cast<float>(ki_SCREENWIDTH) - 1.0f,
-		1.0f - (2.0f * m_MousePos.y) / static_cast<float>(ki_SCREENHEIGHT));
+	glm::vec2 normalizedScreenPos = glm::vec2((2.0f * m_vMousePos.x) / static_cast<float>(ki_SCREENWIDTH) - 1.0f,
+		1.0f - (2.0f * m_vMousePos.y) / static_cast<float>(ki_SCREENHEIGHT));
 
 	//screenpos to Proj Space
 	glm::vec4 clipCoords = glm::vec4(normalizedScreenPos.x, normalizedScreenPos.y, -1.0f, 1.0f);

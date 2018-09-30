@@ -1,9 +1,9 @@
 #include "PlayerCharacter.h"
 #include "Sprite.h"
 #include "Physics.h"
+#include "Camera.h"
 #include "Dependencies/glm/gtx/string_cast.hpp"
 #include "Dependencies/glm/gtx/rotate_vector.hpp"
-
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -11,6 +11,8 @@ PlayerCharacter::PlayerCharacter()
 	m_Scale = glm::vec3(0.3f, 0.3f, 0.0f);
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_fVibrationRate = 0.0f;
+	m_fHealth = 100.0f;
+	m_bPlayerDead = false;
 
 	// Physics
 	b2FixtureDef fixtureDef;	
@@ -21,16 +23,88 @@ PlayerCharacter::PlayerCharacter()
 	fixtureDef.shape = &m_shape;
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
-	fixtureDef.restitution = 1.0f;
+	fixtureDef.restitution = 3.0f;
 	m_body->CreateFixture(&fixtureDef);
 
 	Bullet = nullptr;
-
+	m_bDebugDrawEnabled = true;
 }
 
+void PlayerCharacter::InitializeDebugDraw() {
+	// Check that the shape has vertices
+	if (m_shape.m_count < 1)
+	{
+		return;
+	}
+
+	m_iProgram = ShaderLoader::GetInstance().CreateProgram("Resources\\Shaders\\Vertex_DebugShader.vs",
+		"Resources\\Shaders\\Fragment_DebugShader.fs");
+	glm::vec3 Color = glm::vec3(1.0f, 0.0f, 0.0f);
+
+	//translating the vertices supplied by Box2D into vertices usable by GLEW
+	float verts[24];
+	int CurrentIndex = 0;
+	for (int i = 0; i < m_shape.m_count; i++) {
+		verts[CurrentIndex++] = (m_shape.m_vertices[i].x); //x
+		verts[CurrentIndex++] = (m_shape.m_vertices[i].y); //y
+		verts[CurrentIndex++] = 0.0f; //z
+
+									  //color verts
+		verts[CurrentIndex++] = Color.x;
+		verts[CurrentIndex++] = Color.y;
+		verts[CurrentIndex++] = Color.z;
+	}
+
+	//generating and binding the buffers
+	glGenVertexArrays(1, &m_iVAO);
+	glGenBuffers(1, &m_iVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_iVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLuint) * (6 * m_shape.m_count), verts, GL_STATIC_DRAW);
+	glBindVertexArray(m_iVAO);
+
+	glVertexAttribPointer(
+		0, // Layout location on vertex shader
+		3, // 3 float components (eg position)
+		GL_FLOAT, // Type of data
+		GL_FALSE, // Data normalized?
+		6 * sizeof(GLfloat), // Stride of the single vertex(pos + color)
+		(GLvoid*)(0 * sizeof(GLfloat))); // Offset from beginning of Vert
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(
+		1, // Layout location on vertex shader
+		3, // 3 float components (eg position)
+		GL_FLOAT, // Type of data
+		GL_FALSE, // Data normalized?
+		6 * sizeof(GLfloat), // Stride of the single vertex(pos + color)
+		(GLvoid*)(3 * sizeof(GLfloat))); // Offset from beginning of Vert	
+	glEnableVertexAttribArray(1);
+}
 
 PlayerCharacter::~PlayerCharacter()
 {
+
+	//CLEAR UP ALL THE POINTERS
+	delete Bullet;
+	Bullet = nullptr;
+}
+
+void PlayerCharacter::Initialize()
+{
+	m_Sprite->Initialize("Resources/Images/Player_Sprite.png");
+	InitializeDebugDraw();
+}
+
+void PlayerCharacter::TakeDamage()
+{
+	//SoundManager::GetInstance()->SoundTakeDamage();
+	m_fHealth -= 50.0f;
+	std::cout << m_fHealth << std::endl;	
+}
+
+b2Body * PlayerCharacter::GetBody() const
+{
+	return m_body;
 }
 
 void PlayerCharacter::Render()
@@ -40,6 +114,28 @@ void PlayerCharacter::Render()
 		glm::rotate(glm::mat4(), m_body->GetAngle(), m_RotationAxis) * 
 		glm::scale(glm::mat4(), m_Scale) // might need to change this later, idk what to do 
 	);
+
+	//drawing the debug if enabled
+	if (m_bDebugDrawEnabled) 
+	{
+		glUseProgram(m_iProgram);
+
+		// Pass mvp to shader
+		glm::mat4 Model =
+			glm::translate(glm::mat4(), glm::vec3(m_body->GetPosition().x, m_body->GetPosition().y, 0.0f)) *
+			glm::rotate(glm::mat4(), m_body->GetAngle(), m_RotationAxis);
+
+
+		glm::mat4 MVP = Camera::GetInstance()->GetProj() * Camera::GetInstance()->GetView() * Model;
+		GLint MVPloc = glGetUniformLocation(m_iProgram, "MVP");
+		glUniformMatrix4fv(MVPloc, 1, GL_FALSE, value_ptr(MVP));
+
+		//// Bind vao and draw object, unbind vao
+		glBindVertexArray(m_iVAO);
+		glDrawArrays(GL_LINE_LOOP, 0, 4);
+		glBindVertexArray(0);
+	}
+
 	if (Bullet) {
 		Bullet->Render();
 	};
@@ -47,6 +143,11 @@ void PlayerCharacter::Render()
 
 void PlayerCharacter::Update()
 {
+	if (0.0f > m_fHealth)
+	{
+		m_bPlayerDead = true;
+	}
+
 	// Screen wrapping
 	if (m_body->GetPosition().x < -0.4f) m_body->SetTransform(b2Vec2(16.5f, m_body->GetPosition().y), m_body->GetAngle());
 	if (m_body->GetPosition().x > 16.5f) m_body->SetTransform(b2Vec2(-0.4f, m_body->GetPosition().y), m_body->GetAngle());
@@ -104,13 +205,25 @@ void PlayerCharacter::Shoot()
 		Direction.Normalize();
 		Direction *= 0.7f;
 		b2Vec2 pos = m_body->GetPosition() + Direction;
-		Bullet = new Projectile(pos, Direction);
+		Bullet = new Projectile(pos, Direction, m_body->GetAngle());
+		SoundManager::GetInstance()->SoundPew();
 	}
-	
 }
 
-
-void PlayerCharacter::Initialize()
+void PlayerCharacter::LinkScore(short * _Deaths)
 {
-	m_Sprite->Initialize("Resources/Images/Player_Sprite.png");
+	m_pDeaths = _Deaths;
+}
+
+void PlayerCharacter::Respawn()
+{		
+	assert(m_body != nullptr);
+
+	*m_pDeaths += 1;
+	m_bPlayerDead = false;
+	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
+	m_body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+	m_body->SetAngularVelocity(0.0f);	
+	m_body->SetTransform(b2Vec2(3.0f, 4.5f), 0.0f);
+	m_fHealth = 100.0f;
 }

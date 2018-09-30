@@ -1,5 +1,10 @@
 #pragma once
+//	Library includes.
+
+
+//	Local includes.
 #include "Utilities.h"
+
 
 class Physics
 {
@@ -22,10 +27,10 @@ public:
 
 
 private:
-	b2Vec2 m_gravity = b2Vec2(0.0f, 0.0f);
-	b2World* m_world = new b2World(m_gravity);
-	float32 m_timeStep;
-	int32 m_velocityIterations;
-	int32 m_positionIterations;
+	b2Vec2 m_vGravity = b2Vec2(0.0f, 0.0f);
+	b2World* m_pWorld = new b2World(m_vGravity);
+	float32 m_fTimeStep;
+	int32 m_iVelocityIterations;
+	int32 m_iPositionIterations;
 };
 

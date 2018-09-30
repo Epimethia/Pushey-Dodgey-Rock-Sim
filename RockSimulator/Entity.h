@@ -14,10 +14,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Initialize() = 0;
 	virtual glm::vec2 GetPosition() = 0;
-	virtual void DrawDebug();
-
-	// Entity Functions
-
+	virtual void InitializeDebugDraw() = 0;
 
 protected:
 	std::shared_ptr<Sprite> m_Sprite;
@@ -29,14 +26,14 @@ protected:
 	b2Body* m_body;
 	b2PolygonShape m_shape;
 
-
+	// Variables for Debug Drawing
+	GLuint m_iVAO;	//	uint
+	GLuint m_iVBO;	//	uint
+	GLuint m_iProgram;	//	uint
+	bool m_bDebugDrawEnabled = false;
 private:
 	// Member Variables
 
-	// Variables for Debug Drawing
-	GLuint m_VAO;
-	GLuint m_VBO;
-	GLuint m_program;
-	ShaderLoader m_shaderLoader;
+
 };
 

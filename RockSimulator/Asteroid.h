@@ -19,6 +19,7 @@ public:
 	void Render();
 	void Update();	
 	void Initialize();
+	void InitializeDebugDraw();
 	glm::vec2 GetPosition() { return glm::vec2(m_body->GetPosition().x, m_body->GetPosition().y); }
 
 	void SetPosition(b2Vec2 _position);

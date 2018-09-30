@@ -18,11 +18,10 @@ public:
 
 
 private:
-	GLuint m_program;
-	GLuint m_vbo;
-	GLuint m_vao;
-	GLuint m_ebo;
-	GLuint m_texture;
-	ShaderLoader m_shaderLoader;
+	GLuint m_iProgram;	//	uint
+	GLuint m_iVBO;	//	uint
+	GLuint m_iVAO;	//	uint
+	GLuint m_iEBO;	//	uint
+	GLuint m_iTexture;	//	uint
 };
 

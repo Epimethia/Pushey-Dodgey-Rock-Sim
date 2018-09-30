@@ -42,21 +42,20 @@ public:
 	~TextLabel();
 
 	void Render();
-	void SetText(std::string newText) { text = newText; };
-	void SetColor(glm::vec3 newColor) { color = newColor; };
-	void SetScale(GLfloat newScale) { scale = newScale; };
-	void SetPosition(glm::vec2 newPosition) { position = newPosition; };
-	glm::vec2 GetPosition();
-	std::string GetText();
-	GLfloat GetScale();
+	void SetText(std::string newText) { m_sText = newText; };
+	void SetColor(glm::vec3 newColor) { m_vColor = newColor; };
+	void SetScale(GLfloat newScale) { m_fScale = newScale; };
+	void SetPosition(glm::vec2 newPosition) { m_vPosition = newPosition; };
+	const glm::vec2& GetPosition() const;
+	const std::string& GetText() const;
+	const GLfloat& GetScale() const;
 
 private:
-	std::string text;
-	GLfloat scale;
-	glm::vec3 color;
-	glm::vec2 position;
+	std::string m_sText;	//	string
+	GLfloat m_fScale;	//	float
+	glm::vec3 m_vColor;	//	vec3
+	glm::vec2 m_vPosition;	//	vec2
 
-	GLuint VAO, VBO, program;
-	std::map<GLchar, Character> Characters;
-	ShaderLoader shaderLoader;
+	GLuint m_iVAO, m_iVBO, m_iProgram;	//	uint
+	std::map<GLchar, Character> m_Characters;	//	map
 };

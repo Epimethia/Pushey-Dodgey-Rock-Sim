@@ -9,15 +9,18 @@
 class ShaderLoader
 {
 	private:
+		ShaderLoader(void);
+		~ShaderLoader(void);
 
 		std::string ReadShader(char *filename);
 		GLuint CreateShader(GLenum shaderType,
 			std::string source,
 			char* shaderName);
+		static ShaderLoader* s_pInstance;
 
 	public:
-		ShaderLoader(void);
-		~ShaderLoader(void);
+		static ShaderLoader& GetInstance();
+		static void DestroyInstance();
 		GLuint CreateProgram(char* VertexShaderFilename,
 			char* FragmentShaderFilename);		
 

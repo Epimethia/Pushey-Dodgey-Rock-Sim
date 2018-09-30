@@ -11,6 +11,7 @@
 // Description	:	Implimentation for the SoundManager class
 
 #include "SoundManager.h"
+#include <algorithm>
 
 std::shared_ptr<SoundManager> SoundManager::s_pSoundManager;
 
@@ -30,7 +31,12 @@ void SoundManager::DestroyInstance()
 
 SoundManager::~SoundManager()
 {
-	m_BGMusic->release();
+	m_BGMenu->release();
+	m_BGGame0->release();
+	m_BGGame1->release();
+	m_BGGame2->release();
+	m_BGGame3->release();
+	m_BGGame4->release();
 	m_EffectPew->release();
 	m_EffectSpawn->release();
 	m_EffectPlayerDeath->release();
@@ -50,8 +56,8 @@ SoundManager::~SoundManager()
 //                  
 SoundManager::SoundManager()
 {	
-	m_fBGMVolume = 0.04f;
-	m_fEffectsVolume = 0.5f;	
+	m_fBGMVolume = 0.4f;
+	m_fEffectsVolume = 1.0f;	
 }
 
 //Name:			    Initialize
@@ -75,12 +81,27 @@ bool SoundManager::Initialize()
 		return false;
 	}
 
-	SoundManager::GetInstance()->LoadAudio("Resources/Sounds/Breezin.mp3", m_BGMusic, FMOD_LOOP_NORMAL);
-	SoundManager::GetInstance()->LoadAudio("Resources/Sounds/powerup.wav", m_EffectPowerup, FMOD_DEFAULT);
-	SoundManager::GetInstance()->LoadAudio("Resources/Sounds/pew.wav", m_EffectPew, FMOD_DEFAULT);
-	SoundManager::GetInstance()->LoadAudio("Resources/Sounds/spawning.wav", m_EffectSpawn, FMOD_DEFAULT);
-	SoundManager::GetInstance()->LoadAudio("Resources/Sounds/death.wav", m_EffectPlayerDeath, FMOD_DEFAULT);
-	SoundManager::GetInstance()->LoadAudio("Resources/Sounds/enemydeath.wav", m_EffectEnemyDeath, FMOD_DEFAULT);	
+	//LoadAudio("Resources/Sounds/Breezin.mp3", m_BGMusic, FMOD_LOOP_NORMAL);
+	//LoadAudio("Resources/Sounds/powerup.wav", m_EffectPowerup, FMOD_DEFAULT);
+	LoadAudio("Resources/Sounds/Shoot_1.wav", m_EffectPew, FMOD_DEFAULT);
+	//LoadAudio("Resources/Sounds/spawning.wav", m_EffectSpawn, FMOD_DEFAULT);
+	//LoadAudio("Resources/Sounds/death.wav", m_EffectPlayerDeath, FMOD_DEFAULT);
+	//LoadAudio("Resources/Sounds/enemydeath.wav", m_EffectEnemyDeath, FMOD_DEFAULT);	
+	//LoadAudio("Resources/Sounds/damage.wav", m_EffectDamage, FMOD_DEFAULT);
+
+	LoadAudio("Resources/Sounds/The Day Time Ran Away.mp3", m_BGMenu, FMOD_LOOP_NORMAL);
+
+	LoadAudio("Resources/Sounds/Facehammer.mp3", m_BGGame0, FMOD_LOOP_NORMAL);
+	LoadAudio("Resources/Sounds/Here Comes the 8-bit Empire.mp3", m_BGGame1, FMOD_LOOP_NORMAL);
+	LoadAudio("Resources/Sounds/Shell Shock Shake.mp3", m_BGGame2, FMOD_LOOP_NORMAL);
+	LoadAudio("Resources/Sounds/Shingle Tingle.mp3", m_BGGame3, FMOD_LOOP_NORMAL);
+	LoadAudio("Resources/Sounds/The Final End.mp3", m_BGGame4, FMOD_LOOP_NORMAL);
+
+	BGMPlaylist.push_back(m_BGGame0);
+	BGMPlaylist.push_back(m_BGGame1);
+	BGMPlaylist.push_back(m_BGGame2);
+	BGMPlaylist.push_back(m_BGGame3);
+	BGMPlaylist.push_back(m_BGGame4);
 
 	return true;
 }
@@ -97,10 +118,16 @@ const bool SoundManager::LoadAudio(const char * _path, FMOD::Sound * &_sound, in
 
 	result = m_audioMgr->createSound(_path,
 		FMOD_DEFAULT, 0, &_sound);
-
+	if (result != FMOD_OK) {
+		return false;
+	}
 	_sound->setMode(_mode);
 
 	return true;
+}
+
+void SoundManager::Update() {
+	m_audioMgr->update();
 }
 
 //Name:			    ChangeVolume
@@ -129,10 +156,23 @@ void SoundManager::ChangeVolume()
 //Description:		Starts the background music playing
 //                  
 //                  
-void SoundManager::StartBGM()
+void SoundManager::StartMenuBGM()
 {			
-	m_audioMgr->playSound(m_BGMusic, 0, false, &m_MusicChannel);	
+	m_audioMgr->playSound(m_BGMenu, 0, false, &m_MusicChannel);	
 	m_MusicChannel->setVolume(m_fBGMVolume);	
+}
+
+//Name:			    StartLevelBGM
+//Parameters:		None
+//Return Type:		None
+//Description:		Randoms and plays a song from the level playlist
+//                  
+//   
+void SoundManager::StartLevelBGM()
+{
+	std::random_shuffle(BGMPlaylist.begin(), BGMPlaylist.end());
+	m_audioMgr->playSound(BGMPlaylist.back(), 0, false, &m_MusicChannel);
+	m_MusicChannel->setVolume(m_fBGMVolume);
 }
 
 //Name:			    StopBGM
@@ -155,6 +195,14 @@ void SoundManager::StopBGM()
 void SoundManager::SoundPew()
 {	
 	m_audioMgr->playSound(m_EffectPew, 0, false, &m_EffectChannel);	
+	m_EffectChannel->setVolume(m_fEffectsVolume);
+}
+
+void
+SoundManager::SoundTakeDamage()
+{
+		//	Add sound for this.
+	m_audioMgr->playSound(m_EffectDamage, 0, false, &m_EffectChannel);
 	m_EffectChannel->setVolume(m_fEffectsVolume);
 }
 

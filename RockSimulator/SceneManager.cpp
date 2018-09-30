@@ -23,12 +23,12 @@ void SceneManager::DestroyInstance()
 
 SceneManager::SceneManager()
 {
-	m_LevelOneScene = std::make_shared<LevelOne>();
+	m_pLevelOneScene = std::make_shared<LevelOne>();
 
 	//Initializing the input manager
 	Input::GetInstance()->Initialize();
-	m_Clock = CClock::GetInstance();
-	m_Clock->Initialise();
+	m_pClock = CClock::GetInstance();
+	m_pClock->Initialise();
 }
 
 SceneManager::~SceneManager()
@@ -37,7 +37,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::RenderCurrentScene()
 {
-	switch (m_CurrentScene)
+	switch (m_iCurrentScene)
 	{
 	case MENU_SCENE:
 	{
@@ -46,7 +46,7 @@ void SceneManager::RenderCurrentScene()
 	}
 	case LEVEL1_SCENE:
 	{
-		m_LevelOneScene->RenderObjects();
+		m_pLevelOneScene->RenderObjects();
 		break;
 	}
 	}
@@ -54,9 +54,9 @@ void SceneManager::RenderCurrentScene()
 
 void SceneManager::UpdateCurrentScene()
 {
-	m_Clock->Process();
-	float fDeltaTick = m_Clock->GetDeltaTick() / 1000.0f;
-	switch (m_CurrentScene) {
+	m_pClock->Process();
+	float fDeltaTick = m_pClock->GetDeltaTick() / 1000.0f;
+	switch (m_iCurrentScene) {
 	case MENU_SCENE:
 	{
 
@@ -64,7 +64,7 @@ void SceneManager::UpdateCurrentScene()
 	}
 	case LEVEL1_SCENE: 
 	{
-		m_LevelOneScene->ProcessLevel(fDeltaTick);
+		m_pLevelOneScene->ProcessLevel(fDeltaTick);
 		break;
 	}
 	default:break;
@@ -73,7 +73,7 @@ void SceneManager::UpdateCurrentScene()
 
 void SceneManager::SetCurrentScene(SceneState _scene)
 {
-	m_CurrentScene = _scene;
+	m_iCurrentScene = _scene;
 }
 
 void SceneManager::InitializeScene(SceneState _scene)
@@ -88,7 +88,7 @@ void SceneManager::InitializeScene(SceneState _scene)
 	}
 	case LEVEL1_SCENE:
 	{
-		m_LevelOneScene->InitializeObjects();
+		m_pLevelOneScene->InitializeObjects();
 		break;
 	}
 	}	
