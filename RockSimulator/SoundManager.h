@@ -44,7 +44,7 @@ public:
 	void SoundTakeDamage();
 
 	//engine functions
-	void PlayEngine(unsigned int _PlayerIndex, bool _EnablePlayback);
+	void ToggleEngineSound(unsigned int _PlayerIndex, bool _EnablePlayback);
 	void SetEngineVolume(unsigned int _PlayerIndex, float _Vol);
 
 protected:

@@ -153,11 +153,11 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	}
 	if (Input::m_iKeyState['w'] == INPUT_FIRST_PRESS || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_PRESS) {
 		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
-		SoundManager::GetInstance()->PlayEngine(0, m_pPlayerOne->GetPlayerAccelerate());
+		SoundManager::GetInstance()->ToggleEngineSound(0, m_pPlayerOne->GetPlayerAccelerate());
 	}
 	if (Input::m_iKeyState['w'] == INPUT_FIRST_RELEASE || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_RELEASE) {
 		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
-		SoundManager::GetInstance()->PlayEngine(0, m_pPlayerOne->GetPlayerAccelerate());
+		SoundManager::GetInstance()->ToggleEngineSound(0, m_pPlayerOne->GetPlayerAccelerate());
 	}
 
 	if (Input::m_iKeyState['s'] == INPUT_HOLD || p0_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {

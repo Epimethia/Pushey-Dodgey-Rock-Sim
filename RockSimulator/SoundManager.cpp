@@ -206,7 +206,13 @@ SoundManager::SoundTakeDamage()
 	m_EffectChannel->setVolume(m_fEffectsVolume);
 }
 
-void SoundManager::PlayEngine(unsigned int _PlayerIndex, bool _EnablePlayback) {
+//Name:			    ToggleEngineSound
+//Parameters:		unsigned int, bool
+//Return Type:		None
+//Description:		Toggles the engine sound loop for the specified player index
+//                  
+//      
+void SoundManager::ToggleEngineSound(unsigned int _PlayerIndex, bool _EnablePlayback) {
 	switch (_PlayerIndex)
 	{
 		case 0: {
@@ -232,6 +238,12 @@ void SoundManager::PlayEngine(unsigned int _PlayerIndex, bool _EnablePlayback) {
 
 }
 
+//Name:			    SetEngineVolume
+//Parameters:		unsinged int, float
+//Return Type:		None
+//Description:		Sets the volume for the specified channel
+//                  
+//      
 void SoundManager::SetEngineVolume(unsigned int _PlayerIndex, float _Vol)
 {
 	switch (_PlayerIndex)
