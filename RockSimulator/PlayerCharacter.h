@@ -25,6 +25,7 @@ public:
 	void AddVelocity(float _Speed);
 	void AddRotation(float _Angle);
 	void SetPosition(b2Vec2 _position);
+	float GetCurrentSpeed();
 	void Shoot();
 	glm::vec2 GetPosition() { return glm::vec2(m_body->GetPosition().x, m_body->GetPosition().y); }
 	float GetVibrateRate() { return m_fVibrationRate; };	
@@ -33,7 +34,7 @@ public:
 	void InitializeDebugDraw();
 	void LinkScore(short* _Deaths);
 	void Respawn();
-
+	bool& GetPlayerAccelerate() { return m_bPlayerAccelerating; };
 
 private:
 	float m_fVibrationRate;	
@@ -41,5 +42,6 @@ private:
 	short* m_pDeaths{ 0 };	
 	Projectile* Bullet;
 	bool m_bPlayerDead;
+	bool m_bPlayerAccelerating;
 };
 

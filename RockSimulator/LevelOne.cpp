@@ -148,7 +148,18 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	p0_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
 	if (Input::m_iKeyState['w'] == INPUT_HOLD || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
 		m_pPlayerOne->AddVelocity(40.0f * _DeltaTick);
+		
+		SoundManager::GetInstance()->SetEngineVolume(0, m_pPlayerOne->GetCurrentSpeed()/2.0f);
 	}
+	if (Input::m_iKeyState['w'] == INPUT_FIRST_PRESS || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_PRESS) {
+		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
+		SoundManager::GetInstance()->PlayEngine(0, m_pPlayerOne->GetPlayerAccelerate());
+	}
+	if (Input::m_iKeyState['w'] == INPUT_FIRST_RELEASE || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_RELEASE) {
+		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
+		SoundManager::GetInstance()->PlayEngine(0, m_pPlayerOne->GetPlayerAccelerate());
+	}
+
 	if (Input::m_iKeyState['s'] == INPUT_HOLD || p0_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
 		m_pPlayerOne->AddVelocity(-40.0f * _DeltaTick);
 	}

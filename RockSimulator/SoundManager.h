@@ -42,7 +42,11 @@ public:
 	void SoundEnemyDeath();
 	void SoundPowerup();
 	void SoundTakeDamage();
-	
+
+	//engine functions
+	void PlayEngine(unsigned int _PlayerIndex, bool _EnablePlayback);
+	void SetEngineVolume(unsigned int _PlayerIndex, float _Vol);
+
 protected:
 
 private:
@@ -51,6 +55,9 @@ private:
 	FMOD::System* m_audioMgr;
 	FMOD::Channel* m_MusicChannel;		
 	FMOD::Channel* m_EffectChannel;
+
+	FMOD::Channel* m_POneEngineChannel;
+	FMOD::Channel* m_PTwoEngineChannel;
 
 	FMOD::Sound* m_BGMenu;
 	FMOD::Sound* m_BGGame0;
@@ -62,6 +69,7 @@ private:
 	std::vector<FMOD::Sound*> BGMPlaylist;
 
 	FMOD::Sound* m_EffectPew;
+	FMOD::Sound* m_EffectRocket;
 	FMOD::Sound* m_EffectSpawn;
 	FMOD::Sound* m_EffectPlayerDeath;
 	FMOD::Sound* m_EffectEnemyDeath;

@@ -28,6 +28,7 @@ PlayerCharacter::PlayerCharacter()
 
 	Bullet = nullptr;
 	m_bDebugDrawEnabled = true;
+	m_bPlayerAccelerating = false;
 }
 
 void PlayerCharacter::InitializeDebugDraw() {
@@ -155,7 +156,7 @@ void PlayerCharacter::Update()
 	if (m_body->GetPosition().y > 9.5f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -0.4f), m_body->GetAngle());
 
 	m_fVibrationRate *= 0.90f;
-	m_body->SetLinearVelocity(0.98f * m_body->GetLinearVelocity());
+	m_body->SetLinearVelocity(0.995f * m_body->GetLinearVelocity());
 	m_body->SetAngularVelocity(0.975f * m_body->GetAngularVelocity());
 
 	if (Bullet != nullptr) {
@@ -196,9 +197,14 @@ void PlayerCharacter::SetPosition(b2Vec2 _position)
 	m_body->SetTransform(_position, m_body->GetAngle());
 }
 
+float PlayerCharacter::GetCurrentSpeed()
+{
+	b2Vec2 speed = m_body->GetLinearVelocity();
+	return std::pow(speed.Normalize(), 2.0f);
+}
+
 void PlayerCharacter::Shoot()
 {
-
 	//getting the position of the bullet spawn
 	if (Bullet == nullptr) {
 		b2Vec2 Direction = m_body->GetWorldVector(b2Vec2(0, 1));
@@ -227,3 +233,5 @@ void PlayerCharacter::Respawn()
 	m_body->SetTransform(b2Vec2(3.0f, 4.5f), 0.0f);
 	m_fHealth = 100.0f;
 }
+
+

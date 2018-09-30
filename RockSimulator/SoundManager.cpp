@@ -56,7 +56,7 @@ SoundManager::~SoundManager()
 //                  
 SoundManager::SoundManager()
 {	
-	m_fBGMVolume = 0.4f;
+	m_fBGMVolume = 0.08f;
 	m_fEffectsVolume = 1.0f;	
 }
 
@@ -81,9 +81,9 @@ bool SoundManager::Initialize()
 		return false;
 	}
 
-	//LoadAudio("Resources/Sounds/Breezin.mp3", m_BGMusic, FMOD_LOOP_NORMAL);
 	//LoadAudio("Resources/Sounds/powerup.wav", m_EffectPowerup, FMOD_DEFAULT);
 	LoadAudio("Resources/Sounds/Shoot_1.wav", m_EffectPew, FMOD_DEFAULT);
+	LoadAudio("Resources/Sounds/Rocket_Boost.wav", m_EffectRocket, FMOD_LOOP_NORMAL);
 	//LoadAudio("Resources/Sounds/spawning.wav", m_EffectSpawn, FMOD_DEFAULT);
 	//LoadAudio("Resources/Sounds/death.wav", m_EffectPlayerDeath, FMOD_DEFAULT);
 	//LoadAudio("Resources/Sounds/enemydeath.wav", m_EffectEnemyDeath, FMOD_DEFAULT);	
@@ -204,6 +204,49 @@ SoundManager::SoundTakeDamage()
 		//	Add sound for this.
 	m_audioMgr->playSound(m_EffectDamage, 0, false, &m_EffectChannel);
 	m_EffectChannel->setVolume(m_fEffectsVolume);
+}
+
+void SoundManager::PlayEngine(unsigned int _PlayerIndex, bool _EnablePlayback) {
+	switch (_PlayerIndex)
+	{
+		case 0: {
+			if (_EnablePlayback) {
+				m_audioMgr->playSound(m_EffectRocket, 0, false, &m_POneEngineChannel);
+				m_POneEngineChannel->setVolume(0.0f);
+				break;
+			}
+			m_POneEngineChannel->stop();
+			break;
+		}
+		case 1: {
+			if (_EnablePlayback) {
+				m_audioMgr->playSound(m_EffectRocket, 0, false, &m_PTwoEngineChannel);
+				m_PTwoEngineChannel->setVolume(0.0f);
+				break;
+			}
+			m_PTwoEngineChannel->stop();
+			break;
+		}
+	default:break;
+	}
+
+}
+
+void SoundManager::SetEngineVolume(unsigned int _PlayerIndex, float _Vol)
+{
+	switch (_PlayerIndex)
+	{
+	case 0: {
+		m_POneEngineChannel->setVolume(_Vol);
+		break;
+	}
+	case 1: {
+		m_PTwoEngineChannel->setVolume(_Vol);
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 //Name:			    SoundSpawn
