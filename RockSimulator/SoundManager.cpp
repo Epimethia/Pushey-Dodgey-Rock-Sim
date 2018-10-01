@@ -84,6 +84,8 @@ bool SoundManager::Initialize()
 	//LoadAudio("Resources/Sounds/powerup.wav", m_EffectPowerup, FMOD_DEFAULT);
 	LoadAudio("Resources/Sounds/Shoot_1.wav", m_EffectPew, FMOD_DEFAULT);
 	LoadAudio("Resources/Sounds/Rocket_Boost.wav", m_EffectRocket, FMOD_LOOP_NORMAL);
+	LoadAudio("Resources/Sounds/Menu_Move.wav", m_EffectMenuMove, FMOD_DEFAULT);
+	LoadAudio("Resources/Sounds/Menu_Close.wav", m_EffectMenuClose, FMOD_DEFAULT);
 	//LoadAudio("Resources/Sounds/spawning.wav", m_EffectSpawn, FMOD_DEFAULT);
 	//LoadAudio("Resources/Sounds/death.wav", m_EffectPlayerDeath, FMOD_DEFAULT);
 	//LoadAudio("Resources/Sounds/enemydeath.wav", m_EffectEnemyDeath, FMOD_DEFAULT);	
@@ -203,6 +205,18 @@ SoundManager::SoundTakeDamage()
 {
 		//	Add sound for this.
 	m_audioMgr->playSound(m_EffectDamage, 0, false, &m_EffectChannel);
+	m_EffectChannel->setVolume(m_fEffectsVolume);
+}
+
+void SoundManager::SoundMenuMove()
+{
+	m_audioMgr->playSound(m_EffectMenuMove, 0, false, &m_EffectChannel);
+	m_EffectChannel->setVolume(m_fEffectsVolume);
+}
+
+void SoundManager::SoundMenuClose()
+{
+	m_audioMgr->playSound(m_EffectMenuClose, 0, false, &m_EffectChannel);
 	m_EffectChannel->setVolume(m_fEffectsVolume);
 }
 

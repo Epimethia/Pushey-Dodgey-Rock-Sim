@@ -43,13 +43,14 @@ public:
 private:
 	static std::shared_ptr<Input> s_pInput;
 	Input(Input const&);
-	void operator=(Input const&);
+	void operator=(Input const&) {};
 	Input();
 
 #pragma endregion
 
 public:
-	static unsigned int m_iKeyState[255];
+	static unsigned int m_iKeyState[256];
+	static unsigned int m_iSpecialKeyState[256];
 	static unsigned int m_iMouseState[3];
 
 	// Setters
@@ -62,11 +63,12 @@ public:
 	// Other Functions
 	static void Initialize();
 	static void Update();
-	void ProcessNormalKeysDown(unsigned char _key, int _x, int _y);
-	void ProcessNormalKeysUp(unsigned char _key, int _x, int _y);
-	void ProcessSpecialKeys(int _key, int _x, int _y);
-	void MouseButton(int _button, int _state, int _x, int _y);
-	void MouseInput(int _x, int _y);
+	static void ProcessNormalKeysDown(unsigned char _key, int _x, int _y);
+	static void ProcessNormalKeysUp(unsigned char _key, int _x, int _y);
+	static void ProcessSpecialKeyDown(int _key, int _x, int _y);
+	static void ProcessSpecialKeyUp(int _key, int _x, int _y);
+	static void MouseButton(int _button, int _state, int _x, int _y);
+	static void MouseInput(int _x, int _y);
 
 private:
 	glm::vec2 m_vMousePos;

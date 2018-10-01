@@ -13,6 +13,7 @@ class Camera;
 class Sprite;
 class Input;
 class TextLabel;
+struct Option;
 
 class MainMenu
 {
@@ -27,9 +28,11 @@ public:
 	void AddOption();
 
 private:
+
 	std::shared_ptr<TextLabel> MenuTitle;
-	std::vector<std::shared_ptr<TextLabel>> MenuOptions;
+
+	std::shared_ptr<Option> OptArr[3];
 	void ProcessPlayerInput();
 	std::shared_ptr<Sprite> m_pBackground;
+	unsigned int CurrentOpt;
 };
-

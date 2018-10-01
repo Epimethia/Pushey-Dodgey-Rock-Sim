@@ -42,6 +42,8 @@ public:
 	void SoundEnemyDeath();
 	void SoundPowerup();
 	void SoundTakeDamage();
+	void SoundMenuMove();
+	void SoundMenuClose();
 
 	//engine functions
 	void ToggleEngineSound(unsigned int _PlayerIndex, bool _EnablePlayback);
@@ -74,6 +76,8 @@ private:
 	FMOD::Sound* m_EffectPlayerDeath;
 	FMOD::Sound* m_EffectEnemyDeath;
 	FMOD::Sound* m_EffectPowerup;
+	FMOD::Sound* m_EffectMenuMove;
 	FMOD::Sound* m_EffectDamage;
+	FMOD::Sound* m_EffectMenuClose;
 };
 

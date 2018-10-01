@@ -16,16 +16,17 @@
 #include <iostream>
 
 std::shared_ptr<Input> Input::s_pInput;
-unsigned int Input::m_iKeyState[255];
+unsigned int Input::m_iKeyState[256];
+unsigned int Input::m_iSpecialKeyState[256];
 unsigned int Input::m_iMouseState[3];
 
 
-// Prototypes
-void LprocessNormalKeysDown(unsigned char _key, int _x, int _y);
-void LprocessNormalKeysUp(unsigned char _key, int _x, int _y);
-void LprocessSpecialKeys(int _key, int _x, int _y);
-void LmouseButton(int _button, int _state, int _x, int _y);
-void LmouseInput(int _x, int _y);
+//// Prototypes
+//void LprocessNormalKeysDown(unsigned char _key, int _x, int _y);
+//void LprocessNormalKeysUp(unsigned char _key, int _x, int _y);
+//void LprocessSpecialKeysDown(int _key, int _x, int _y);
+//void LmouseButton(int _button, int _state, int _x, int _y);
+//void LmouseInput(int _x, int _y);
 
 //Name:			    GetInstance
 //Parameters:		None
@@ -83,8 +84,11 @@ Input::Input()
 void Input::Initialize()
 {
 	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
-	for (int i = 0; i < 255; ++i) {
+	for (int i = 0; i < 256; ++i) {
 		m_iKeyState[i] = INPUT_RELEASED;
+	}
+	for (int i = 0; i < 256; ++i) {
+		m_iSpecialKeyState[i] = INPUT_RELEASED;
 	}
 	for (int i = 0; i < 3; ++i) {
 		m_iMouseState[i] = INPUT_RELEASED;
@@ -100,15 +104,17 @@ void Input::Initialize()
 void Input::Update()
 {
 	//Running the OpenGL input functions
-	glutKeyboardFunc(LprocessNormalKeysDown);
-	glutKeyboardUpFunc(LprocessNormalKeysUp);
-	glutSpecialFunc(LprocessSpecialKeys);
-	glutPassiveMotionFunc(LmouseInput);
-	glutMotionFunc(LmouseInput);
-	glutMouseFunc(LmouseButton);
+	glutKeyboardFunc(ProcessNormalKeysDown);
+	glutKeyboardUpFunc(ProcessNormalKeysUp);
+	glutSpecialFunc(ProcessSpecialKeyDown);
+	glutSpecialUpFunc(ProcessSpecialKeyUp);
+	
+	//glutPassiveMotionFunc(LprocessNormalKeysDown);
+	//glutMotionFunc(LmouseInput);
+	//glutMouseFunc(LmouseButton);
 
 	//Processing all of the keys
-	for (int i = 0; i < 255; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		if (m_iKeyState[i] == INPUT_FIRST_PRESS)
 		{
@@ -116,6 +122,18 @@ void Input::Update()
 		}
 		else if (m_iKeyState[i] == INPUT_FIRST_RELEASE) {
 			m_iKeyState[i] = INPUT_RELEASED;
+		}
+	}
+
+	//Processing all of the special keys
+	for (int i = 0; i < 256; i++)
+	{
+		if (m_iSpecialKeyState[i] == INPUT_FIRST_PRESS)
+		{
+			m_iSpecialKeyState[i] = INPUT_HOLD;
+		}
+		else if (m_iSpecialKeyState[i] == INPUT_FIRST_RELEASE) {
+			m_iSpecialKeyState[i] = INPUT_RELEASED;
 		}
 	}
 
@@ -157,31 +175,14 @@ void Input::ProcessNormalKeysUp(unsigned char _key, int _x, int _y)
 //Description:		Processes special key states
 //                  
 //                  
-void Input::ProcessSpecialKeys(int _key, int _x, int _y)
+void Input::ProcessSpecialKeyDown(int _key, int _x, int _y)
 {
-	switch (_key)
-	{
-	case GLUT_KEY_UP:
-	{
+	m_iSpecialKeyState[_key] = INPUT_FIRST_PRESS;
+}
 
-		break;
-	}
-	case GLUT_KEY_DOWN:
-	{
-
-		break;
-	}
-	case GLUT_KEY_LEFT:
-	{
-
-		break;
-	}
-	case GLUT_KEY_RIGHT:
-	{
-
-		break;
-	}
-	}
+void Input::ProcessSpecialKeyUp(int _key, int _x, int _y)
+{
+	m_iSpecialKeyState[_key] = INPUT_FIRST_RELEASE;
 }
 
 //Name:			    MouseButton
@@ -203,17 +204,6 @@ void Input::MouseButton(int _button, int _state, int _x, int _y)
 			m_iMouseState[_button] = INPUT_RELEASED;
 		}
 	}
-}
-
-//Name:			    MouseInput
-//Parameters:		int x and y
-//Return Type:		None
-//Description:		Sets the mouseposition 
-//                  
-//                  
-void Input::MouseInput(int _x, int _y)
-{
-	m_vMousePos = glm::vec2(_x, _y);
 }
 
 //Name:			    SetCursor
@@ -263,59 +253,3 @@ glm::vec2 Input::GetMouseWorldPos()
 
 	return glm::vec2(rayWorld.x, rayWorld.y);
 }
-
-//Name:			    LprocessNormalKeysDown
-//Parameters:		uchar key, x and y
-//Return Type:		None
-//Description:		Description
-//                  
-//                  
-void LprocessNormalKeysDown(unsigned char _key, int _x, int _y)
-{
-	Input::GetInstance()->ProcessNormalKeysDown(_key, _x, _y);
-}
-
-//Name:			    LprocessNormalKeysUp
-//Parameters:		uchar key, int x and y
-//Return Type:		None
-//Description:		Description
-//                  
-//                  
-void LprocessNormalKeysUp(unsigned char _key, int _x, int _y)
-{
-	Input::GetInstance()->ProcessNormalKeysUp(_key, _x, _y);
-}
-
-//Name:			    LprocessSpecialKeys
-//Parameters:		int key, x and y
-//Return Type:		None
-//Description:		Description
-//                  
-//                  
-void LprocessSpecialKeys(int _key, int _x, int _y)
-{
-	Input::GetInstance()->ProcessSpecialKeys(_key, _x, _y);
-}
-
-//Name:			    LmouseButton
-//Parameters:		int button, state, x and y
-//Return Type:		None
-//Description:		Description
-//                  
-//                  
-void LmouseButton(int _button, int _state, int _x, int _y)
-{
-	Input::GetInstance()->MouseButton(_button, _state, _x, _y);
-}
-
-//Name:			    LmouseInput
-//Parameters:		int x and y
-//Return Type:		None
-//Description:		Description
-//                  
-//                  
-void LmouseInput(int _x, int _y)
-{
-	Input::GetInstance()->MouseInput(_x, _y);
-}
-
