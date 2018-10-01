@@ -49,7 +49,12 @@
     <ClCompile Include="ContactListener.cpp">
       <Filter>NotEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="MenuLevel.cpp">
+      <Filter>NotEngine\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>NotEngine\Entities\Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -102,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>NotEngine\Entities\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuLevel.h">
+      <Filter>NotEngine\Levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

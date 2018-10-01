@@ -29,9 +29,9 @@ int main(int argc, char** argv)
 
 	std::srand(time(NULL));
 	// Set the starting scene
-	SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
+	SceneManager::GetInstance()->SetCurrentScene(MENU_SCENE);
 	// Initialize the starting scene
-	SceneManager::GetInstance()->InitializeScene(LEVEL1_SCENE);
+	SceneManager::GetInstance()->InitializeScene(MENU_SCENE);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 
 	glutDisplayFunc(Render);
