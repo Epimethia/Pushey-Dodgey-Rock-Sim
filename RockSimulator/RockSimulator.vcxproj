@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{3DDF6DC6-896B-4BF0-A4D6-C8AD1998C4E5}</ProjectGuid>
     <RootNamespace>RockSimulator</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -143,6 +143,7 @@
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="LevelOne.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuLevel.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="healthbar.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="LevelOne.h" />
+    <ClInclude Include="MenuLevel.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="Projectile.h" />

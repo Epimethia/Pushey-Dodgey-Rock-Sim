@@ -8,7 +8,6 @@
 #include "Projectile.h"
 #include "SoundManager.h"
 
-
 class Sprite;
 
 
@@ -28,26 +27,24 @@ public:
 	void AddVelocity(float _Speed);
 	void AddRotation(float _Angle);
 	void SetPosition(b2Vec2 _position);
+	float GetCurrentSpeed();
 	void Shoot();
 	glm::vec2 GetPosition() { return glm::vec2(m_body->GetPosition().x, m_body->GetPosition().y); }
-	float GetVibrateRate() { return m_fVibrationRate; };	
+	float GetVibrateRate() { return m_fVibrationRate; }	;	
 	bool GetPlayerDead() { return m_bPlayerDead; }
 	void Initialize();
 	void InitializeDebugDraw();
 	void LinkScore(short* _Deaths);
 	void Respawn();
 	float GetHealth();
-
+	bool& GetPlayerAccelerate() { return m_bPlayerAccelerating; };
 
 private:
-	float m_fVibrationRate;
-
+	float m_fVibrationRate;	
 	float m_fHealth{ 0.0f };
-	short* m_pDeaths{ 0 };
-
+	short* m_pDeaths{ 0 };	
 	Projectile* Bullet;
 	bool m_bPlayerDead;
-
-
+	bool m_bPlayerAccelerating;
 };
 

@@ -46,14 +46,17 @@
     <ClCompile Include="Entity.cpp">
       <Filter>NotEngine\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="ContactListener.cpp">
-      <Filter>NotEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Projectile.cpp">
       <Filter>NotEngine\Entities\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="healthbar.cpp">
       <Filter>NotEngine\HealthBar</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuLevel.cpp">
+      <Filter>NotEngine\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactListener.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,14 +105,17 @@
     <ClInclude Include="Entity.h">
       <Filter>NotEngine\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="ContactListener.h">
-      <Filter>NotEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>NotEngine\Entities\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="healthbar.h">
       <Filter>NotEngine\HealthBar</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuLevel.h">
+      <Filter>NotEngine\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactListener.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

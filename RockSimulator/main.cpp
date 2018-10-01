@@ -1,5 +1,5 @@
 //	Library includes.
-
+#include <time.h>
 
 //	Local includes.
 #include "Dependencies\glew\glew.h"
@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 	glutInit(&argc, argv);
 	glutSetOption(GLUT_MULTISAMPLE, 8);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
-	glutInitWindowPosition(100, 100);
+	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(ki_SCREENWIDTH, ki_SCREENHEIGHT);
 	glutCreateWindow("OpenGL First Window");
 	glEnable(GL_MULTISAMPLE);
@@ -27,6 +27,7 @@ int main(int argc, char** argv)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glewInit();
 
+	std::srand(time(NULL));
 	// Set the starting scene
 	SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
 	// Initialize the starting scene

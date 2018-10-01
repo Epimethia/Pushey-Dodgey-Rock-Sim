@@ -12,6 +12,7 @@
 
 #pragma once
 #include <memory>
+#include <vector>
 #include "Dependencies\FMOD\fmod.hpp"
 
 class SoundManager
@@ -30,8 +31,10 @@ private:
 public:
 	bool Initialize();
 	const bool LoadAudio(const char * _path, FMOD::Sound * &_sound, int _mode);
+	void Update();
 	void ChangeVolume();
-	void StartBGM();
+	void StartMenuBGM();
+	void StartLevelBGM();
 	void StopBGM();
 	void SoundPew();
 	void SoundSpawn();
@@ -39,7 +42,11 @@ public:
 	void SoundEnemyDeath();
 	void SoundPowerup();
 	void SoundTakeDamage();
-	
+
+	//engine functions
+	void ToggleEngineSound(unsigned int _PlayerIndex, bool _EnablePlayback);
+	void SetEngineVolume(unsigned int _PlayerIndex, float _Vol);
+
 protected:
 
 private:
@@ -48,8 +55,21 @@ private:
 	FMOD::System* m_audioMgr;
 	FMOD::Channel* m_MusicChannel;		
 	FMOD::Channel* m_EffectChannel;
-	FMOD::Sound* m_BGMusic;
+
+	FMOD::Channel* m_POneEngineChannel;
+	FMOD::Channel* m_PTwoEngineChannel;
+
+	FMOD::Sound* m_BGMenu;
+	FMOD::Sound* m_BGGame0;
+	FMOD::Sound* m_BGGame1;
+	FMOD::Sound* m_BGGame2;
+	FMOD::Sound* m_BGGame3;
+	FMOD::Sound* m_BGGame4;
+
+	std::vector<FMOD::Sound*> BGMPlaylist;
+
 	FMOD::Sound* m_EffectPew;
+	FMOD::Sound* m_EffectRocket;
 	FMOD::Sound* m_EffectSpawn;
 	FMOD::Sound* m_EffectPlayerDeath;
 	FMOD::Sound* m_EffectEnemyDeath;

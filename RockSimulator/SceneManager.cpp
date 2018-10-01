@@ -2,6 +2,7 @@
 #include "LevelOne.h"
 #include "Sprite.h"
 #include "clock.h"
+#include "MenuLevel.h"
 
 
 std::shared_ptr<SceneManager> SceneManager::s_pSceneManager;
@@ -24,6 +25,7 @@ void SceneManager::DestroyInstance()
 SceneManager::SceneManager()
 {
 	m_pLevelOneScene = std::make_shared<LevelOne>();
+	m_pMenuLevel = std::make_shared<MainMenu>();
 
 	//Initializing the input manager
 	Input::GetInstance()->Initialize();
@@ -41,7 +43,7 @@ void SceneManager::RenderCurrentScene()
 	{
 	case MENU_SCENE:
 	{
-
+		m_pMenuLevel->Render();
 		break;
 	}
 	case LEVEL1_SCENE:
@@ -59,7 +61,7 @@ void SceneManager::UpdateCurrentScene()
 	switch (m_iCurrentScene) {
 	case MENU_SCENE:
 	{
-
+		m_pMenuLevel->Process();
 		break;
 	}
 	case LEVEL1_SCENE: 
@@ -69,6 +71,7 @@ void SceneManager::UpdateCurrentScene()
 	}
 	default:break;
 	}
+	
 }
 
 void SceneManager::SetCurrentScene(SceneState _scene)
@@ -83,7 +86,7 @@ void SceneManager::InitializeScene(SceneState _scene)
 	{
 	case MENU_SCENE:
 	{
-
+		m_pMenuLevel->Init();
 		break;
 	}
 	case LEVEL1_SCENE:

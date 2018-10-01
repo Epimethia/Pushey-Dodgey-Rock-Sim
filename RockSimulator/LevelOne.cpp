@@ -20,12 +20,12 @@
 #include "TextLabel.h"
 #include "healthbar.h"
 
-
 LevelOne::LevelOne()
 {
 	m_pBackground = std::make_shared<Sprite>();	
 	Camera::GetInstance()->SetProj(ki_SCREENWIDTH, ki_SCREENHEIGHT);
 	Camera::GetInstance()->Update();
+	SoundManager::GetInstance()->Initialize();
 
 	m_pClock = &(*CClock::GetInstance());
 
@@ -80,14 +80,15 @@ void LevelOne::InitializeObjects()
 			m_vpEntityVec[i]->Initialize();
 		}
 	}
+	SoundManager::GetInstance()->StartLevelBGM();
 }
 
 void LevelOne::ProcessLevel(float _DeltaTick) {
 
 	// Process Physics
 	Physics::GetInstance()->Process();		
-
-	//Processing the palye rinput
+	SoundManager::GetInstance()->Update();
+	//Processing the player rinput
 	ProcessPlayerInput(_DeltaTick);
 
 	//Updating the keyboard input
@@ -164,8 +165,21 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	//PLAYER_0 INPUTS
 	auto& p0_Controller = m_pPlayerOneController;
 	p0_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
+
+	//accelerate while w key is held
 	if (Input::m_iKeyState['w'] == INPUT_HOLD || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
 		m_pPlayerOne->AddVelocity(40.0f * _DeltaTick);
+		SoundManager::GetInstance()->SetEngineVolume(0, m_pPlayerOne->GetCurrentSpeed() / 2.0f);
+	}
+	//if first press, begin the engine sound
+	if (Input::m_iKeyState['w'] == INPUT_FIRST_PRESS || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_PRESS) {
+		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
+		SoundManager::GetInstance()->ToggleEngineSound(0, m_pPlayerOne->GetPlayerAccelerate());
+	}
+	//if released, stop the engine sound
+	if (Input::m_iKeyState['w'] == INPUT_FIRST_RELEASE || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_RELEASE) {
+		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
+		SoundManager::GetInstance()->ToggleEngineSound(0, m_pPlayerOne->GetPlayerAccelerate());
 	}
 	if (Input::m_iKeyState['s'] == INPUT_HOLD || p0_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
 		m_pPlayerOne->AddVelocity(-40.0f * _DeltaTick);
@@ -237,12 +251,8 @@ void LevelOne::RenderObjects()
 			//it->DrawDebug();
 		}
 	}  
-
-
-
-
 	//	Render score.
-
 	//	m_sDeaths[1] + "    -    " + m_sDeaths[0];
 	//	m_fTimer;
 }
+
