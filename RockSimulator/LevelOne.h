@@ -29,12 +29,16 @@ public:
 	void InitializeObjects();
 	void RenderObjects();
 	void ProcessLevel(float _DeltaTick);
+	void SpawnAsteroids(float _DeltaTick);
+	void OffscreenCleanup();
+	void MoveAsteroids(float _DeltaTick);
+	void CheckPlayerDeaths();
 	void ResetLevel();
 	
 
 	void ProcessPlayerInput(float _DeltaTick);
 
-private:	
+private:		
 	std::vector<std::shared_ptr<Asteroid>> m_vpAsteroidVec;
 	std::vector<std::shared_ptr<Entity>> m_vpEntityVec;
 	std::shared_ptr<PlayerCharacter> m_pPlayerOne;
@@ -46,16 +50,14 @@ private:
 	std::shared_ptr<Sprite> m_pBackground;
 	std::shared_ptr<Camera> m_pCamera;
 	MyContactListener* m_pContactListener;
-	float m_fSpawnTime;
-
-	//	Cloe adding score and time.
+	float m_fSpawnTime;	
 	CClock* m_pClock{ nullptr };
 	short m_sDeathCount[2]{ 0, 0 };
 	float m_fTimer{ 0.0f };	
 	std::shared_ptr<TextLabel> m_text;
 	std::shared_ptr<TextLabel> m_P1Score;
 	std::shared_ptr<TextLabel> m_P2Score;
-
+	short m_sRoundCounter{ 1 };
 
 };
 

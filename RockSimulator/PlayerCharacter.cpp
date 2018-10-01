@@ -226,10 +226,15 @@ void PlayerCharacter::Respawn()
 	assert(m_body != nullptr);
 
 	*m_pDeaths += 1;
+	ResetPlayer();
+}
+
+void PlayerCharacter::ResetPlayer()
+{
 	m_bPlayerDead = false;
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
-	m_body->SetAngularVelocity(0.0f);	
+	m_body->SetAngularVelocity(0.0f);
 	m_body->SetTransform(b2Vec2(3.0f, 4.5f), 0.0f);
 	m_fHealth = 100.0f;
 }

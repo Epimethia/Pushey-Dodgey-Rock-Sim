@@ -36,6 +36,7 @@ public:
 	void InitializeDebugDraw();
 	void LinkScore(short* _Deaths);
 	void Respawn();
+	void ResetPlayer();
 	float GetHealth();
 	bool& GetPlayerAccelerate() { return m_bPlayerAccelerating; };
 

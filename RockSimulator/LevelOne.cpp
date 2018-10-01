@@ -84,11 +84,14 @@ void LevelOne::InitializeObjects()
 }
 
 void LevelOne::ProcessLevel(float _DeltaTick) {
+	// Increment timer
+	m_fTimer += _DeltaTick;
 
 	// Process Physics
 	Physics::GetInstance()->Process();		
 	SoundManager::GetInstance()->Update();
-	//Processing the player rinput
+
+	//Processing the player input
 	ProcessPlayerInput(_DeltaTick);
 
 	//Updating the keyboard input
@@ -102,22 +105,21 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	m_pPlayerOne->Update();
 	m_pPlayerTwo->Update();
 
-	if (m_pPlayerOne->GetPlayerDead())
-	{
-		m_pPlayerOne->Respawn();
-		m_vpAsteroidVec.clear();
-		m_fSpawnTime = 0.0f;
-		m_P2Score->SetText(std::to_string(m_sDeathCount[0]));
-	}
-	if (m_pPlayerTwo->GetPlayerDead())
-	{
-		m_pPlayerTwo->Respawn();
-		m_vpAsteroidVec.clear();
-		m_fSpawnTime = 0.0f;
-		m_P1Score->SetText(std::to_string(m_sDeathCount[1]));
-	}
+	// Checking for player death..
+	CheckPlayerDeaths(); 
 
 	// Spawn Asteroids
+	SpawnAsteroids(_DeltaTick);
+
+	// Move Asteroids
+	MoveAsteroids(_DeltaTick);
+
+	// Clean up offscreen asteroids
+	OffscreenCleanup();
+}
+
+void LevelOne::SpawnAsteroids(float _DeltaTick)
+{
 	m_fSpawnTime += _DeltaTick;
 	if (m_fSpawnTime > 1.0f)
 	{
@@ -127,34 +129,85 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 
 		std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>();
 		TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
-		TempAsteroid->Initialize();		
+		TempAsteroid->Initialize();
 		m_vpAsteroidVec.push_back(TempAsteroid);
 
 		// increment spawn timer
 		m_fSpawnTime = 0.0f;
 	}
+}
 
-	// Move Asteroids
-	for (unsigned int i = 0; i < m_vpAsteroidVec.size(); i++)
-	{
-		m_vpAsteroidVec[i]->AddVelocity(b2Vec2(1.0f, 0.0f), 50.0f * _DeltaTick);
-		// Destroy asteroid if it goes off screen
-		if (m_vpAsteroidVec[i]->GetPosition().x > 20.0f || m_vpAsteroidVec[i]->GetPosition().y > 20.0f
-		 || m_vpAsteroidVec[i]->GetPosition().x < -20.0f || m_vpAsteroidVec[i]->GetPosition().y < -20.0f)
-		{
-			m_vpAsteroidVec[i]->SetOffScreenBool(true);
-		}
-	}		
-
-	// Clean up offscreen asteroids
+void LevelOne::OffscreenCleanup()
+{
 	for (unsigned int i = 0; i < m_vpAsteroidVec.size(); i++)
 	{
 		if (m_vpAsteroidVec[i] != nullptr)
 		{
 			if (m_vpAsteroidVec[i]->GetOffScreenBool())
-			{				
+			{
 				m_vpAsteroidVec.erase(m_vpAsteroidVec.begin() + i);
 			}
+		}
+	}
+}
+
+void LevelOne::MoveAsteroids(float _DeltaTick)
+{
+	for (unsigned int i = 0; i < m_vpAsteroidVec.size(); i++)
+	{
+		m_vpAsteroidVec[i]->AddVelocity(b2Vec2(1.0f, 0.0f), 50.0f * _DeltaTick);
+		// Destroy asteroid if it goes off screen
+		if (m_vpAsteroidVec[i]->GetPosition().x > 20.0f || m_vpAsteroidVec[i]->GetPosition().y > 20.0f
+			|| m_vpAsteroidVec[i]->GetPosition().x < -20.0f || m_vpAsteroidVec[i]->GetPosition().y < -20.0f)
+		{
+			m_vpAsteroidVec[i]->SetOffScreenBool(true);
+		}
+	}
+}
+
+void LevelOne::CheckPlayerDeaths()
+{
+	if (m_pPlayerOne->GetPlayerDead())
+	{
+		// Reset players
+		m_pPlayerOne->Respawn();
+		m_pPlayerTwo->ResetPlayer();
+
+		// Reset asteroids
+		m_vpAsteroidVec.clear();
+		m_fSpawnTime = 0.0f;
+
+		// Increment score
+		m_P2Score->SetText(std::to_string(m_sDeathCount[0]));
+
+		// Check for win
+		if (m_sDeathCount[0] > 2)
+		{
+			// If player one has died more than two times, player two wins
+
+			// Do game won stuff here..
+		}
+	}
+	// Checking for player death..
+	if (m_pPlayerTwo->GetPlayerDead())
+	{
+		// Reset players
+		m_pPlayerTwo->Respawn();
+		m_pPlayerOne->ResetPlayer();
+
+		// Reset asteroids
+		m_vpAsteroidVec.clear();
+		m_fSpawnTime = 0.0f;
+
+		// Increment score
+		m_P1Score->SetText(std::to_string(m_sDeathCount[1]));
+
+		// Check for win
+		if (m_sDeathCount[1] > 2)
+		{
+			// If player two has died more than two times, player two wins
+
+			// Do game won stuff here..
 		}
 	}
 }
