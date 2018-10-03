@@ -33,9 +33,6 @@ public:
 	void OffscreenCleanup();
 	void MoveAsteroids(float _DeltaTick);
 	void CheckPlayerDeaths();
-	void ResetLevel();
-	
-
 	void ProcessPlayerInput(float _DeltaTick);
 
 private:		
@@ -53,7 +50,7 @@ private:
 	float m_fSpawnTime;	
 	CClock* m_pClock{ nullptr };
 	short m_sDeathCount[2]{ 0, 0 };
-	float m_fTimer{ 0.0f };	
+	float m_fTimer{ 94.0f };	
 	std::shared_ptr<TextLabel> m_P1Score;
 	std::shared_ptr<TextLabel> m_P2Score;
 	short m_sRoundCounter{ 1 };

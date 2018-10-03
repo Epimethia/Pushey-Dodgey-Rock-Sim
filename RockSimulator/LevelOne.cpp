@@ -87,6 +87,70 @@ void LevelOne::InitializeObjects()
 void LevelOne::ProcessLevel(float _DeltaTick) {
 	// Increment timer
 	m_fTimer += _DeltaTick;
+	if (m_fTimer >= 99.0f)
+	{
+		if (m_pPlayerOne->GetHealth() > m_pPlayerTwo->GetHealth())
+		{
+			// Reset timer
+			m_fTimer = 0.0f;
+
+			// Reset players
+			m_pPlayerTwo->Respawn();
+			m_pPlayerOne->ResetPlayer();
+
+			// Reset asteroids
+			m_vpAsteroidVec.clear();
+			m_fSpawnTime = 0.0f;
+
+			// Increment score
+			m_P1Score->SetText(std::to_string(m_sDeathCount[1]));
+
+			// Check for win
+			if (m_sDeathCount[1] > 2)
+			{
+				SceneManager::GetInstance()->InitializeScene(END_SCENE);
+				SceneManager::GetInstance()->SetWinner(0);
+				SceneManager::GetInstance()->SetCurrentScene(END_SCENE);
+			}
+		}
+		else if (m_pPlayerTwo->GetHealth() > m_pPlayerOne->GetHealth())
+		{
+			// Reset timer
+			m_fTimer = 0.0f;
+
+			// Reset players
+			m_pPlayerOne->Respawn();
+			m_pPlayerTwo->ResetPlayer();
+
+			// Reset asteroids
+			m_vpAsteroidVec.clear();
+			m_fSpawnTime = 0.0f;
+
+			// Increment score
+			m_P2Score->SetText(std::to_string(m_sDeathCount[0]));
+
+			// Check for win
+			if (m_sDeathCount[0] > 2)
+			{
+				SceneManager::GetInstance()->InitializeScene(END_SCENE);
+				SceneManager::GetInstance()->SetWinner(1);
+				SceneManager::GetInstance()->SetCurrentScene(END_SCENE);
+			}
+		}	
+		else
+		{
+			// Reset players
+			m_pPlayerOne->ResetPlayer();
+			m_pPlayerTwo->ResetPlayer();
+
+			// Reset asteroids
+			m_vpAsteroidVec.clear();
+			m_fSpawnTime = 0.0f;
+
+			// Reset timer
+			m_fTimer = 0.0f;			
+		}
+	}
 
 	// Process Physics
 	Physics::GetInstance()->Process();	
@@ -172,6 +236,9 @@ void LevelOne::CheckPlayerDeaths()
 {
 	if (m_pPlayerOne->GetPlayerDead())
 	{
+		// Reset timer
+		m_fTimer = 0.0f;
+
 		// Reset players
 		m_pPlayerOne->Respawn();
 		m_pPlayerTwo->ResetPlayer();
@@ -186,16 +253,17 @@ void LevelOne::CheckPlayerDeaths()
 		// Check for win
 		if (m_sDeathCount[0] > 2)
 		{
+			SceneManager::GetInstance()->InitializeScene(END_SCENE);
 			SceneManager::GetInstance()->SetWinner(1);
-			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);
-			// If player one has died more than two times, player two wins
-
-			// Do game won stuff here..
+			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);			
 		}
 	}
 	// Checking for player death..
 	if (m_pPlayerTwo->GetPlayerDead())
 	{
+		// Reset timer
+		m_fTimer = 0.0f;
+
 		// Reset players
 		m_pPlayerTwo->Respawn();
 		m_pPlayerOne->ResetPlayer();
@@ -209,11 +277,10 @@ void LevelOne::CheckPlayerDeaths()
 
 		// Check for win
 		if (m_sDeathCount[1] > 2)
-		{
-			// If player two has died more than two times, player two wins
+		{			
+			SceneManager::GetInstance()->InitializeScene(END_SCENE);
 			SceneManager::GetInstance()->SetWinner(0);
-			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);
-			// Do game won stuff here..
+			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);			
 		}
 	}
 }

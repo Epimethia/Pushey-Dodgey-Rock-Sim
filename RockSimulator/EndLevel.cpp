@@ -26,7 +26,7 @@ void EndLevel::Init()
 	EndTitle = std::make_shared<TextLabel>("Pushy Dodgy Rock Simulator", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(165.0f, 800.0f));
 	EndTitle->SetScale(1.6f);
 	
-	WinnerTitle = std::make_shared<TextLabel>("<Winning Player>", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(165.0f, 600.0f));
+	WinnerTitle = std::make_shared<TextLabel>("<Winning Player>", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(165.0f, 600.0f));	
 	WinnerTitle->SetScale(1.6f);
 
 	OptArr[0] = std::make_shared<Option>("Play Again", glm::vec2(630.0f, 430.0f), glm::vec2(565.0f, 420.0f));
