@@ -73,8 +73,6 @@ void LevelOne::InitializeObjects()
 	m_pContactListener->SetPlayer(&(*m_pPlayerOne));
 	m_pContactListener->SetPlayer(&(*m_pPlayerTwo));
 
-	m_text = std::make_shared<TextLabel>("PLAY", "Resources/Fonts/arial.ttf", glm::vec2(190.0f, 350.0f)); // Play Text	
-
 	// Iterate through the entity vector and initialize all objects
 	if (!m_vpEntityVec.empty())
 	{
@@ -304,7 +302,6 @@ void LevelOne::RenderObjects()
 	m_pP1HealthBar->Render();
 	m_pP2HealthBar->Render();
 
-	m_text->Render();
 	m_P1Score->Render();
 	m_P2Score->Render();
 
