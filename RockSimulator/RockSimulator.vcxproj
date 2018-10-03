@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{3DDF6DC6-896B-4BF0-A4D6-C8AD1998C4E5}</ProjectGuid>
     <RootNamespace>RockSimulator</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -138,6 +138,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="ContactListener.cpp" />
+    <ClCompile Include="EndLevel.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="healthbar.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
@@ -159,11 +160,13 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="ContactListener.h" />
+    <ClInclude Include="EndLevel.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="healthbar.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="LevelOne.h" />
     <ClInclude Include="MenuLevel.h" />
+    <ClInclude Include="Option.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="Projectile.h" />

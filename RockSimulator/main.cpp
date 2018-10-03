@@ -26,13 +26,13 @@ int main(int argc, char** argv)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glewInit();
-
-	std::srand(time(NULL));
-	// Set the starting scene
-	SceneManager::GetInstance()->SetCurrentScene(MENU_SCENE);
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	std::srand(static_cast<unsigned int>(time(NULL)));
 	// Initialize the starting scene
 	SceneManager::GetInstance()->InitializeScene(MENU_SCENE);
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	// Set the starting scene
+	SceneManager::GetInstance()->SetCurrentScene(MENU_SCENE);
+
 
 	glutDisplayFunc(Render);
 	glutIdleFunc(Update);

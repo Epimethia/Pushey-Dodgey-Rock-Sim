@@ -19,6 +19,7 @@
 #include "clock.h"
 #include "TextLabel.h"
 #include "healthbar.h"
+#include "SceneManager.h"
 
 LevelOne::LevelOne()
 {
@@ -90,7 +91,9 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	m_fTimer += _DeltaTick;
 
 	// Process Physics
-	Physics::GetInstance()->Process();		
+	Physics::GetInstance()->Process();	
+
+	//Process SoundManager
 	SoundManager::GetInstance()->Update();
 
 	//Processing the player input
@@ -185,6 +188,8 @@ void LevelOne::CheckPlayerDeaths()
 		// Check for win
 		if (m_sDeathCount[0] > 2)
 		{
+			SceneManager::GetInstance()->SetWinner(1);
+			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);
 			// If player one has died more than two times, player two wins
 
 			// Do game won stuff here..
@@ -208,7 +213,8 @@ void LevelOne::CheckPlayerDeaths()
 		if (m_sDeathCount[1] > 2)
 		{
 			// If player two has died more than two times, player two wins
-
+			SceneManager::GetInstance()->SetWinner(0);
+			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);
 			// Do game won stuff here..
 		}
 	}
@@ -218,57 +224,68 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 {
 	//Reading inputs
 	//PLAYER_0 INPUTS
-	auto& p0_Controller = m_pPlayerOneController;
-	p0_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
+	auto& p1_Controller = m_pPlayerOneController;
+	p1_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
 
 	//accelerate while w key is held
-	if (Input::m_iKeyState['w'] == INPUT_HOLD || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
+	if (Input::m_iKeyState['w'] == INPUT_HOLD || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
 		m_pPlayerOne->AddVelocity(40.0f * _DeltaTick);
-		SoundManager::GetInstance()->SetEngineVolume(0, m_pPlayerOne->GetCurrentSpeed() / 2.0f);
+		SoundManager::GetInstance()->SetEngineVolume(0, m_pPlayerOne->GetCurrentSpeed() / 50.0f);
 	}
 	//if first press, begin the engine sound
-	if (Input::m_iKeyState['w'] == INPUT_FIRST_PRESS || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_PRESS) {
+	if (Input::m_iKeyState['w'] == INPUT_FIRST_PRESS || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_PRESS) {
 		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
 		SoundManager::GetInstance()->ToggleEngineSound(0, m_pPlayerOne->GetPlayerAccelerate());
 	}
 	//if released, stop the engine sound
-	if (Input::m_iKeyState['w'] == INPUT_FIRST_RELEASE || p0_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_RELEASE) {
+	if (Input::m_iKeyState['w'] == INPUT_FIRST_RELEASE || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_RELEASE) {
 		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
 		SoundManager::GetInstance()->ToggleEngineSound(0, m_pPlayerOne->GetPlayerAccelerate());
 	}
-	if (Input::m_iKeyState['s'] == INPUT_HOLD || p0_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
-		m_pPlayerOne->AddVelocity(-40.0f * _DeltaTick);
-	}
-	if (Input::m_iKeyState['a'] == INPUT_HOLD || p0_Controller->normalizedLX < -0.8f) {
-		m_pPlayerOne->AddRotation(3.0f * _DeltaTick);
-	}
-	if (Input::m_iKeyState['d'] == INPUT_HOLD || p0_Controller->normalizedLX > 0.8f) {
-		m_pPlayerOne->AddRotation(-3.0f * _DeltaTick);
-	}
-	if (Input::m_iKeyState[32] == INPUT_FIRST_PRESS) {
+	//shoot when spacebar
+	if (Input::m_iKeyState[32] == INPUT_FIRST_PRESS || p1_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_FIRST_PRESS) {
 		m_pPlayerOne->Shoot();
 	}
 
-	//Reading inputs
+	//turn when a/d
+	if (Input::m_iKeyState['a'] == INPUT_HOLD || p1_Controller->normalizedLX < -0.8f) {
+		m_pPlayerOne->AddRotation(3.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['d'] == INPUT_HOLD || p1_Controller->normalizedLX > 0.8f) {
+		m_pPlayerOne->AddRotation(-3.0f * _DeltaTick);
+	}
+
 	//PLAYER_1 INPUTS
-	auto& p1_Controller = m_pPlayerTwoController;
+	auto& p2_Controller = m_pPlayerTwoController;
 	//Making the controller vibrate
-	p1_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerTwo->GetVibrateRate()));
-	if (Input::m_iKeyState['8'] == INPUT_HOLD || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
+	p2_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerTwo->GetVibrateRate()));
+	//accelerate while 8 key is held
+	if (Input::m_iKeyState['8'] == INPUT_HOLD || p2_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
 		m_pPlayerTwo->AddVelocity(40.0f * _DeltaTick);
+		SoundManager::GetInstance()->SetEngineVolume(1, m_pPlayerTwo->GetCurrentSpeed() / 50.0f);
 	}
-	if (Input::m_iKeyState['5'] == INPUT_HOLD || p1_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_HOLD) {
-		m_pPlayerTwo->AddVelocity(-40.0f * _DeltaTick);
+	//if first press, begin the engine sound
+	if (Input::m_iKeyState['8'] == INPUT_FIRST_PRESS || p2_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_PRESS) {
+		m_pPlayerTwo->GetPlayerAccelerate() = !m_pPlayerTwo->GetPlayerAccelerate();
+		SoundManager::GetInstance()->ToggleEngineSound(1, m_pPlayerTwo->GetPlayerAccelerate());
 	}
-	if (Input::m_iKeyState['4'] == INPUT_HOLD || p1_Controller->normalizedLX < -0.8f) {
-		m_pPlayerTwo->AddRotation(1.0f * _DeltaTick);
+	//if released, stop the engine sound
+	if (Input::m_iKeyState['8'] == INPUT_FIRST_RELEASE || p2_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_RELEASE) {
+		m_pPlayerTwo->GetPlayerAccelerate() = !m_pPlayerTwo->GetPlayerAccelerate();
+		SoundManager::GetInstance()->ToggleEngineSound(1, m_pPlayerTwo->GetPlayerAccelerate());
 	}
-	if (Input::m_iKeyState['6'] == INPUT_HOLD || p1_Controller->normalizedLX > 0.8f) {
-		m_pPlayerTwo->AddRotation(-1.0f * _DeltaTick);
-	}
-	if (Input::m_iKeyState['0'] == INPUT_FIRST_PRESS) {
+
+	if (Input::m_iKeyState['0'] == INPUT_FIRST_PRESS || p2_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_FIRST_PRESS) {
 		m_pPlayerTwo->Shoot();
 	}
+
+	if (Input::m_iKeyState['4'] == INPUT_HOLD || p2_Controller->normalizedLX < -0.8f) {
+		m_pPlayerTwo->AddRotation(3.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['6'] == INPUT_HOLD || p2_Controller->normalizedLX > 0.8f) {
+		m_pPlayerTwo->AddRotation(-3.0f * _DeltaTick);
+	}
+
 
 	//	Update Health.
 	glm::vec3 TempScale = m_pP1HealthBar->GetScale();
@@ -297,7 +314,6 @@ void LevelOne::RenderObjects()
 		for (const auto& it : m_vpEntityVec)
 		{
 			it->Render();
-			//it->DrawDebug();
 		}
 	}
 	
@@ -306,7 +322,6 @@ void LevelOne::RenderObjects()
 		for (const auto& it : m_vpAsteroidVec)
 		{
 			it->Render();
-			//it->DrawDebug();
 		}
 	}  
 	//	Render score.

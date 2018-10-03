@@ -58,6 +58,9 @@
     <ClCompile Include="ContactListener.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="EndLevel.cpp">
+      <Filter>NotEngine\Levels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -117,6 +120,12 @@
     <ClInclude Include="ContactListener.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="EndLevel.h">
+      <Filter>NotEngine\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Option.h">
+      <Filter>NotEngine\Levels\Options UI%27</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs">
@@ -159,6 +168,9 @@
     </Filter>
     <Filter Include="NotEngine\HealthBar">
       <UniqueIdentifier>{0cad809a-a2b9-4d1a-ba5d-c8275a53382d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Levels\Options UI%27">
+      <UniqueIdentifier>{8310f1bf-9afc-40cd-9adc-1087fe655262}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

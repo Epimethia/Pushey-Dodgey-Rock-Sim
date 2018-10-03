@@ -16,6 +16,10 @@
 #include "Dependencies\glm\gtc\type_ptr.hpp"
 #include "Utilities.h"
 
+TextLabel::TextLabel()
+{
+}
+
 //Name:			    TextLabel constructor
 //Parameters:		string newtext, string new font, text position
 //Return Type:		None

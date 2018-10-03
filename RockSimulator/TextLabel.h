@@ -38,6 +38,7 @@ struct Character
 
 class TextLabel {
 public:
+	TextLabel();
 	TextLabel(std::string text, std::string font, glm::vec2 pos);
 	~TextLabel();
 

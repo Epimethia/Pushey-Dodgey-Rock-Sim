@@ -56,8 +56,8 @@ SoundManager::~SoundManager()
 //                  
 SoundManager::SoundManager()
 {	
-	m_fBGMVolume = 0.08f;
-	m_fEffectsVolume = 1.0f;	
+	m_fBGMVolume = 0.16f;
+	m_fEffectsVolume = 0.8f;	
 }
 
 //Name:			    Initialize

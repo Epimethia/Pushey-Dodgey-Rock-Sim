@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "clock.h"
 #include "MenuLevel.h"
+#include "EndLevel.h"
 
 
 std::shared_ptr<SceneManager> SceneManager::s_pSceneManager;
@@ -25,7 +26,8 @@ void SceneManager::DestroyInstance()
 SceneManager::SceneManager()
 {
 	m_pLevelOneScene = std::make_shared<LevelOne>();
-	m_pMenuLevel = std::make_shared<MainMenu>();
+	m_pMenuLevelScene = std::make_shared<MainMenu>();
+	m_pEndLevelScene = std::make_shared<EndLevel>();
 
 	//Initializing the input manager
 	Input::GetInstance()->Initialize();
@@ -43,7 +45,7 @@ void SceneManager::RenderCurrentScene()
 	{
 	case MENU_SCENE:
 	{
-		m_pMenuLevel->Render();
+		m_pMenuLevelScene->Render();
 		break;
 	}
 	case LEVEL1_SCENE:
@@ -51,6 +53,11 @@ void SceneManager::RenderCurrentScene()
 		m_pLevelOneScene->RenderObjects();
 		break;
 	}
+	case END_SCENE: {
+		m_pEndLevelScene->Render();
+		break;
+	}
+	default:break;
 	}
 }
 
@@ -61,7 +68,7 @@ void SceneManager::UpdateCurrentScene()
 	switch (m_iCurrentScene) {
 	case MENU_SCENE:
 	{
-		m_pMenuLevel->Process();
+		m_pMenuLevelScene->ProcessLevel();
 		break;
 	}
 	case LEVEL1_SCENE: 
@@ -69,9 +76,17 @@ void SceneManager::UpdateCurrentScene()
 		m_pLevelOneScene->ProcessLevel(fDeltaTick);
 		break;
 	}
+	case END_SCENE: {
+		m_pEndLevelScene->ProcessLevel();
+	}
 	default:break;
 	}
 	
+}
+
+void SceneManager::SetWinner(unsigned int _WinningPlayer)
+{
+	m_pEndLevelScene->SetWinner(_WinningPlayer);
 }
 
 void SceneManager::SetCurrentScene(SceneState _scene)
@@ -84,15 +99,19 @@ void SceneManager::InitializeScene(SceneState _scene)
 	// Create the objects for the specified scene
 	switch (_scene)
 	{
-	case MENU_SCENE:
-	{
-		m_pMenuLevel->Init();
-		break;
-	}
-	case LEVEL1_SCENE:
-	{
-		m_pLevelOneScene->InitializeObjects();
-		break;
-	}
+		case MENU_SCENE:
+		{
+			m_pMenuLevelScene->Init();
+			break;
+		}
+		case LEVEL1_SCENE:
+		{
+			m_pLevelOneScene->InitializeObjects();
+			break;
+		}
+		case END_SCENE: {
+			m_pEndLevelScene->Init();
+		}
+	default:break;
 	}	
 }
