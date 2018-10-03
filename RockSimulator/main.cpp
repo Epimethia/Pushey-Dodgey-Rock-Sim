@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(ki_SCREENWIDTH, ki_SCREENHEIGHT);
-	glutCreateWindow("OpenGL First Window");
+	glutCreateWindow("Pushy Dodgey Rock Simulator");
 	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

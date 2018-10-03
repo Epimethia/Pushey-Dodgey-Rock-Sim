@@ -235,7 +235,7 @@ void PlayerCharacter::ResetPlayer()
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
 	m_body->SetAngularVelocity(0.0f);
-	m_body->SetTransform(b2Vec2(3.0f, 4.5f), 0.0f);
+	m_body->SetTransform(b2Vec2(m_spawnPosition.x, m_spawnPosition.y), 0.0f);
 	m_fHealth = 100.0f;
 }
 

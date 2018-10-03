@@ -54,6 +54,7 @@ void LevelOne::InitializeObjects()
 	// Push objects to their appropriate vectors
 	m_pPlayerOne = std::make_shared<PlayerCharacter>();	
 	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));	
+	m_pPlayerOne->SetSpawnPosition(glm::vec3(3.0f, 4.5f, 0.0f));
 	m_vpEntityVec.push_back(m_pPlayerOne);
 	m_pPlayerOne->LinkScore(&m_sDeathCount[0]);
 	std::string ScoreText1 = "xesrt4574rdyh";//std::to_string(m_sDeathCount[1]);
@@ -61,6 +62,7 @@ void LevelOne::InitializeObjects()
 
 	m_pPlayerTwo = std::make_shared<PlayerCharacter>();	
 	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));	
+	m_pPlayerTwo->SetSpawnPosition(glm::vec3(13.0f, 4.5f, 0.0f));
 	m_vpEntityVec.push_back(m_pPlayerTwo);
 	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
 	std::string ScoreText2 = std::to_string(m_sDeathCount[0]);
@@ -243,7 +245,7 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	if (Input::m_iKeyState['d'] == INPUT_HOLD || p0_Controller->normalizedLX > 0.8f) {
 		m_pPlayerOne->AddRotation(-3.0f * _DeltaTick);
 	}
-	if (Input::m_iKeyState['f'] == INPUT_FIRST_PRESS) {
+	if (Input::m_iKeyState[32] == INPUT_FIRST_PRESS) {
 		m_pPlayerOne->Shoot();
 	}
 
@@ -263,6 +265,9 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	}
 	if (Input::m_iKeyState['6'] == INPUT_HOLD || p1_Controller->normalizedLX > 0.8f) {
 		m_pPlayerTwo->AddRotation(-1.0f * _DeltaTick);
+	}
+	if (Input::m_iKeyState['0'] == INPUT_FIRST_PRESS) {
+		m_pPlayerTwo->Shoot();
 	}
 
 	//	Update Health.

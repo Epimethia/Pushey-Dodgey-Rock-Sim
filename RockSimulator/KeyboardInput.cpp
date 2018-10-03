@@ -83,7 +83,7 @@ Input::Input()
 //                  
 void Input::Initialize()
 {
-	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
+	glutSetCursor(GLUT_CURSOR_NONE);
 	for (int i = 0; i < 256; ++i) {
 		m_iKeyState[i] = INPUT_RELEASED;
 	}
