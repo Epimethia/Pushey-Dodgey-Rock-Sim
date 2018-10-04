@@ -27,7 +27,7 @@ PlayerCharacter::PlayerCharacter()
 	m_body->CreateFixture(&fixtureDef);
 
 	Bullet = nullptr;
-	m_bDebugDrawEnabled = true;
+	m_bDebugDrawEnabled = false;
 	m_bPlayerAccelerating = false;
 }
 
@@ -91,8 +91,15 @@ PlayerCharacter::~PlayerCharacter()
 }
 
 void PlayerCharacter::Initialize()
-{
-	m_Sprite->Initialize("Resources/Images/Player_Sprite.png");
+{	
+	if (m_kcPlayerTexture == nullptr)
+	{
+		m_Sprite->Initialize("Resources/Images/Player_Sprite.png");
+	}
+	else
+	{
+		m_Sprite->Initialize(m_kcPlayerTexture);
+	}	
 	InitializeDebugDraw();
 }
 
@@ -242,4 +249,9 @@ void PlayerCharacter::ResetPlayer()
 float PlayerCharacter::GetHealth()
 {
 	return m_fHealth;
+}
+
+void PlayerCharacter::SetPlayerTexture(const char * _texturePath)
+{
+	m_kcPlayerTexture = _texturePath;
 }

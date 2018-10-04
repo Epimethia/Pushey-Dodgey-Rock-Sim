@@ -41,6 +41,7 @@ public:
 	float GetHealth();
 	bool& GetPlayerAccelerate() { return m_bPlayerAccelerating; };
 	void SetSpawnPosition(glm::vec3 _vec) { m_spawnPosition = _vec; }
+	void SetPlayerTexture(const char* _texturePath);
 
 private:
 	float m_fVibrationRate;	
@@ -50,6 +51,7 @@ private:
 	glm::vec3 m_spawnPosition;
 	bool m_bPlayerDead;
 	bool m_bPlayerAccelerating;
+	const char* m_kcPlayerTexture{ nullptr };
 
 
 };

@@ -34,6 +34,7 @@ public:
 	void InitializeScene(SceneState);
 	void RenderCurrentScene();
 	void UpdateCurrentScene();
+	void RestartLevelOne();
 	void SetWinner(unsigned int _WinningPlayer);
 
 private:

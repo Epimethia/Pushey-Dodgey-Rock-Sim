@@ -43,6 +43,7 @@ MyContactListener::BeginContact(b2Contact* contact)
 	std::cout << "Impact " << std::endl;
 	unsigned int iX = 0;
 	unsigned int iY = 0;
+		
 	while (m_vPlayers.size() > iX)
 	{
 		if (contact->GetFixtureA()->GetBody() == m_vPlayers[iX]->GetBody())
@@ -54,9 +55,12 @@ MyContactListener::BeginContact(b2Contact* contact)
 		}
 		iX++;
 	}
-	
-	while (m_vPlayers.size() > iY)
+	if (m_vPlayers.size() <= iX)
 	{
+		return;
+	}
+	while (m_vPlayers.size() > iY)
+	{		
 		if (contact->GetFixtureA()->GetBody()->GetContactList()->other == m_vPlayers[iY]->GetBody()
 			&& m_vPlayers[iY]->GetBody() != m_vPlayers[iX]->GetBody())
 		{

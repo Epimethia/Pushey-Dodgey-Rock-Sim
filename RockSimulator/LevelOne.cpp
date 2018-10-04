@@ -37,7 +37,18 @@ LevelOne::LevelOne()
 
 LevelOne::~LevelOne()
 {
-
+	m_vpAsteroidVec.clear();
+	m_vpEntityVec.clear();
+	m_pPlayerOne.reset();
+	m_pPlayerTwo.reset();
+	m_pP1HealthBar.reset();
+	m_pP2HealthBar.reset();
+	m_pPlayerOneController.reset();
+	m_pPlayerTwoController.reset();
+	m_pBackground.reset();	
+	m_pP1Score.reset();
+	m_pP2Score.reset();
+	m_pTimeDisplay.reset();
 }
 
 void LevelOne::InitializeObjects()
@@ -56,6 +67,7 @@ void LevelOne::InitializeObjects()
 	m_pPlayerOne = std::make_shared<PlayerCharacter>();	
 	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));	
 	m_pPlayerOne->SetSpawnPosition(glm::vec3(3.0f, 4.5f, 0.0f));
+	m_pPlayerOne->SetPlayerTexture("Resources/Images/Player_Sprite.png");
 	m_vpEntityVec.push_back(m_pPlayerOne);
 	m_pPlayerOne->LinkScore(&m_sDeathCount[0]);
 	std::string ScoreText1 = "xesrt4574rdyh";//std::to_string(m_sDeathCount[1]);
@@ -64,6 +76,7 @@ void LevelOne::InitializeObjects()
 	m_pPlayerTwo = std::make_shared<PlayerCharacter>();	
 	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));	
 	m_pPlayerTwo->SetSpawnPosition(glm::vec3(13.0f, 4.5f, 0.0f));
+	m_pPlayerTwo->SetPlayerTexture("Resources/Images/Player_Sprite2.png");
 	m_vpEntityVec.push_back(m_pPlayerTwo);
 	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
 	std::string ScoreText2 = std::to_string(m_sDeathCount[0]);

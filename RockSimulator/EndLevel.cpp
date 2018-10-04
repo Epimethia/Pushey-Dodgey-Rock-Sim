@@ -22,7 +22,7 @@ EndLevel::~EndLevel()
 
 void EndLevel::Init()
 {
-	m_pBackground->Initialize("Resources/Images/MenuBackground2.png");
+	m_pBackground->Initialize("Resources/Images/EndBackground.png");
 	m_pEndTitle = std::make_shared<TextLabel>("Pushy Dodgy Rock Simulator", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(165.0f, 800.0f));
 	m_pEndTitle->SetScale(1.6f);
 	
@@ -72,7 +72,7 @@ void EndLevel::ProcessLevel()
 		SoundManager::GetInstance()->SoundMenuClose();
 		switch (m_iCurrentOpt) {
 		case 0: {
-			SceneManager::GetInstance()->InitializeScene(LEVEL1_SCENE);
+			SceneManager::GetInstance()->RestartLevelOne();
 			SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
 			break;
 		}

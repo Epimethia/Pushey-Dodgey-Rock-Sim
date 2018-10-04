@@ -74,7 +74,7 @@ void MainMenu::ProcessLevel()
 		switch (m_iCurrentOpt) {
 		case 0: {
 			SoundManager::GetInstance()->StopBGM();
-			SceneManager::GetInstance()->InitializeScene(LEVEL1_SCENE);
+			SceneManager::GetInstance()->RestartLevelOne();
 			SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
 			break;
 		}

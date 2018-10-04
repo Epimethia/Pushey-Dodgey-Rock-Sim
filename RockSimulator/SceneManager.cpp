@@ -84,6 +84,14 @@ void SceneManager::UpdateCurrentScene()
 	
 }
 
+void SceneManager::RestartLevelOne()
+{
+	m_pLevelOneScene.reset();
+	m_pLevelOneScene = std::make_shared<LevelOne>();
+	m_pLevelOneScene->InitializeObjects();
+
+}
+
 void SceneManager::SetWinner(unsigned int _WinningPlayer)
 {
 	m_pEndLevelScene->SetWinner(_WinningPlayer);
