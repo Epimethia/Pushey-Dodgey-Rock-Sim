@@ -69,6 +69,8 @@ void LevelOne::InitializeObjects()
 	std::string ScoreText2 = std::to_string(m_sDeathCount[0]);
 	m_pP2Score = std::make_shared<TextLabel>(std::to_string(m_sDeathCount[0]), "Resources/fonts/arial.ttf", glm::vec2(1200.0f, 700.0f));
 
+	m_pTimeDisplay = std::make_shared<TextLabel>(std::to_string(m_fTimer), "Resources/fonts/arial.ttf", glm::vec2(800.0f, 800.0f));
+
 	m_pContactListener = &MyContactListener::GetInstance();
 	m_pContactListener->SetPlayer(&(*m_pPlayerOne));
 	m_pContactListener->SetPlayer(&(*m_pPlayerTwo));
@@ -87,6 +89,7 @@ void LevelOne::InitializeObjects()
 void LevelOne::ProcessLevel(float _DeltaTick) {
 	// Increment timer
 	m_fTimer += _DeltaTick;
+	m_pTimeDisplay->SetText(std::to_string(static_cast<unsigned int>(m_fTimer)));
 	if (m_fTimer >= 99.0f)
 	{
 		if (m_pPlayerOne->GetHealth() > m_pPlayerTwo->GetHealth())
@@ -103,7 +106,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 			m_fSpawnTime = 0.0f;
 
 			// Increment score
-			m_P1Score->SetText(std::to_string(m_sDeathCount[1]));
+			m_pP1Score->SetText(std::to_string(m_sDeathCount[1]));
 
 			// Check for win
 			if (m_sDeathCount[1] > 2)
@@ -127,7 +130,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 			m_fSpawnTime = 0.0f;
 
 			// Increment score
-			m_P2Score->SetText(std::to_string(m_sDeathCount[0]));
+			m_pP2Score->SetText(std::to_string(m_sDeathCount[0]));
 
 			// Check for win
 			if (m_sDeathCount[0] > 2)
@@ -368,7 +371,7 @@ void LevelOne::RenderObjects()
 	m_pBackground->Render(glm::scale(glm::mat4(), glm::vec3(16.0f, 9.0f, 0.0f))); // spawn in the center
 	m_pP1HealthBar->Render();
 	m_pP2HealthBar->Render();
-
+	m_pTimeDisplay->Render();
 	m_pP1Score->Render();
 	m_pP2Score->Render();
 

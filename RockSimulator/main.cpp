@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 	glutIgnoreKeyRepeat(1);
 	glutMainLoop();
 
-
+	ExitFunction();
 
 	return 0;
 }
