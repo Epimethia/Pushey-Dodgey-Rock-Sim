@@ -6,20 +6,20 @@
 #include "EndLevel.h"
 
 
-std::shared_ptr<SceneManager> SceneManager::s_pSceneManager;
+std::shared_ptr<SceneManager> SceneManager::s_pInstance;
 
 std::shared_ptr<SceneManager> SceneManager::GetInstance()
 {
-	if (!s_pSceneManager)
+	if (!s_pInstance)
 	{
-		s_pSceneManager = std::shared_ptr<SceneManager>(new SceneManager());
+		s_pInstance = std::shared_ptr<SceneManager>(new SceneManager());
 	}
-	return s_pSceneManager;
+	return s_pInstance;
 }
 
 void SceneManager::DestroyInstance()
 {
-	s_pSceneManager.reset();
+	s_pInstance.reset();
 	//s_pSceneManager = nullptr;
 }
 
@@ -41,7 +41,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::RenderCurrentScene()
 {
-	switch (m_iCurrentScene)
+	switch (m_eCurrentScene)
 	{
 	case MENU_SCENE:
 	{
@@ -65,7 +65,7 @@ void SceneManager::UpdateCurrentScene()
 {
 	m_pClock->Process();
 	float fDeltaTick = m_pClock->GetDeltaTick() / 1000.0f;
-	switch (m_iCurrentScene) {
+	switch (m_eCurrentScene) {
 	case MENU_SCENE:
 	{
 		m_pMenuLevelScene->ProcessLevel();
@@ -91,7 +91,7 @@ void SceneManager::SetWinner(unsigned int _WinningPlayer)
 
 void SceneManager::SetCurrentScene(SceneState _scene)
 {
-	m_iCurrentScene = _scene;
+	m_eCurrentScene = _scene;
 }
 
 void SceneManager::InitializeScene(SceneState _scene)

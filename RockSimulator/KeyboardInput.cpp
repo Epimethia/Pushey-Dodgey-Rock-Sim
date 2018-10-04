@@ -15,10 +15,10 @@
 #include "Camera.h"
 #include <iostream>
 
-std::shared_ptr<Input> Input::s_pInput;
-unsigned int Input::m_iKeyState[256];
-unsigned int Input::m_iSpecialKeyState[256];
-unsigned int Input::m_iMouseState[3];
+std::shared_ptr<Input> Input::s_pInstance;
+unsigned char Input::m_iKeyState[256];
+unsigned char Input::m_iSpecialKeyState[256];
+unsigned char Input::m_iMouseState[3];
 
 
 //// Prototypes
@@ -36,11 +36,11 @@ unsigned int Input::m_iMouseState[3];
 //                  
 std::shared_ptr<Input> Input::GetInstance()
 {
-	if (!s_pInput)
+	if (!s_pInstance)
 	{
-		s_pInput = std::shared_ptr<Input>(new Input());
+		s_pInstance = std::shared_ptr<Input>(new Input());
 	}
-	return s_pInput;
+	return s_pInstance;
 }
 
 //Name:			    DestroyInstance
@@ -51,7 +51,7 @@ std::shared_ptr<Input> Input::GetInstance()
 //                  
 void Input::DestroyInstance()
 {
-	s_pInput.reset();
+	s_pInstance.reset();
 }
 
 //Name:			    Input destructor

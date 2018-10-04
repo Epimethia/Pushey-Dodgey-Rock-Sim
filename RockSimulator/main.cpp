@@ -13,6 +13,7 @@ SceneManager* g_pSceneManager{ nullptr };
 
 void Update();
 void Render();
+void ExitFunction();
 
 int main(int argc, char** argv)
 {
@@ -38,6 +39,9 @@ int main(int argc, char** argv)
 	glutIdleFunc(Update);
 	glutIgnoreKeyRepeat(1);
 	glutMainLoop();
+
+
+
 	return 0;
 }
 
@@ -52,4 +56,10 @@ void Update()
 {
 	SceneManager::GetInstance()->UpdateCurrentScene();
 	glutPostRedisplay();
+}
+
+void ExitFunction()
+{
+	SceneManager::DestroyInstance();
+	ShaderLoader::DestroyInstance();
 }

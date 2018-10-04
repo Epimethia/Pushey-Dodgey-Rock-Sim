@@ -1,10 +1,10 @@
-#pragma once
-#pragma once
+#ifndef __MENULEVEL_H__
+#define __MENULEVEL_H__
 //	Library includes.
-#include "Utilities.h"
 
 
 //	Local includes.
+#include "Utilities.h"
 
 
 //	Class prototypes.
@@ -25,9 +25,12 @@ public:
 	void ProcessLevel();
 
 private:
-
-	std::shared_ptr<TextLabel> MenuTitle;
-	std::shared_ptr<Option> OptArr[3];
+	std::shared_ptr<TextLabel> m_pMenuTitle;
+	std::shared_ptr<Option> m_pOptArr[3];
 	std::shared_ptr<Sprite> m_pBackground;
-	unsigned int CurrentOpt;
+	unsigned int m_iCurrentOpt;
+
+
 };
+
+#endif

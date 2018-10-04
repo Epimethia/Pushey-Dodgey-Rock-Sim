@@ -9,24 +9,24 @@
 
 
 //	Static variables.
-std::shared_ptr<Camera> Camera::s_pCamera;
+std::shared_ptr<Camera> Camera::s_pInstance;
 
 
 //	Singleton getter method.
 std::shared_ptr<Camera> Camera::GetInstance()
 {
-	if (!s_pCamera)
+	if (!s_pInstance)
 	{
-		s_pCamera = std::shared_ptr<Camera>(new Camera());
+		s_pInstance = std::shared_ptr<Camera>(new Camera());
 	}
-	return s_pCamera;
+	return s_pInstance;
 }
 
 //	Singleton destruction method.
 void Camera::DestroyInstance()
 {
 	//	Calls delete on the pointer.
-	s_pCamera.reset();
+	s_pInstance.reset();
 	//s_pSceneManager = nullptr;
 }
 

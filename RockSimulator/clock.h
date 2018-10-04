@@ -9,12 +9,8 @@
 // Email		:	Jasper.Lyo7552@mediadesign.school.nz
 // File Name	:	clock.h
 // Description	:	Header file defining the clock class
-
-#pragma once
-
 #ifndef _CLOCK_H_
 #define _CLOCK_H_
-
 // Library Includes
 #include <chrono>
 #include <vector>
@@ -29,26 +25,21 @@
 // Prototypes
 class CClock
 {
-	// Member Functions
-#pragma region Singleton
 public:
 	static std::shared_ptr<CClock> GetInstance();
 	static void DestroyInstance();
-	~CClock();
-private:
-	static std::shared_ptr<CClock> s_pClock;
-	CClock(CClock const&);
-	void operator=(CClock const&);
 	CClock();
+	~CClock();
 
-#pragma endregion
-
-public:	
 	bool Initialise();
 	void Process();
 	float GetDeltaTick();
 
 protected:
+	static std::shared_ptr<CClock> s_pInstance;
+	CClock(CClock const&) = delete;
+	void operator=(CClock const&) = delete;
+
 	double m_fTimeElapsed;
 	double m_fDeltaTime;
 	std::chrono::high_resolution_clock::time_point m_fLastTime;

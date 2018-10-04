@@ -1,6 +1,11 @@
-#pragma once
+#ifndef __SCENEMANAGER_H__
+#define __SCENEMANAGER_H__
+//	Library includes.
 #include <vector>
 #include <memory>
+
+
+//	Local includes.
 
 
 enum SceneState
@@ -19,19 +24,12 @@ class CClock;
 
 class SceneManager
 {
-#pragma region Singleton
 public:
 	static std::shared_ptr<SceneManager> GetInstance();
 	static void DestroyInstance();
-	~SceneManager();
-private:
-	static std::shared_ptr<SceneManager> s_pSceneManager;
-	SceneManager(SceneManager const&);
-	void operator=(SceneManager const&) {};
 	SceneManager();
-#pragma endregion
+	~SceneManager();
 
-public:
 	void SetCurrentScene(SceneState);	
 	void InitializeScene(SceneState);
 	void RenderCurrentScene();
@@ -39,11 +37,16 @@ public:
 	void SetWinner(unsigned int _WinningPlayer);
 
 private:
-	SceneState m_iCurrentScene;		
+	static std::shared_ptr<SceneManager> s_pInstance;
+	SceneManager(SceneManager const&) = delete;
+	void operator=(SceneManager const&) = delete;
+
+
+	SceneState m_eCurrentScene;		
 	std::shared_ptr<LevelOne> m_pLevelOneScene;
 	std::shared_ptr<MainMenu> m_pMenuLevelScene;
 	std::shared_ptr<EndLevel> m_pEndLevelScene;
-	//CClock singleton reference
 	std::shared_ptr<CClock> m_pClock;
 };
 
+#endif

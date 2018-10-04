@@ -1,8 +1,16 @@
-#pragma once
+#ifndef __ENTITY_H__
+#define __ENTITY_H__
+//	Library includes.
+
+
+//	Local includes.
 #include "Utilities.h"
 #include "ShaderLoader.h"
 
+
 class Sprite;
+
+
 class Entity
 {
 public:
@@ -37,3 +45,4 @@ private:
 
 };
 
+#endif

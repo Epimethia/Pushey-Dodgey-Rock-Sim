@@ -1,10 +1,11 @@
-#pragma once
+#ifndef __LEVELONE_H__
+#define __LEVELONE_H__
 //	Library includes.
-#include "Utilities.h"
-#include "XboxControllerInput.h"
 
 
 //	Local includes.
+#include "Utilities.h"
+#include "XboxControllerInput.h"
 
 
 //	Class prototypes.
@@ -54,9 +55,10 @@ private:
 	CClock* m_pClock{ nullptr };
 	short m_sDeathCount[2]{ 0, 0 };
 	float m_fTimer{ 0.0f };	
-	std::shared_ptr<TextLabel> m_P1Score;
-	std::shared_ptr<TextLabel> m_P2Score;
+	std::shared_ptr<TextLabel> m_pP1Score;
+	std::shared_ptr<TextLabel> m_pP2Score;
 	short m_sRoundCounter{ 1 };
 
 };
 
+#endif

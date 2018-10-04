@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __PLAYERCHARACTER_H__
+#define __PLAYERCHARACTER_H__
 //	Library includes.
 
 
@@ -49,5 +50,8 @@ private:
 	glm::vec3 m_spawnPosition;
 	bool m_bPlayerDead;
 	bool m_bPlayerAccelerating;
+
+
 };
 
+#endif

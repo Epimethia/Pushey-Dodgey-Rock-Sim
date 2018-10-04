@@ -26,20 +26,20 @@
 
 // Implementation
 
-std::shared_ptr<CClock> CClock::s_pClock;
+std::shared_ptr<CClock> CClock::s_pInstance;
 
 std::shared_ptr<CClock> CClock::GetInstance()
 {
-	if (!s_pClock)
+	if (!s_pInstance)
 	{
-		s_pClock = std::shared_ptr<CClock>(new CClock());
+		s_pInstance = std::shared_ptr<CClock>(new CClock());
 	}
-	return s_pClock;
+	return s_pInstance;
 }
 
 void CClock::DestroyInstance()
 {
-	s_pClock = nullptr;
+	s_pInstance = nullptr;
 }
 
 //****************************************************

@@ -1,7 +1,6 @@
 // Credit File to
 // https://www.codeproject.com/Articles/26949/Xbox-Controller-Input-in-C-with-XInput
 
-#pragma once
 #ifndef _XBOX_CONTROLLER_H_
 #define _XBOX_CONTROLLER_H_
 

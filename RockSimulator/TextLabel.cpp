@@ -15,6 +15,7 @@
 #include "Dependencies\glm\gtc\matrix_transform.hpp"
 #include "Dependencies\glm\gtc\type_ptr.hpp"
 #include "Utilities.h"
+#include "ShaderLoader.h"
 
 TextLabel::TextLabel()
 {
@@ -83,7 +84,7 @@ TextLabel::TextLabel(std::string newText, std::string newFont, glm::vec2 pos)
 			glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
 			(GLuint)face->glyph->advance.x
 		};
-		m_Characters.insert(std::pair<GLchar, Character>(c, character));
+		m_mCharacters.insert(std::pair<GLchar, Character>(c, character));
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -108,7 +109,7 @@ TextLabel::TextLabel(std::string newText, std::string newFont, glm::vec2 pos)
 
 TextLabel::~TextLabel()
 {
-	m_Characters.clear();
+	m_mCharacters.clear();
 }
 
 //Name:			    Render
@@ -135,7 +136,7 @@ void TextLabel::Render()
 	// Iterate through the Characters
 	for (std::string::const_iterator c = m_sText.begin(); c != m_sText.end(); c++)
 	{
-		Character ch = m_Characters[*c];
+		Character ch = m_mCharacters[*c];
 
 		GLfloat xpos = textPos.x + ch.Bearing.x * m_fScale;
 		GLfloat ypos = textPos.y - (ch.Size.y - ch.Bearing.y) * m_fScale;

@@ -9,20 +9,20 @@
 #include "ContactListener.h"
 
 
-std::shared_ptr<Physics> Physics::s_pPhysics;
+std::shared_ptr<Physics> Physics::s_pInstance;
 
 std::shared_ptr<Physics> Physics::GetInstance()
 {
-	if (!s_pPhysics)
+	if (!s_pInstance)
 	{
-		s_pPhysics = std::shared_ptr<Physics>(new Physics());
+		s_pInstance = std::shared_ptr<Physics>(new Physics());
 	}
-	return s_pPhysics;
+	return s_pInstance;
 }
 
 void Physics::DestroyInstance()
 {
-	s_pPhysics.reset();
+	s_pInstance.reset();
 	//s_pSceneManager = nullptr;
 }
 

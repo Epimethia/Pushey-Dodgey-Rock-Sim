@@ -9,24 +9,24 @@
 // Email		:	Jasper.Lyo7552@mediadesign.school.nz
 // File Name	:	TextLabel.h
 // Description	:	Header file defining the TextLabel class
-
-#pragma once
+#ifndef __TEXTLABEL_H__
+#define __TEXTLABEL_H__
+//	Library includes.
 #include <glew.h>
 #include <freeglut.h>
 #include <SOIL.h>
-
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
 #include <gtc\type_ptr.hpp>
-
 #include <ft2build.h>
 #include FT_FREETYPE_H  
-
 #include <map>
 #include <string>
 #include <iostream>
 
-#include "ShaderLoader.h"
+
+//	Local includes.
+
 
 struct Character
 {
@@ -58,5 +58,7 @@ private:
 	glm::vec2 m_vPosition;	//	vec2
 
 	GLuint m_iVAO, m_iVBO, m_iProgram;	//	uint
-	std::map<GLchar, Character> m_Characters;	//	map
+	std::map<GLchar, Character> m_mCharacters;	//	map
 };
+
+#endif

@@ -32,8 +32,8 @@ public:
 private:
 	std::shared_ptr<Sprite> m_Sprite;
 	glm::vec3 m_vPosition{ glm::vec3(0.0f, 0.0f, 0.0f) };
-	glm::vec3 m_Scale{ glm::vec3(1.0f, 0.1f, 0.0f) };
-	glm::vec3 m_RotationAxis{ glm::vec3(0.0f, 0.0f, 1.0f) };
+	glm::vec3 m_vScale{ glm::vec3(1.0f, 0.1f, 0.0f) };
+	glm::vec3 m_vRotationAxis{ glm::vec3(0.0f, 0.0f, 1.0f) };
 	float m_fRotationAngle{ 0.0f };
 
 	// Variables for Debug Drawing

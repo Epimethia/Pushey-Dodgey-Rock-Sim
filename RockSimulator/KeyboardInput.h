@@ -9,14 +9,18 @@
 // Email		:	Jasper.Lyo7552@mediadesign.school.nz
 // File Name	:	Input.h
 // Description	:	Header file defining the Input class
+#ifndef __KEYBOARDINPUT_H__
+#define __KEYBOARDINPUT_H__
+//	Library includes.
+#include <vector>
+#include <memory>
 
-#pragma once
+
+//	Local includes.
 #include "Dependencies\glm\glm.hpp"
 #include "Dependencies\glm\gtc\matrix_transform.hpp"
 #include "Dependencies\glm\gtc\type_ptr.hpp"
 
-#include <vector>
-#include <memory>
 
 enum InputState
 {
@@ -35,23 +39,15 @@ enum InputMouse
 
 class Input
 {
-#pragma region Singleton
 public:
 	static std::shared_ptr<Input> GetInstance();
 	static void DestroyInstance();
-	~Input();
-private:
-	static std::shared_ptr<Input> s_pInput;
-	Input(Input const&);
-	void operator=(Input const&) {};
 	Input();
+	~Input();
 
-#pragma endregion
-
-public:
-	static unsigned int m_iKeyState[256];
-	static unsigned int m_iSpecialKeyState[256];
-	static unsigned int m_iMouseState[3];
+	static unsigned char m_iKeyState[256];
+	static unsigned char m_iSpecialKeyState[256];
+	static unsigned char m_iMouseState[3];
 
 	// Setters
 	void SetCursor(int _cursorSetting);
@@ -71,6 +67,11 @@ public:
 	static void MouseInput(int _x, int _y);
 
 private:
+	static std::shared_ptr<Input> s_pInstance;
+	Input(Input const&) = delete;
+	void operator=(Input const&) = delete;
+
 	glm::vec2 m_vMousePos;
 };
 
+#endif

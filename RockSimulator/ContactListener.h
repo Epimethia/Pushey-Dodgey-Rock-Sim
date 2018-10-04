@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __CONTACTLISTENER_H__
+#define __CONTACTLISTENER_H__
 //	Library includes.
 #include <vector>
 
@@ -33,3 +34,5 @@ protected:
 
 
 };
+
+#endif

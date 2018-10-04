@@ -1,6 +1,12 @@
-#pragma once
+#ifndef __SPRITE_H__
+#define __SPRITE_H__
+//	Library includes.
+
+
+//	Local includes.
 #include "ShaderLoader.h"
 #include "Utilities.h"
+
 
 class Sprite
 {
@@ -25,3 +31,4 @@ private:
 	GLuint m_iTexture;	//	uint
 };
 
+#endif

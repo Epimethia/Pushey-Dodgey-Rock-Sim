@@ -1,23 +1,21 @@
+#ifndef __CAMERA_H__
+#define __CAMERA_H__
+//	Library includes.
+
+
+//	Local includes.
 #include "Utilities.h"
 
-#pragma once
+
 class Camera
 {
 #pragma region Singleton
 public:
 	static std::shared_ptr<Camera> GetInstance();
 	static void DestroyInstance();
-	~Camera();
-	/*!!!!!!!!! YOU SHOULD NOT BE CALLING THIS DIRECTLY !!!!!!!*/
 	Camera();
-private:
-	static std::shared_ptr<Camera> s_pCamera;
-	Camera(Camera const&);
-	void operator=(Camera const&);
-	
-#pragma endregion
+	~Camera();
 
-public:	
 	//Getters
 	const glm::mat4& GetView();
 	const glm::mat4& GetProj();
@@ -30,6 +28,11 @@ public:
 	void MoveRight();
 	
 private:
+	static std::shared_ptr<Camera> s_pInstance;
+	Camera(Camera const&) = delete;
+	void operator=(Camera const&) = delete;
+
+
 	glm::mat4 m_mView;
 	glm::mat4 m_mProj;
 	glm::vec3 m_vCameraPos;
@@ -38,3 +41,4 @@ private:
 	float m_fCameraSpeed;
 };
 
+#endif

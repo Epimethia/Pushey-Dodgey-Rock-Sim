@@ -59,7 +59,7 @@ void LevelOne::InitializeObjects()
 	m_vpEntityVec.push_back(m_pPlayerOne);
 	m_pPlayerOne->LinkScore(&m_sDeathCount[0]);
 	std::string ScoreText1 = "xesrt4574rdyh";//std::to_string(m_sDeathCount[1]);
-	m_P1Score = std::make_shared<TextLabel>(std::to_string(m_sDeathCount[1]), "Resources/fonts/arial.ttf", glm::vec2(400.0f, 700.0f));
+	m_pP1Score = std::make_shared<TextLabel>(std::to_string(m_sDeathCount[1]), "Resources/fonts/arial.ttf", glm::vec2(400.0f, 700.0f));
 
 	m_pPlayerTwo = std::make_shared<PlayerCharacter>();	
 	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));	
@@ -67,7 +67,7 @@ void LevelOne::InitializeObjects()
 	m_vpEntityVec.push_back(m_pPlayerTwo);
 	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
 	std::string ScoreText2 = std::to_string(m_sDeathCount[0]);
-	m_P2Score = std::make_shared<TextLabel>(std::to_string(m_sDeathCount[0]), "Resources/fonts/arial.ttf", glm::vec2(1200.0f, 700.0f));
+	m_pP2Score = std::make_shared<TextLabel>(std::to_string(m_sDeathCount[0]), "Resources/fonts/arial.ttf", glm::vec2(1200.0f, 700.0f));
 
 	m_pContactListener = &MyContactListener::GetInstance();
 	m_pContactListener->SetPlayer(&(*m_pPlayerOne));
@@ -181,7 +181,7 @@ void LevelOne::CheckPlayerDeaths()
 		m_fSpawnTime = 0.0f;
 
 		// Increment score
-		m_P2Score->SetText(std::to_string(m_sDeathCount[0]));
+		m_pP2Score->SetText(std::to_string(m_sDeathCount[0]));
 
 		// Check for win
 		if (m_sDeathCount[0] > 2)
@@ -205,7 +205,7 @@ void LevelOne::CheckPlayerDeaths()
 		m_fSpawnTime = 0.0f;
 
 		// Increment score
-		m_P1Score->SetText(std::to_string(m_sDeathCount[1]));
+		m_pP1Score->SetText(std::to_string(m_sDeathCount[1]));
 
 		// Check for win
 		if (m_sDeathCount[1] > 2)
@@ -302,8 +302,8 @@ void LevelOne::RenderObjects()
 	m_pP1HealthBar->Render();
 	m_pP2HealthBar->Render();
 
-	m_P1Score->Render();
-	m_P2Score->Render();
+	m_pP1Score->Render();
+	m_pP2Score->Render();
 
 	// Render Object Vectors (check that the vectors are not empty)
 	if (!m_vpEntityVec.empty())

@@ -40,7 +40,7 @@ C_HealthBar::SetPosition(glm::vec3& _Position)
 void
 C_HealthBar::SetScale(glm::vec3& _Scale)
 {
-	m_Scale = _Scale;
+	m_vScale = _Scale;
 }
 
 void
@@ -52,20 +52,20 @@ C_HealthBar::SetRotation(float& _Angle)
 void
 C_HealthBar::SetRotation(glm::vec3& _Axis)
 {
-	m_RotationAxis = _Axis;
+	m_vRotationAxis = _Axis;
 }
 
 void
 C_HealthBar::SetRotation(float& _Angle, glm::vec3& _Axis)
 {
 	m_fRotationAngle = _Angle;
-	m_RotationAxis = _Axis;
+	m_vRotationAxis = _Axis;
 }
 
 glm::vec3&
 C_HealthBar::GetScale()
 {
-	return m_Scale;
+	return m_vScale;
 }
 
 void
@@ -73,6 +73,6 @@ C_HealthBar::Render()
 {
 	m_Sprite->Render(
 		glm::translate(glm::mat4(), m_vPosition) *
-		glm::rotate(glm::mat4(), 0.0f, m_RotationAxis) *
-		glm::scale(glm::mat4(), m_Scale));
+		glm::rotate(glm::mat4(), 0.0f, m_vRotationAxis) *
+		glm::scale(glm::mat4(), m_vScale));
 }
