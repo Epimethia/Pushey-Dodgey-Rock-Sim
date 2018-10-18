@@ -57,31 +57,31 @@ private:
 
 	float m_fBGMVolume;
 	float m_fEffectsVolume;
-	FMOD::System* m_audioMgr;
-	FMOD::Channel* m_pMusicChannel;		
-	FMOD::Channel* m_pEffectChannel;
+	FMOD::System* m_audioMgr{ nullptr };
+	FMOD::Channel* m_pMusicChannel{ nullptr };
+	FMOD::Channel* m_pEffectChannel{ nullptr };
 
-	FMOD::Channel* m_pPOneEngineChannel;
-	FMOD::Channel* m_pPTwoEngineChannel;
+	FMOD::Channel* m_pPOneEngineChannel{ nullptr };
+	FMOD::Channel* m_pPTwoEngineChannel{ nullptr };
 
-	FMOD::Sound* m_pBGMenu;
-	FMOD::Sound* m_pBGGame0;
-	FMOD::Sound* m_pBGGame1;
-	FMOD::Sound* m_pBGGame2;
-	FMOD::Sound* m_pBGGame3;
-	FMOD::Sound* m_pBGGame4;
+	FMOD::Sound* m_pBGMenu{ nullptr };
+	FMOD::Sound* m_pBGGame0{ nullptr };
+	FMOD::Sound* m_pBGGame1{ nullptr };
+	FMOD::Sound* m_pBGGame2{ nullptr };
+	FMOD::Sound* m_pBGGame3{ nullptr };
+	FMOD::Sound* m_pBGGame4{ nullptr };
 
 	std::vector<FMOD::Sound*> m_vBGMPlaylist;
 
-	FMOD::Sound* m_pEffectPew;
-	FMOD::Sound* m_pEffectRocket;
-	FMOD::Sound* m_pEffectSpawn;
-	FMOD::Sound* m_pEffectPlayerDeath;
-	FMOD::Sound* m_pEffectEnemyDeath;
-	FMOD::Sound* m_pEffectPowerup;
-	FMOD::Sound* m_pEffectMenuMove;
-	FMOD::Sound* m_pEffectDamage;
-	FMOD::Sound* m_pEffectMenuClose;
+	FMOD::Sound* m_pEffectPew{ nullptr };
+	FMOD::Sound* m_pEffectRocket{ nullptr };
+	FMOD::Sound* m_pEffectSpawn{ nullptr };
+	FMOD::Sound* m_pEffectPlayerDeath{ nullptr };
+	FMOD::Sound* m_pEffectEnemyDeath{ nullptr };
+	FMOD::Sound* m_pEffectPowerup{ nullptr };
+	FMOD::Sound* m_pEffectMenuMove{ nullptr };
+	FMOD::Sound* m_pEffectDamage{ nullptr };
+	FMOD::Sound* m_pEffectMenuClose{ nullptr };
 };
 
 #endif
