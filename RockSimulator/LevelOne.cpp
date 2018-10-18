@@ -39,9 +39,19 @@ LevelOne::LevelOne()
 
 LevelOne::~LevelOne()
 {
-	m_vpAsteroidVec0.clear();
-	m_vpAsteroidVec1.clear();
-	m_vpEntityVec.clear();
+	unsigned int iX = 0;
+	for (iX = 0; iX < m_vpAsteroidVec0.size(); iX++)
+	{
+		m_vpAsteroidVec0[iX].reset();
+	}
+	for (iX = 0; iX < m_vpAsteroidVec1.size(); iX++)
+	{
+		m_vpAsteroidVec1[iX].reset();
+	}
+	for (iX = 0; iX < m_vpEntityVec.size(); iX++)
+	{
+		m_vpEntityVec[iX].reset();
+	}
 	m_pPlayerOne.reset();
 	m_pPlayerTwo.reset();
 	m_pP1HealthBar.reset();
