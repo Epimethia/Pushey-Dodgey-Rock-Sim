@@ -24,6 +24,8 @@
 LevelOne::LevelOne()
 {
 	m_pBackground = std::make_shared<Sprite>();	
+	m_pHUDFrame = std::make_shared<Sprite>();
+
 	Camera::GetInstance()->SetProj(ki_SCREENWIDTH, ki_SCREENHEIGHT);
 	Camera::GetInstance()->Update();
 	SoundManager::GetInstance()->Initialize();
@@ -54,13 +56,17 @@ LevelOne::~LevelOne()
 void LevelOne::InitializeObjects()
 {
 	// Initialize Scene Background	
-	m_pBackground->Initialize("Resources/Images/Background.png");
+	m_pBackground->Initialize("Resources/Images/New Background.png");
+	m_pHUDFrame->Initialize("Resources/Images/HUD/HUD_Frame.png");
 
-	m_pP1HealthBar = std::make_shared<C_HealthBar>("Resources/Images/HealthBar100.png");
-	m_pP1HealthBar->SetPosition(glm::vec3(1.0f, 7.0f, 1.0f));
+	m_pP1HealthBar = std::make_shared<C_HealthBar>("Resources/Images/HUD/Player_One_Healthbar.png");
+	m_pP1HealthBar->SetPosition(glm::vec3(1.88f, 8.55f, 0.0f));
+	m_pP1HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
 
-	m_pP2HealthBar = std::make_shared<C_HealthBar>("Resources/Images/HealthBar100.png");
-	m_pP2HealthBar->SetPosition(glm::vec3(15.0f, 7.0f, 1.0f));
+	m_pP2HealthBar = std::make_shared<C_HealthBar>("Resources/Images/HUD/Player_Two_Healthbar.png");
+	m_pP2HealthBar->SetPosition(glm::vec3(14.11f, 8.55f, 0.0f));
+	m_pP2HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
+
 
 	// Initialize Other Objects..
 	// Push objects to their appropriate vectors
@@ -258,6 +264,8 @@ void LevelOne::CheckPlayerDeaths()
 		// Reset players
 		m_pPlayerOne->Respawn();
 		m_pPlayerTwo->ResetPlayer();
+		m_pP1HealthBar->SetSprite("Resources/Images/HUD/Player_One_Healthbar.png");
+		m_pP2HealthBar->SetSprite("Resources/Images/HUD/Player_Two_Healthbar.png");
 
 		// Reset asteroids
 		m_vpAsteroidVec.clear();
@@ -283,6 +291,9 @@ void LevelOne::CheckPlayerDeaths()
 		// Reset players
 		m_pPlayerTwo->Respawn();
 		m_pPlayerOne->ResetPlayer();
+		m_pP2HealthBar->SetSprite("Resources/Images/HUD/Player_Two_Healthbar.png");
+		m_pP1HealthBar->SetSprite("Resources/Images/HUD/Player_One_Healthbar.png");
+
 
 		// Reset asteroids
 		m_vpAsteroidVec.clear();
@@ -369,24 +380,25 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 
 
 	//	Update Health.
-	glm::vec3 TempScale = m_pP1HealthBar->GetScale();
-	TempScale.x = 1.0f * (m_pPlayerOne->GetHealth() / 100.0f);
-	m_pP1HealthBar->SetScale(TempScale);
-
-	TempScale = m_pP2HealthBar->GetScale();
-	TempScale.x = 1.0f * (m_pPlayerTwo->GetHealth() / 100.0f);
-	m_pP2HealthBar->SetScale(TempScale);
+	//glm::vec3 TempScale = m_pP1HealthBar->GetScale();
+	//TempScale.x = 1.0f * (m_pPlayerOne->GetHealth() / 100.0f);
+	//m_pP1HealthBar->SetScale(TempScale);
+	if (m_pPlayerOne->GetHealth() <= 50.0f) {
+		m_pP1HealthBar->SetSprite("Resources/Images/HUD/Player_One_Half.png");
+	}
+	
+	if (m_pPlayerTwo->GetHealth() <= 50.0f) {
+		m_pP2HealthBar->SetSprite("Resources/Images/HUD/Player_Two_Half.png");
+	}
+	//TempScale = m_pP2HealthBar->GetScale();
+	//TempScale.x = 1.0f * (m_pPlayerTwo->GetHealth() / 100.0f);
+	//m_pP2HealthBar->SetScale(TempScale);
 }
 
 void LevelOne::RenderObjects()
 {
 	// Render Background
-	m_pBackground->Render(glm::scale(glm::mat4(), glm::vec3(16.0f, 9.0f, 0.0f))); // spawn in the center
-	m_pP1HealthBar->Render();
-	m_pP2HealthBar->Render();
-	m_pTimeDisplay->Render();
-	m_pP1Score->Render();
-	m_pP2Score->Render();
+	m_pBackground->Render(glm::translate(glm::mat4(), glm::vec3(8.0f, 4.5f, 0.0f)) *  glm::scale(glm::mat4(), glm::vec3(8.0f, 4.5f, 0.0f))); // spawn in the middle
 
 	// Render Object Vectors (check that the vectors are not empty)
 	if (!m_vpEntityVec.empty())
@@ -396,16 +408,24 @@ void LevelOne::RenderObjects()
 			it->Render();
 		}
 	}
-	
+
 	if (!m_vpAsteroidVec.empty())
 	{
 		for (const auto& it : m_vpAsteroidVec)
 		{
 			it->Render();
 		}
-	}  
-	//	Render score.
-	//	m_sDeaths[1] + "    -    " + m_sDeaths[0];
-	//	m_fTimer;
+	}
+	
+	m_pTimeDisplay->Render();
+	m_pP1Score->Render();
+	m_pP2Score->Render();
+	m_pP1HealthBar->Render();
+	m_pP2HealthBar->Render();
+
+	m_pHUDFrame->Render(glm::translate(glm::mat4(), glm::vec3(8.0f, 4.5f, 0.0f)) *  glm::scale(glm::mat4(), glm::vec3(8.0f, 4.5f, 0.0f)));
+
+
+
 }
 

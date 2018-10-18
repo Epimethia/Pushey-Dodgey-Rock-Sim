@@ -58,6 +58,8 @@ private:
 	std::shared_ptr<TextLabel> m_pP1Score;
 	std::shared_ptr<TextLabel> m_pP2Score;
 
+	std::shared_ptr<Sprite> m_pHUDFrame;
+
 	std::shared_ptr<TextLabel> m_pTimeDisplay;
 
 	short m_sRoundCounter{ 1 };

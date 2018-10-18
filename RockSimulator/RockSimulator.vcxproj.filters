@@ -43,9 +43,6 @@
     <ClCompile Include="XboxControllerInput.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>NotEngine\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Projectile.cpp">
       <Filter>NotEngine\Entities\Projectile</Filter>
     </ClCompile>
@@ -58,8 +55,11 @@
     <ClCompile Include="ContactListener.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>NotEngine\Entities\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="EndLevel.cpp">
-      <Filter>NotEngine\Levels</Filter>
+      <Filter>NotEngine\Levels\End Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +105,6 @@
     <ClInclude Include="Physics.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>NotEngine\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>NotEngine\Entities\Projectile</Filter>
     </ClInclude>
@@ -120,11 +117,14 @@
     <ClInclude Include="ContactListener.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="EndLevel.h">
+    <ClInclude Include="Option.h">
       <Filter>NotEngine\Levels</Filter>
     </ClInclude>
-    <ClInclude Include="Option.h">
-      <Filter>NotEngine\Levels\Options UI%27</Filter>
+    <ClInclude Include="Entity.h">
+      <Filter>NotEngine\Entities\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="EndLevel.h">
+      <Filter>NotEngine\Levels\End Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -169,8 +169,14 @@
     <Filter Include="NotEngine\HealthBar">
       <UniqueIdentifier>{0cad809a-a2b9-4d1a-ba5d-c8275a53382d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NotEngine\Levels\Options UI%27">
-      <UniqueIdentifier>{8310f1bf-9afc-40cd-9adc-1087fe655262}</UniqueIdentifier>
+    <Filter Include="NotEngine\Entities\Entity">
+      <UniqueIdentifier>{99265ef1-11ab-4f73-ad13-ee61caf3349f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Levels\End Level">
+      <UniqueIdentifier>{6399583c-197d-4419-8f57-db3c2078182a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Levels\NewFilter1">
+      <UniqueIdentifier>{f6964a42-c83e-4ee6-8cde-2881d057a236}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
