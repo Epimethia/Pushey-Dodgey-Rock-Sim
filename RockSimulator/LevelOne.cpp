@@ -227,7 +227,7 @@ void LevelOne::SpawnAsteroids(float _DeltaTick)
 		case 0:
 		{
 			// Left to right asteroid
-			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(dis2(gen));
+			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
 			TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
 			TempAsteroid->Initialize();
 			m_vpAsteroidVec0.push_back(TempAsteroid);
@@ -236,7 +236,7 @@ void LevelOne::SpawnAsteroids(float _DeltaTick)
 		case 1:
 		{
 			// Right to left asteroid
-			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(dis2(gen));
+			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
 			TempAsteroid->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
 			TempAsteroid->Initialize();
 			m_vpAsteroidVec1.push_back(TempAsteroid);
