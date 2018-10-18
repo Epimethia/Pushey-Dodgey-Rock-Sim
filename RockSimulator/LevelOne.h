@@ -37,7 +37,8 @@ public:
 	void ProcessPlayerInput(float _DeltaTick);
 
 private:		
-	std::vector<std::shared_ptr<Asteroid>> m_vpAsteroidVec;
+	std::vector<std::shared_ptr<Asteroid>> m_vpAsteroidVec0;
+	std::vector<std::shared_ptr<Asteroid>> m_vpAsteroidVec1;
 	std::vector<std::shared_ptr<Entity>> m_vpEntityVec;
 	std::shared_ptr<PlayerCharacter> m_pPlayerOne;
 	std::shared_ptr<PlayerCharacter> m_pPlayerTwo;

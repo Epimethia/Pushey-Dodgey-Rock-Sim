@@ -14,7 +14,7 @@ class Sprite;
 class Asteroid : public Entity
 {
 public:
-	Asteroid();
+	Asteroid(float _scale);
 	~Asteroid();
 
 	// Virtual Functions
