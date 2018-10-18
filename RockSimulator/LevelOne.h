@@ -30,10 +30,12 @@ public:
 	void InitializeObjects();
 	void RenderObjects();
 	void ProcessLevel(float _DeltaTick);
+	void ProcessTimer(float _DeltaTick);
 	void SpawnAsteroids(float _DeltaTick);
 	void OffscreenCleanup();
 	void MoveAsteroids(float _DeltaTick);
 	void CheckPlayerDeaths();
+	void UpdateScoreValues();
 	void ProcessPlayerInput(float _DeltaTick);
 
 private:		
@@ -53,17 +55,14 @@ private:
 	CClock* m_pClock{ nullptr };
 	short m_sDeathCount[2]{ 0, 0 };
 
-	float m_fTimer{ 0.0f };	
-
-
-	std::shared_ptr<TextLabel> m_pP1Score;
-	std::shared_ptr<TextLabel> m_pP2Score;
+	float m_fTimer;	
 
 	std::shared_ptr<Sprite> m_pHUDFrame;
+	std::shared_ptr<Sprite> m_pPointsSpriteArr[2];
 
 	std::shared_ptr<TextLabel> m_pTimeDisplay;
 
-	short m_sRoundCounter{ 1 };
+	//short m_sRoundCounter{ 1 };
 
 };
 
