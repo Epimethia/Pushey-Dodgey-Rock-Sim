@@ -102,7 +102,7 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;freeglut.lib;glew32.lib;SOIL.lib;fmod_vc.lib;freeType.lib;assimp-vc130-mtd.lib;ws2_32.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freeglut.lib;glew32.lib;SOIL.lib;fmod_vc.lib;freeType.lib;assimp-vc130-mtd.lib;ws2_32.lib;Box2D.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,7 +130,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;freeglut.lib;glew32.lib;SOIL.lib;fmod_vc.lib;freeType.lib;assimp-vc130-mtd.lib;ws2_32.lib;Box2DRelease.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freeglut.lib;glew32.lib;SOIL.lib;fmod_vc.lib;freeType.lib;assimp-vc130-mtd.lib;ws2_32.lib;Box2DRelease.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

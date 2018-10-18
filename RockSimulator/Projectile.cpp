@@ -1,4 +1,14 @@
+//	This include.
 #include "Projectile.h"
+
+
+//	Library includes.
+
+
+//	Local includes.
+#include "clock.h"
+#include "Sprite.h"
+
 
 Projectile::Projectile() {}
 
@@ -47,8 +57,10 @@ void Projectile::InitializeDebugDraw()
 
 void Projectile::Update()
 {
-	if (m_bValid) {
-		if (m_fCurrentLifetime >= m_fMaxLifeTime) {
+	if (m_bValid)
+	{
+		if (m_fCurrentLifetime >= m_fMaxLifeTime)
+		{
 			Physics::GetInstance()->GetWorld()->DestroyBody(m_body);
 			m_bValid = false;
 		}
@@ -58,7 +70,8 @@ void Projectile::Update()
 
 void Projectile::Render()
 {
-	if (m_bValid) {
+	if (m_bValid)
+	{
 		m_Sprite->Render(
 			glm::translate(glm::mat4(), glm::vec3(m_body->GetPosition().x, m_body->GetPosition().y, 0.0f)) *
 			glm::rotate(glm::mat4(), m_body->GetAngle(), m_RotationAxis) *

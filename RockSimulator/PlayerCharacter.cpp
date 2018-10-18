@@ -166,11 +166,14 @@ void PlayerCharacter::Update()
 	m_body->SetLinearVelocity(0.995f * m_body->GetLinearVelocity());
 	m_body->SetAngularVelocity(0.975f * m_body->GetAngularVelocity());
 
-	if (Bullet != nullptr) {
-		if (Bullet->m_bValid) {
+	if (Bullet != nullptr)
+	{
+		if (Bullet->m_bValid)
+		{
 			Bullet->Update();
 		}
-		else {
+		else
+		{
 			Bullet = nullptr;
 		};
 	};
@@ -213,7 +216,8 @@ float PlayerCharacter::GetCurrentSpeed()
 void PlayerCharacter::Shoot()
 {
 	//getting the position of the bullet spawn
-	if (Bullet == nullptr) {
+	if (Bullet == nullptr)
+	{
 		b2Vec2 Direction = m_body->GetWorldVector(b2Vec2(0, 1));
 		Direction.Normalize();
 		Direction *= 0.7f;

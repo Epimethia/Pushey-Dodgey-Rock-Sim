@@ -13,6 +13,7 @@ Entity::~Entity()
 {
 	Physics::GetInstance()->GetWorld()->DestroyBody(m_body);
 	m_body = nullptr;
+	m_Sprite.reset();
 }
 
 

@@ -30,6 +30,7 @@ Asteroid::Asteroid()
 
 Asteroid::~Asteroid()
 {
+
 }
 
 void Asteroid::Render()
