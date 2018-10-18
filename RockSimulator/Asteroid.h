@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __ASTEROID_H__
+#define __ASTEROID_H__
 //	Library includes.
 
 
@@ -8,11 +9,12 @@
 
 
 class Sprite;
-class Asteroid :
-	public Entity
+
+
+class Asteroid : public Entity
 {
 public:
-	Asteroid();
+	Asteroid(float _scale);
 	~Asteroid();
 
 	// Virtual Functions
@@ -28,8 +30,12 @@ public:
 	bool GetOffScreenBool() { return m_bOffScreen; }
 	void SetOffScreenBool(bool _bool) { m_bOffScreen = _bool; }
 	
+
 private:
 	float m_fVibrationRate;
 	bool m_bOffScreen;
+
+
 };
 
+#endif

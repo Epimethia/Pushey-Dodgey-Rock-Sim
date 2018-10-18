@@ -5,10 +5,10 @@
 #include "Dependencies/glm/gtx/rotate_vector.hpp"
 
 
-Asteroid::Asteroid()
+Asteroid::Asteroid(float _scale)
 {
 	m_Sprite = std::make_shared<Sprite>();
-	m_Scale = glm::vec3(0.3f, 0.3f, 0.0f);
+	m_Scale = glm::vec3(_scale, _scale, _scale);
 	m_RotationAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_bOffScreen = false;
 
@@ -19,9 +19,9 @@ Asteroid::Asteroid()
 	m_body = Physics::GetInstance()->CreateBody(m_bodyDef);
 	b2CircleShape dynamicCircle;
 	dynamicCircle.m_p.Set(0.0f, 0.0f);
-	dynamicCircle.m_radius = 0.29f;
+	dynamicCircle.m_radius = _scale;
 	fixtureDef.shape = &dynamicCircle;
-	fixtureDef.density = 1.0f;
+	fixtureDef.density = 3.0f * _scale;
 	fixtureDef.friction = 0.3f;
 	fixtureDef.restitution = 1.0f;
 	m_body->CreateFixture(&fixtureDef);
@@ -30,6 +30,7 @@ Asteroid::Asteroid()
 
 Asteroid::~Asteroid()
 {
+
 }
 
 void Asteroid::Render()
@@ -55,8 +56,8 @@ void Asteroid::Update()
 void Asteroid::AddVelocity(b2Vec2 _direction, float _Speed)
 {
 	m_body->ApplyForceToCenter(
-		b2Vec2(_direction.x * _Speed,
-			   _direction.y * _Speed),
+		b2Vec2((_direction.x * _Speed) * m_body->GetMass(),
+			   (_direction.y * _Speed) * m_body->GetMass()),
 		true);
 
 	// Limit/Clamp velocity

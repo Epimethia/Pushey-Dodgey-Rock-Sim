@@ -54,4 +54,5 @@ b2World* Physics::GetWorld() const
 Physics::~Physics()
 {
 	MyContactListener::GetInstance().DestroyInstance();
+	delete m_pWorld;
 }

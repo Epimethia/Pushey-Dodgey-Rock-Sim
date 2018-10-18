@@ -39,6 +39,8 @@ protected:
 	GLuint m_iVBO;	//	uint
 	GLuint m_iProgram;	//	uint
 	bool m_bDebugDrawEnabled = false;
+
+
 private:
 	// Member Variables
 

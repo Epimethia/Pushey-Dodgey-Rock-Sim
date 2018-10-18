@@ -39,7 +39,8 @@ LevelOne::LevelOne()
 
 LevelOne::~LevelOne()
 {
-	m_vpAsteroidVec.clear();
+	m_vpAsteroidVec0.clear();
+	m_vpAsteroidVec1.clear();
 	m_vpEntityVec.clear();
 	m_pPlayerOne.reset();
 	m_pPlayerTwo.reset();
@@ -121,7 +122,8 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 			m_pPlayerOne->ResetPlayer();
 
 			// Reset asteroids
-			m_vpAsteroidVec.clear();
+			m_vpAsteroidVec0.clear();
+			m_vpAsteroidVec1.clear();
 			m_fSpawnTime = 0.0f;
 
 			// Increment score
@@ -145,7 +147,8 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 			m_pPlayerTwo->ResetPlayer();
 
 			// Reset asteroids
-			m_vpAsteroidVec.clear();
+			m_vpAsteroidVec0.clear();
+			m_vpAsteroidVec1.clear();
 			m_fSpawnTime = 0.0f;
 
 			// Increment score
@@ -166,7 +169,8 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 			m_pPlayerTwo->ResetPlayer();
 
 			// Reset asteroids
-			m_vpAsteroidVec.clear();
+			m_vpAsteroidVec0.clear();
+			m_vpAsteroidVec1.clear();
 			m_fSpawnTime = 0.0f;
 
 			// Reset timer
@@ -215,11 +219,30 @@ void LevelOne::SpawnAsteroids(float _DeltaTick)
 		std::random_device rd;  //Will be used to obtain a seed for the random number engine
 		std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 		std::uniform_real_distribution<> dis(0.0, 9.0);
+		std::uniform_real_distribution<> dis2(0.1, 0.5);
+		std::uniform_int_distribution<> dis3(0, 1);
 
-		std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>();
-		TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
-		TempAsteroid->Initialize();
-		m_vpAsteroidVec.push_back(TempAsteroid);
+		switch (dis3(gen))
+		{
+		case 0:
+		{
+			// Left to right asteroid
+			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(dis2(gen));
+			TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
+			TempAsteroid->Initialize();
+			m_vpAsteroidVec0.push_back(TempAsteroid);
+			break;
+		}
+		case 1:
+		{
+			// Right to left asteroid
+			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(dis2(gen));
+			TempAsteroid->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
+			TempAsteroid->Initialize();
+			m_vpAsteroidVec1.push_back(TempAsteroid);
+			break;
+		}
+		}
 
 		// increment spawn timer
 		m_fSpawnTime = 0.0f;
@@ -228,13 +251,23 @@ void LevelOne::SpawnAsteroids(float _DeltaTick)
 
 void LevelOne::OffscreenCleanup()
 {
-	for (unsigned int i = 0; i < m_vpAsteroidVec.size(); i++)
+	for (unsigned int i = 0; i < m_vpAsteroidVec0.size(); i++)
 	{
-		if (m_vpAsteroidVec[i] != nullptr)
+		if (m_vpAsteroidVec0[i] != nullptr)
 		{
-			if (m_vpAsteroidVec[i]->GetOffScreenBool())
+			if (m_vpAsteroidVec0[i]->GetOffScreenBool())
 			{
-				m_vpAsteroidVec.erase(m_vpAsteroidVec.begin() + i);
+				m_vpAsteroidVec0.erase(m_vpAsteroidVec0.begin() + i);
+			}
+		}
+	}
+	for (unsigned int i = 0; i < m_vpAsteroidVec1.size(); i++)
+	{
+		if (m_vpAsteroidVec1[i] != nullptr)
+		{
+			if (m_vpAsteroidVec1[i]->GetOffScreenBool())
+			{
+				m_vpAsteroidVec1.erase(m_vpAsteroidVec1.begin() + i);
 			}
 		}
 	}
@@ -242,17 +275,30 @@ void LevelOne::OffscreenCleanup()
 
 void LevelOne::MoveAsteroids(float _DeltaTick)
 {
-	for (unsigned int i = 0; i < m_vpAsteroidVec.size(); i++)
+	// Left to right asteroids
+	for (unsigned int i = 0; i < m_vpAsteroidVec0.size(); i++)
 	{
-		m_vpAsteroidVec[i]->AddVelocity(b2Vec2(1.0f, 0.0f), 50.0f * _DeltaTick);
+		m_vpAsteroidVec0[i]->AddVelocity(b2Vec2(1.0f, 0.0f), 40.0f * _DeltaTick);
 		// Destroy asteroid if it goes off screen
-		if (m_vpAsteroidVec[i]->GetPosition().x > 20.0f || m_vpAsteroidVec[i]->GetPosition().y > 20.0f
-			|| m_vpAsteroidVec[i]->GetPosition().x < -20.0f || m_vpAsteroidVec[i]->GetPosition().y < -20.0f)
+		if (m_vpAsteroidVec0[i]->GetPosition().x > 20.0f || m_vpAsteroidVec0[i]->GetPosition().y > 20.0f
+			|| m_vpAsteroidVec0[i]->GetPosition().x < -20.0f || m_vpAsteroidVec0[i]->GetPosition().y < -20.0f)
 		{
-			m_vpAsteroidVec[i]->SetOffScreenBool(true);
+			m_vpAsteroidVec0[i]->SetOffScreenBool(true);
+		}
+	}
+	// Right to left asteroids
+	for (unsigned int i = 0; i < m_vpAsteroidVec1.size(); i++)
+	{
+		m_vpAsteroidVec1[i]->AddVelocity(b2Vec2(-1.0f, 0.0f), 40.0f * _DeltaTick);
+		// Destroy asteroid if it goes off screen
+		if (m_vpAsteroidVec1[i]->GetPosition().x > 20.0f || m_vpAsteroidVec1[i]->GetPosition().y > 20.0f
+			|| m_vpAsteroidVec1[i]->GetPosition().x < -20.0f || m_vpAsteroidVec1[i]->GetPosition().y < -20.0f)
+		{
+			m_vpAsteroidVec1[i]->SetOffScreenBool(true);
 		}
 	}
 }
+
 
 void LevelOne::CheckPlayerDeaths()
 {
@@ -268,7 +314,8 @@ void LevelOne::CheckPlayerDeaths()
 		m_pP2HealthBar->SetSprite("Resources/Images/HUD/Player_Two_Healthbar.png");
 
 		// Reset asteroids
-		m_vpAsteroidVec.clear();
+		m_vpAsteroidVec0.clear();
+		m_vpAsteroidVec1.clear();
 		m_fSpawnTime = 0.0f;
 
 		// Increment score
@@ -296,7 +343,8 @@ void LevelOne::CheckPlayerDeaths()
 
 
 		// Reset asteroids
-		m_vpAsteroidVec.clear();
+		m_vpAsteroidVec0.clear();
+		m_vpAsteroidVec1.clear();
 		m_fSpawnTime = 0.0f;
 
 		// Increment score
@@ -408,10 +456,18 @@ void LevelOne::RenderObjects()
 			it->Render();
 		}
 	}
-
-	if (!m_vpAsteroidVec.empty())
+	
+	if (!m_vpAsteroidVec0.empty())
 	{
-		for (const auto& it : m_vpAsteroidVec)
+		for (const auto& it : m_vpAsteroidVec0)
+		{
+			it->Render();
+		}
+	}
+
+	if (!m_vpAsteroidVec1.empty())
+	{
+		for (const auto& it : m_vpAsteroidVec1)
 		{
 			it->Render();
 		}
@@ -424,8 +480,10 @@ void LevelOne::RenderObjects()
 	m_pP2HealthBar->Render();
 
 	m_pHUDFrame->Render(glm::translate(glm::mat4(), glm::vec3(8.0f, 4.5f, 0.0f)) *  glm::scale(glm::mat4(), glm::vec3(8.0f, 4.5f, 0.0f)));
-
-
-
+  
+	
+	//	Render score.
+	//	m_sDeaths[1] + "    -    " + m_sDeaths[0];
+	//	m_fTimer;
 }
 

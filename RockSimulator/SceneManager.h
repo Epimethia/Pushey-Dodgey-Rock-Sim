@@ -22,6 +22,7 @@ class EndLevel;
 class Input;
 class CClock;
 
+
 class SceneManager
 {
 public:

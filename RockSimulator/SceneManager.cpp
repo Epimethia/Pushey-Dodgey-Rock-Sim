@@ -37,6 +37,9 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
+	m_pLevelOneScene.reset();
+	m_pMenuLevelScene.reset();
+	m_pEndLevelScene.reset();
 }
 
 void SceneManager::RenderCurrentScene()
@@ -53,7 +56,8 @@ void SceneManager::RenderCurrentScene()
 		m_pLevelOneScene->RenderObjects();
 		break;
 	}
-	case END_SCENE: {
+	case END_SCENE:
+	{
 		m_pEndLevelScene->Render();
 		break;
 	}
@@ -65,7 +69,8 @@ void SceneManager::UpdateCurrentScene()
 {
 	m_pClock->Process();
 	float fDeltaTick = m_pClock->GetDeltaTick() / 1000.0f;
-	switch (m_eCurrentScene) {
+	switch (m_eCurrentScene)
+	{
 	case MENU_SCENE:
 	{
 		m_pMenuLevelScene->ProcessLevel();
@@ -76,7 +81,8 @@ void SceneManager::UpdateCurrentScene()
 		m_pLevelOneScene->ProcessLevel(fDeltaTick);
 		break;
 	}
-	case END_SCENE: {
+	case END_SCENE:
+	{
 		m_pEndLevelScene->ProcessLevel();
 	}
 	default:break;
@@ -117,7 +123,8 @@ void SceneManager::InitializeScene(SceneState _scene)
 			m_pLevelOneScene->InitializeObjects();
 			break;
 		}
-		case END_SCENE: {
+		case END_SCENE:
+		{
 			m_pEndLevelScene->Init();
 		}
 	default:break;

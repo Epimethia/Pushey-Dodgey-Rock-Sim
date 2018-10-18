@@ -128,7 +128,8 @@ const bool SoundManager::LoadAudio(const char * _path, FMOD::Sound * &_sound, in
 	return true;
 }
 
-void SoundManager::Update() {
+void SoundManager::Update()
+{
 	m_audioMgr->update();
 }
 
