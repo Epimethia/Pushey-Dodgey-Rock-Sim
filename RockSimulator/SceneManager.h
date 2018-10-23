@@ -36,7 +36,11 @@ public:
 	void RenderCurrentScene();
 	void UpdateCurrentScene();
 	void RestartLevelOne();
-	void SetWinner(unsigned int _WinningPlayer);
+	void SetWinner(unsigned int _WinningPlayer);		
+	bool GetState() { return m_bTransitioning; }
+	void SetOpacity(float _opacity) { m_fOpacity = _opacity; }
+	float GetOpacity() { return m_fOpacity; }
+	void SetTransitioning(bool _state) { m_bTransitioning = _state; }
 
 private:
 	static std::shared_ptr<SceneManager> s_pInstance;
@@ -49,6 +53,10 @@ private:
 	std::shared_ptr<MainMenu> m_pMenuLevelScene;
 	std::shared_ptr<EndLevel> m_pEndLevelScene;
 	std::shared_ptr<CClock> m_pClock;
+
+	// Scene transition stuff
+	bool m_bTransitioning{ false };
+	float m_fOpacity{ 1.0f };
 };
 
 #endif

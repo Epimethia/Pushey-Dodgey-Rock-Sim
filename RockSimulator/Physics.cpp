@@ -34,9 +34,16 @@ Physics::Physics()
 	m_pWorld->SetContactListener(&MyContactListener::GetInstance());
 }
 
-void Physics::Process()
+void Physics::Process(float _deltaTick)
 {
-	m_pWorld->Step(m_fTimeStep, m_iVelocityIterations, m_iPositionIterations);
+	m_fAccumulator += _deltaTick;
+	
+	while (m_fAccumulator >= m_fTimeStep)
+	{
+		m_pWorld->Step(m_fTimeStep, m_iVelocityIterations, m_iPositionIterations);
+		m_fAccumulator -= m_fTimeStep;
+	}
+
 	m_pWorld->ClearForces();
 }
 

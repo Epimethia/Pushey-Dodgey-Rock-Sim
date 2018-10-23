@@ -162,15 +162,6 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 			else if (m_sDeathCount[1] == 2) {
 				m_pPointsSpriteArr[0]->Initialize("Resources/Images/HUD/TwoPoint.png");
 			}
-
-			// Check for win
-			if (m_sDeathCount[1] > 2)
-			{
-				SceneManager::GetInstance()->InitializeScene(END_SCENE);
-				SceneManager::GetInstance()->SetWinner(0);
-				SceneManager::GetInstance()->SetCurrentScene(END_SCENE);
-			}
-
 			return;
 		}
 
@@ -187,17 +178,6 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 			m_vpAsteroidVec0.clear();
 			m_vpAsteroidVec1.clear();
 			m_fSpawnTime = 0.0f;
-
-			// Increment score
-
-			// Check for win
-			if (m_sDeathCount[0] > 2)
-			{
-				SceneManager::GetInstance()->InitializeScene(END_SCENE);
-				SceneManager::GetInstance()->SetWinner(1);
-				SceneManager::GetInstance()->SetCurrentScene(END_SCENE);
-			}
-
 			return;
 		}	
 
@@ -220,7 +200,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	}
 
 	// Process Physics
-	Physics::GetInstance()->Process();	
+	Physics::GetInstance()->Process(_DeltaTick);
 
 	//	Processing the player input
 	ProcessPlayerInput(_DeltaTick);
@@ -237,7 +217,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	m_pPlayerTwo->Update();
 
 	// Checking for player death..
-	CheckPlayerDeaths(); 
+	CheckPlayerDeaths(_DeltaTick);
 
 	// Spawn Asteroids
 	SpawnAsteroids(_DeltaTick);
@@ -250,6 +230,23 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 
 	//	Process the SoundManager
 	SoundManager::GetInstance()->Update();
+
+	// Scene Transition
+	if (SceneManager::GetInstance()->GetState())
+	{
+		// Fade out 
+		float fSceneOpacity = SceneManager::GetInstance()->GetOpacity();
+		if (fSceneOpacity > 0.0f)
+		{
+			SceneManager::GetInstance()->SetOpacity(fSceneOpacity - (_DeltaTick));
+		}
+		else
+		{
+			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);			
+			SceneManager::GetInstance()->SetOpacity(1.0f);
+			SceneManager::GetInstance()->SetTransitioning(false);
+		}
+	}
 }
 
 void LevelOne::ProcessTimer(float _DeltaTick) {
@@ -377,7 +374,7 @@ void LevelOne::MoveAsteroids(float _DeltaTick)
 }
 
 
-void LevelOne::CheckPlayerDeaths()
+void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 {
 	//	Checks if either player has died
 	if (m_pPlayerOne->GetPlayerDead())
@@ -396,15 +393,13 @@ void LevelOne::CheckPlayerDeaths()
 		m_vpAsteroidVec1.clear();
 		m_fSpawnTime = 0.0f;
 
-		// Increment score
-
 		// Check for win
 		if (m_sDeathCount[0] > 2)
-		{
+		{			
+			SceneManager::GetInstance()->SetTransitioning(true);
 			SceneManager::GetInstance()->InitializeScene(END_SCENE);
 			SceneManager::GetInstance()->SetWinner(1);
 			SoundManager::GetInstance()->StopBGM();
-			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);			
 		}
 	}
 	// Checking for player death..
@@ -429,11 +424,11 @@ void LevelOne::CheckPlayerDeaths()
 
 		// Check for win
 		if (m_sDeathCount[1] > 2)
-		{			
+		{				
+			SceneManager::GetInstance()->SetTransitioning(true);
 			SceneManager::GetInstance()->InitializeScene(END_SCENE);
-			SceneManager::GetInstance()->SetWinner(0);
 			SoundManager::GetInstance()->StopBGM();
-			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);			
+			SceneManager::GetInstance()->SetWinner(0);			
 		}
 	}
 

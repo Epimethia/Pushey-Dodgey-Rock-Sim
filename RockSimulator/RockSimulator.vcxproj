@@ -140,6 +140,7 @@
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="EndLevel.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="healthbar.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="LevelOne.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="EndLevel.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="healthbar.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="LevelOne.h" />
@@ -181,6 +183,8 @@
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs" />
     <None Include="Resources\Shaders\Fragment_DebugShader.fs" />
+    <None Include="Resources\Shaders\FrameBufferFragmentShader.fs" />
+    <None Include="Resources\Shaders\FrameBufferVertexShader.vs" />
     <None Include="Resources\Shaders\VertexShader.vs" />
     <None Include="Resources\Shaders\Vertex_DebugShader.vs" />
   </ItemGroup>

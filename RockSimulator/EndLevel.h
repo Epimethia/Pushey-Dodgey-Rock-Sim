@@ -25,6 +25,7 @@ public:
 	void Render();
 	void ProcessLevel();
 	void SetWinner(unsigned int _WinningPlayer);
+	unsigned int GetWinner();
 
 
 private:
@@ -34,6 +35,7 @@ private:
 	std::shared_ptr<Option> m_pOptArr[2];
 	std::shared_ptr<Sprite> m_pBackground;
 	unsigned int m_iCurrentOpt;
+	unsigned int m_iWinner;
 };
 
 #endif

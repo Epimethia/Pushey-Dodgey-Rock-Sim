@@ -7,9 +7,10 @@
 #include "ShaderLoader.h"
 #include "SceneManager.h"
 #include "Utilities.h"
-
+#include "FrameBuffer.h"
 
 SceneManager* g_pSceneManager{ nullptr };
+FrameBuffer* exampleFrameBuffer = new FrameBuffer();
 
 void Update();
 void Render();
@@ -29,11 +30,13 @@ int main(int argc, char** argv)
 	glewInit();
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	std::srand(static_cast<unsigned int>(time(NULL)));
+
 	// Initialize the starting scene
 	SceneManager::GetInstance()->InitializeScene(MENU_SCENE);
 	// Set the starting scene
 	SceneManager::GetInstance()->SetCurrentScene(MENU_SCENE);
-
+	// Init frame buffer
+	exampleFrameBuffer->Initialize();
 
 	glutDisplayFunc(Render);
 	glutIdleFunc(Update);
@@ -47,8 +50,12 @@ int main(int argc, char** argv)
 
 void Render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	exampleFrameBuffer->BindFrameBuffer(); // has clearing in here
+
 	SceneManager::GetInstance()->RenderCurrentScene();
+
+	exampleFrameBuffer->Render();
 	glutSwapBuffers();
 }
 
@@ -60,6 +67,8 @@ void Update()
 
 void ExitFunction()
 {
+	delete exampleFrameBuffer;
+	exampleFrameBuffer = nullptr;
 	SceneManager::DestroyInstance();
 	ShaderLoader::DestroyInstance();
 }

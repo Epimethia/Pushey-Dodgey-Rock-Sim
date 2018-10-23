@@ -61,6 +61,9 @@
     <ClCompile Include="EndLevel.cpp">
       <Filter>NotEngine\Levels\End Level</Filter>
     </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -126,6 +129,9 @@
     <ClInclude Include="EndLevel.h">
       <Filter>NotEngine\Levels\End Level</Filter>
     </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShader.fs">
@@ -138,6 +144,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\Vertex_DebugShader.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\FrameBufferFragmentShader.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\FrameBufferVertexShader.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

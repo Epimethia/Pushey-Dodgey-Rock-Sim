@@ -102,16 +102,19 @@ void SceneManager::RestartLevelOne()
 
 void SceneManager::SetWinner(unsigned int _WinningPlayer)
 {
-	m_pEndLevelScene->SetWinner(_WinningPlayer);
+	if (m_pEndLevelScene->GetWinner() == -1) // No winner set yet
+	{
+		m_pEndLevelScene->SetWinner(_WinningPlayer);
+	}	
 }
 
 void SceneManager::SetCurrentScene(SceneState _scene)
 {
-	m_eCurrentScene = _scene;
+	m_eCurrentScene = _scene;			
 }
 
 void SceneManager::InitializeScene(SceneState _scene)
-{
+{	
 	// Create the objects for the specified scene
 	switch (_scene)
 	{
