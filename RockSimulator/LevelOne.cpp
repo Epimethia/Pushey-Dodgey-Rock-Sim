@@ -31,14 +31,14 @@ LevelOne::LevelOne()
 
 	Camera::GetInstance()->SetProj(ki_SCREENWIDTH, ki_SCREENHEIGHT);
 	Camera::GetInstance()->Update();
-	SoundManager::GetInstance()->Initialize();
 
 	m_pClock = &(*CClock::GetInstance());
 
 	m_pPlayerOneController = std::make_shared<XBOXController>(1);
 	m_pPlayerTwoController = std::make_shared<XBOXController>(2);
 	m_fSpawnTime = 0.0f;
-	m_fTimer = 90.0f;
+	m_fTimeRemaining = 90;
+	m_fTimerTick = 0.0f;
 }
 
 LevelOne::~LevelOne()
@@ -76,42 +76,50 @@ void LevelOne::InitializeObjects()
 	//	Initializing the HUD frame
 	m_pHUDFrame->Initialize("Resources/Images/HUD/HUD_Frame.png");
 
-	//	Creating Player One
 	m_pPlayerOne = std::make_shared<PlayerCharacter>();
 	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
 	m_pPlayerOne->SetSpawnPosition(glm::vec3(3.0f, 4.5f, 0.0f));
 	m_pPlayerOne->SetPlayerTexture("Resources/Images/Player_Sprite.png");
-	m_vpEntityVec.push_back(m_pPlayerOne);
 	m_pPlayerOne->LinkScore(&m_sDeathCount[0]);
 	m_pPlayerOne->Initialize();
+	m_vpEntityVec.push_back(m_pPlayerOne);
 
-	//	HealthBars
-	m_pP1HealthBar = std::make_shared<C_HealthBar>("Resources/Images/HUD/Player_One_Healthbar.png");
+
+	m_pP1HealthBar = std::make_shared<C_HealthBar>(
+		"Resources/Images/HUD/Player_One_Healthbar.png", 
+		"Resources/Images/HUD/Player_One_Half.png"
+	);
 	m_pP1HealthBar->SetPosition(glm::vec3(1.88f, 8.55f, 0.0f));
 	m_pP1HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
 
-	//	Points graphic
 	m_pPointsSpriteArr[0]->Initialize("Resources/Images/HUD/ZeroPoint.png");
 
-	//	Player Two
+
 	m_pPlayerTwo = std::make_shared<PlayerCharacter>();
 	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
 	m_pPlayerTwo->SetSpawnPosition(glm::vec3(13.0f, 4.5f, 0.0f));
 	m_pPlayerTwo->SetPlayerTexture("Resources/Images/Player_Sprite2.png");
 	m_vpEntityVec.push_back(m_pPlayerTwo);
-	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
 	m_pPlayerTwo->Initialize();
+	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
 
-	//	Healthbar
-	m_pP2HealthBar = std::make_shared<C_HealthBar>("Resources/Images/HUD/Player_Two_Healthbar.png");
+	m_pP2HealthBar = std::make_shared<C_HealthBar>(
+		"Resources/Images/HUD/Player_Two_Healthbar.png", 
+		"Resources/Images/HUD/Player_Two_Half.png"
+	);
+
 	m_pP2HealthBar->SetPosition(glm::vec3(14.11f, 8.55f, 0.0f));
 	m_pP2HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
 
-	//	Points graphic
 	m_pPointsSpriteArr[1]->Initialize("Resources/Images/HUD/ZeroPoint.png");
 
 	//	Initializing the timer text to appear at the top of the screen
-	m_pTimeDisplay = std::make_shared<TextLabel>(std::to_string(static_cast<unsigned int>(m_fTimer)), "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(700.0f, 790.0f));
+	m_pTimeDisplay = 
+		std::make_shared<TextLabel>(
+			"1:30",	//Timer value itself
+			"Resources/Fonts/Thirteen-Pixel-Fonts.ttf",				//Font
+			glm::vec2(700.0f, 790.0f)								//Position of the timer
+		);
 	m_pTimeDisplay->SetScale(1.9f);
 
 	//	Contact listeners to handle collision between Box2D entities
@@ -121,7 +129,6 @@ void LevelOne::InitializeObjects()
 
 	//Starting the sound manager to play some music
 	SoundManager::GetInstance()->StartLevelBGM();
-
 }
 
 void LevelOne::ProcessLevel(float _DeltaTick) {
@@ -129,7 +136,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	ProcessTimer(_DeltaTick);
 	
 	//	If the timer has ticked down to 0, check the player health values and award points accordingly
-	if (m_fTimer <= 0.0f)
+	if (m_fTimeRemaining <= 0.0f)
 	{
 		//	If neither player has died, the game awards a point to the player with the most health.
 		//	Returns once processing is finished
@@ -137,7 +144,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 		if (m_pPlayerOne->GetHealth() > m_pPlayerTwo->GetHealth())
 		{
 			// Reset timer
-			m_fTimer = 0.0f;
+			m_fTimeRemaining = 0.0f;
 
 			// Reset players
 			m_pPlayerTwo->Respawn();
@@ -170,7 +177,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 		else if (m_pPlayerTwo->GetHealth() > m_pPlayerOne->GetHealth())
 		{
 			// Reset timer
-			m_fTimer = 0.0f;
+			m_fTimeRemaining = 0.0f;
 
 			// Reset players
 			m_pPlayerOne->Respawn();
@@ -207,7 +214,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 			m_fSpawnTime = 0.0f;
 
 			// Reset timer
-			m_fTimer = 90.0f;	
+			m_fTimeRemaining = 90.0f;	
 		}
 		return;
 	}
@@ -248,27 +255,37 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 void LevelOne::ProcessTimer(float _DeltaTick) {
 
 	//	Increments time by the elapsed time since last frame
-	m_fTimer -= _DeltaTick;
-	//	If the timer is above 90 seconds, we need to convert into form M:SS, so we minus 60 from it
-	//	and put "1:--" in front of it
-	if (m_fTimer >= 70.0f) {
-		m_pTimeDisplay->SetText("1:" + std::to_string(static_cast<short>(m_fTimer - 60.0f)));
+	if (m_fTimerTick >= 1.0f){
+		m_fTimeRemaining--;
+		m_fTimerTick = 0.0f;
+		SoundManager::GetInstance()->SoundTimerTick(0);
+
+		//	If the timer is above 90 seconds, we need to convert into form M:SS, so we minus 60 from it
+		//	and put "1:--" in front of it
+		if (m_fTimeRemaining >= 70) {
+			m_pTimeDisplay->SetText("1:" + std::to_string(static_cast<short>(m_fTimeRemaining - 60)));
+		}
+
+		//	If the timer is between 1:00 and 1:10, we need to change it so that it is "1:0-" instead
+		else if (m_fTimeRemaining <= 70 && m_fTimeRemaining > 60) {
+			m_pTimeDisplay->SetText("1:0" + std::to_string(static_cast<short>(m_fTimeRemaining - 60)));
+		}
+
+		//	If the timer has less than 60s left, we change the timer to "0:--"
+		else if (m_fTimeRemaining <= 60 && m_fTimeRemaining > 10) {
+			m_pTimeDisplay->SetText("0:" + std::to_string(static_cast<short>(m_fTimeRemaining)));
+		}
+
+		//	If the timer has less than 10s left, we change it one final time to "0:0-"
+		else {
+			m_pTimeDisplay->SetText("0:0" + std::to_string(static_cast<short>(m_fTimeRemaining)));
+		}
+	}
+	else{
+		m_fTimerTick += _DeltaTick;
 	}
 
-	//	If the timer is between 1:00 and 1:10, we need to change it so that it is "1:0-" instead
-	else if (m_fTimer <= 70.0f && m_fTimer > 60.0f) {
-		m_pTimeDisplay->SetText("1:0" + std::to_string(static_cast<short>(m_fTimer - 60.0f)));
-	}
-
-	//	If the timer has less than 60s left, we change the timer to "0:--"
-	else if (m_fTimer <= 60.0f && m_fTimer > 10.0f) {
-		m_pTimeDisplay->SetText("0:" + std::to_string(static_cast<short>(m_fTimer)));
-	}
-
-	//	If the timer has less than 10s left, we change it one final time to "0:0-"
-	else {
-		m_pTimeDisplay->SetText("0:0" + std::to_string(static_cast<short>(m_fTimer)));
-	}
+	
 }
 
 void LevelOne::SpawnAsteroids(float _DeltaTick)
@@ -366,7 +383,7 @@ void LevelOne::CheckPlayerDeaths()
 	if (m_pPlayerOne->GetPlayerDead())
 	{
 		// Reset timer
-		m_fTimer = 0.0f;
+		m_fTimeRemaining = 0.0f;
 
 		// Reset players
 		m_pPlayerOne->Respawn();
@@ -386,6 +403,7 @@ void LevelOne::CheckPlayerDeaths()
 		{
 			SceneManager::GetInstance()->InitializeScene(END_SCENE);
 			SceneManager::GetInstance()->SetWinner(1);
+			SoundManager::GetInstance()->StopBGM();
 			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);			
 		}
 	}
@@ -393,7 +411,7 @@ void LevelOne::CheckPlayerDeaths()
 	if (m_pPlayerTwo->GetPlayerDead())
 	{
 		// Reset timer
-		m_fTimer = 0.0f;
+		m_fTimeRemaining = 0.0f;
 
 		// Reset players
 		m_pPlayerTwo->Respawn();
@@ -414,6 +432,7 @@ void LevelOne::CheckPlayerDeaths()
 		{			
 			SceneManager::GetInstance()->InitializeScene(END_SCENE);
 			SceneManager::GetInstance()->SetWinner(0);
+			SoundManager::GetInstance()->StopBGM();
 			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);			
 		}
 	}

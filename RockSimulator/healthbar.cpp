@@ -11,7 +11,10 @@
 
 C_HealthBar::C_HealthBar()
 {
-	m_Sprite = std::make_shared<Sprite>();
+	m_HealthBarFull = std::make_shared<Sprite>();
+	m_HealthBarHalf = std::make_shared<Sprite>();
+	m_Sprite = m_HealthBarFull;
+
 }
 
 C_HealthBar::~C_HealthBar()
@@ -19,10 +22,14 @@ C_HealthBar::~C_HealthBar()
 
 }
 
-C_HealthBar::C_HealthBar(const char* _Filepath)
+C_HealthBar::C_HealthBar(const char * _Filepath_Full, const char*  _Filepath_Half)
 {
-	m_Sprite = std::make_shared<Sprite>();
-	m_Sprite->Initialize(_Filepath);
+	m_HealthBarFull = std::make_shared<Sprite>();
+	m_HealthBarHalf = std::make_shared<Sprite>();
+	m_HealthBarFull->Initialize(_Filepath_Full);
+	m_HealthBarHalf->Initialize(_Filepath_Half);
+	m_Sprite = m_HealthBarFull;
+
 }
 
 void
@@ -44,35 +51,9 @@ C_HealthBar::SetScale(glm::vec3& _Scale)
 }
 
 void
-C_HealthBar::SetRotation(float& _Angle)
-{
-	m_fRotationAngle = _Angle;
-}
-
-void
-C_HealthBar::SetRotation(glm::vec3& _Axis)
-{
-	m_vRotationAxis = _Axis;
-}
-
-void
-C_HealthBar::SetRotation(float& _Angle, glm::vec3& _Axis)
-{
-	m_fRotationAngle = _Angle;
-	m_vRotationAxis = _Axis;
-}
-
-glm::vec3&
-C_HealthBar::GetScale()
-{
-	return m_vScale;
-}
-
-void
 C_HealthBar::Render()
 {
 	m_Sprite->Render(
 		glm::translate(glm::mat4(), m_vPosition) *
-		glm::rotate(glm::mat4(), 0.0f, m_vRotationAxis) *
 		glm::scale(glm::mat4(), m_vScale));
 }

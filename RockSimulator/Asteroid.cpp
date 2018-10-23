@@ -79,7 +79,7 @@ void Asteroid::SetPosition(b2Vec2 _position)
 
 void Asteroid::Initialize()
 {
-	m_Sprite->Initialize("Resources/Images/Asteroid.png");
+	m_Sprite->Initialize("Resources/Images/Asteroids/Asteroid.png");
 }
 
 void Asteroid::InitializeDebugDraw()

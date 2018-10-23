@@ -4,6 +4,7 @@
 #include "clock.h"
 #include "MenuLevel.h"
 #include "EndLevel.h"
+#include "SoundManager.h"
 
 
 std::shared_ptr<SceneManager> SceneManager::s_pInstance;
@@ -33,6 +34,7 @@ SceneManager::SceneManager()
 	Input::GetInstance()->Initialize();
 	m_pClock = CClock::GetInstance();
 	m_pClock->Initialise();
+	SoundManager::GetInstance()->Initialize();
 }
 
 SceneManager::~SceneManager()

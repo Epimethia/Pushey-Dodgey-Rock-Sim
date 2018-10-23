@@ -25,41 +25,33 @@ void Sprite::Initialize(const char * _TextureFilepath)
 		-1.0f, -1.0f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f, // Bottom Left
 	};
 
-	//GLfloat m_vertices[32] = {
-	//	// Positions					    // Colors					// Tex Coords
-	//	-1.0f, 1.0f, 0.0f,		0.0f, 1.0f, 0.0f,		0.0f, 0.0f, // Top Left
-	//	1.0f, 1.0f, 0.0f,		1.0f, 0.0f, 0.0f,		1.0f, 0.0f, // Top Right
-	//	1.0f, -1.0f, 0.0f,		1.0f, 1.0f, 0.0f,		1.0f, 1.0f, // Bottom Right
-	//	-1.0f, -1.0f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f, // Bottom Left
-	//};
-
 	GLuint indices[] = {
 		0, 1, 2, // First Triangle
 		0, 2, 3 // Second Triangle
 	};
 
-	m_iProgram = ShaderLoader::GetInstance().CreateProgram("Resources\\Shaders\\VertexShader.vs",
-		"Resources\\Shaders\\FragmentShader.fs");
+	m_iProgram = ShaderLoader::GetInstance().CreateProgram("Resources/Shaders/VertexShader.vs",
+		"Resources/Shaders/FragmentShader.fs");
 
 	glGenTextures(1, &m_iTexture);
 	glBindTexture(GL_TEXTURE_2D, m_iTexture);
 	int width, height;
 	unsigned char* image = SOIL_load_image(
-		_TextureFilepath, // File path/name 
-		&width, // Output for the image width
-		&height, // Output for the image height
-		0, // Output for number of channels
-		SOIL_LOAD_RGBA); // Load RGBA values only
+		_TextureFilepath,	// File path/name 
+		&width,             // Output for the image width
+		&height,            // Output for the image height
+		0,                  // Output for number of channels
+		SOIL_LOAD_RGBA);    // Load RGBA values only
 	glTexImage2D(
-		GL_TEXTURE_2D, // Type of texture
-		0, // Mipmap level, 0 for base
-		GL_RGBA, // Number of color components in texture
-		width, // Width of the texture
-		height, // Height of the texture
-		0, // This value must be 0
-		GL_RGBA, // Format for the pixel data
-		GL_UNSIGNED_BYTE, // Data type of the pixel data
-		image); // Pointer to image data in memory
+		GL_TEXTURE_2D,		// Type of texture
+		0,                  // Mipmap level, 0 for base
+		GL_RGBA,            // Number of color components in texture
+		width,              // Width of the texture
+		height,             // Height of the texture
+		0,                  // This value must be 0
+		GL_RGBA,            // Format for the pixel data
+		GL_UNSIGNED_BYTE,   // Data type of the pixel data
+		image);             // Pointer to image data in memory
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -78,30 +70,30 @@ void Sprite::Initialize(const char * _TextureFilepath)
 		GL_STATIC_DRAW);
 
 	glVertexAttribPointer(
-		0, // Layout location on vertex shader
-		3, // 3 float components (eg position)
-		GL_FLOAT, // Type of data
-		GL_FALSE, // Data normalized?
-		8 * sizeof(GLfloat), // Stride of the single vertex(pos + color)
-		(GLvoid*)(0 * sizeof(GLfloat))); // Offset from beginning of Vert
+		0,                                  // Layout location on vertex shader
+		3,                                  // 3 float components (eg position)
+		GL_FLOAT,                           // Type of data
+		GL_FALSE,                           // Data normalized?
+		8 * sizeof(GLfloat),                // Stride of the single vertex(pos + color)
+		(GLvoid*)(0 * sizeof(GLfloat)));	// Offset from beginning of Vert
 	glEnableVertexAttribArray(0);
 
 	glVertexAttribPointer(
-		1, // Layout location on vertex shader
-		3, // 3 float components (eg position)
-		GL_FLOAT, // Type of data
-		GL_FALSE, // Data normalized?
-		8 * sizeof(GLfloat), // Stride of the single vertex(pos + color)
-		(GLvoid*)(3 * sizeof(GLfloat))); // Offset from beginning of Vert	
+		1,                                  // Layout location on vertex shader
+		3,                                  // 3 float components (eg position)
+		GL_FLOAT,                           // Type of data
+		GL_FALSE,                           // Data normalized?
+		8 * sizeof(GLfloat),                // Stride of the single vertex(pos + color)
+		(GLvoid*)(3 * sizeof(GLfloat)));	// Offset from beginning of Vert	
 	glEnableVertexAttribArray(1);
 
 	glVertexAttribPointer(
-		2, // Layout location on vertex shader
-		2, // 3 float components (eg position)
-		GL_FLOAT, // Type of data
-		GL_FALSE, // Data normalized?
-		8 * sizeof(GLfloat), // Stride of the single vertex(pos + color)
-		(GLvoid*)(6 * sizeof(GLfloat))); // Offset from beginning of Vert	
+		2,                                  // Layout location on vertex shader
+		2,                                  // 3 float components (eg position)
+		GL_FLOAT,                           // Type of data
+		GL_FALSE,                           // Data normalized?
+		8 * sizeof(GLfloat),                // Stride of the single vertex(pos + color)
+		(GLvoid*)(6 * sizeof(GLfloat)));	// Offset from beginning of Vert	
 	glEnableVertexAttribArray(2);
 
 	glGenBuffers(1, &m_iEBO);
@@ -120,9 +112,9 @@ void Sprite::Update()
 void Sprite::Render(glm::mat4 _ModelMatrix)
 {
 	// Set Culling and Use program
-	glCullFace(GL_BACK); // Cull the Back faces
-	glFrontFace(GL_CW); // Front face is Clockwise order
-	glEnable(GL_CULL_FACE); // Turn on the back face culling	
+	glCullFace(GL_BACK);		// Cull the Back faces
+	glFrontFace(GL_CW);			// Front face is Clockwise order
+	glEnable(GL_CULL_FACE);		// Turn on the back face culling	
 	glUseProgram(m_iProgram);
 
 	// Pass mvp to shader

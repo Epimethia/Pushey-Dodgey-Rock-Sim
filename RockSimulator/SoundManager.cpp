@@ -81,7 +81,6 @@ bool SoundManager::Initialize()
 		return false;
 	}
 
-	//LoadAudio("Resources/Sounds/powerup.wav", m_EffectPowerup, FMOD_DEFAULT);
 	LoadAudio("Resources/Sounds/Shoot_1.wav", m_pEffectPew, FMOD_DEFAULT);
 	LoadAudio("Resources/Sounds/Rocket_Boost.wav", m_pEffectRocket, FMOD_LOOP_NORMAL);
 	LoadAudio("Resources/Sounds/Menu_Move.wav", m_pEffectMenuMove, FMOD_DEFAULT);
@@ -98,6 +97,11 @@ bool SoundManager::Initialize()
 	LoadAudio("Resources/Sounds/Shell Shock Shake.mp3", m_pBGGame2, FMOD_LOOP_NORMAL);
 	LoadAudio("Resources/Sounds/Shingle Tingle.mp3", m_pBGGame3, FMOD_LOOP_NORMAL);
 	LoadAudio("Resources/Sounds/The Final End.mp3", m_pBGGame4, FMOD_LOOP_NORMAL);
+
+	LoadAudio("Resources/Sounds/Timer_Count0.wav", m_pEffectTimerTick0, FMOD_DEFAULT);
+	LoadAudio("Resources/Sounds/Timer_Count1.wav", m_pEffectTimerTick1, FMOD_DEFAULT);
+	LoadAudio("Resources/Sounds/Timer_Count2.wav", m_pEffectTimerTick2, FMOD_DEFAULT);
+
 
 	m_vBGMPlaylist.push_back(m_pBGGame0);
 	m_vBGMPlaylist.push_back(m_pBGGame1);
@@ -286,6 +290,20 @@ void SoundManager::SoundSpawn()
 {	
 	m_audioMgr->playSound(m_pEffectSpawn, 0, false, &m_pEffectChannel);	
 	m_pEffectChannel->setVolume(m_fEffectsVolume);
+}
+
+void SoundManager::SoundTimerTick(int _TickType){
+	FMOD::Sound* sound;
+	switch (_TickType){
+		case 0: sound = m_pEffectTimerTick0; break;
+		case 1: sound = m_pEffectTimerTick1; break;
+		case 2: sound = m_pEffectTimerTick2; break;
+		default:sound = m_pEffectTimerTick0; break;
+	}
+
+	m_audioMgr->playSound(sound, 0, false, &m_pEffectChannel);	
+	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	sound = nullptr;
 }
 
 //Name:			    SoundPlayerDeath

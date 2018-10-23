@@ -37,6 +37,7 @@ public:
 	void StopBGM();
 	void SoundPew();
 	void SoundSpawn();
+	void SoundTimerTick(int _TickType);
 	void SoundPlayerDeath();
 	void SoundEnemyDeath();
 	void SoundPowerup();
@@ -82,6 +83,9 @@ private:
 	FMOD::Sound* m_pEffectMenuMove{ nullptr };
 	FMOD::Sound* m_pEffectDamage{ nullptr };
 	FMOD::Sound* m_pEffectMenuClose{ nullptr };
+	FMOD::Sound* m_pEffectTimerTick0{ nullptr };
+	FMOD::Sound* m_pEffectTimerTick1{ nullptr };
+	FMOD::Sound* m_pEffectTimerTick2{ nullptr };
 };
 
 #endif

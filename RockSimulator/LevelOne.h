@@ -55,7 +55,8 @@ private:
 	CClock* m_pClock{ nullptr };
 	short m_sDeathCount[2]{ 0, 0 };
 
-	float m_fTimer;	
+	short m_fTimeRemaining;
+	float m_fTimerTick;
 
 	std::shared_ptr<Sprite> m_pHUDFrame;
 	std::shared_ptr<Sprite> m_pPointsSpriteArr[2];
