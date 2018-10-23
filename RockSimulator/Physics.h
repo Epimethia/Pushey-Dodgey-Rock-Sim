@@ -15,7 +15,7 @@ public:
 	Physics();
 	~Physics();
 
-	void Process();
+	void Process(float _deltaTick);
 	b2Body* CreateBody(b2BodyDef _bodyDef);
 	b2World* GetWorld() const;
 
@@ -30,6 +30,9 @@ private:
 	float32 m_fTimeStep;
 	int32 m_iVelocityIterations;
 	int32 m_iPositionIterations;
+
+	// for syncing physics time steps
+	float m_fAccumulator{ 0 };	
 };
 
 #endif

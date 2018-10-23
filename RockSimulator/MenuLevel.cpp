@@ -6,7 +6,7 @@
 #include "SceneManager.h"
 #include "SoundManager.h"
 #include "Option.h"
-
+#include "clock.h"
 
 
 
@@ -51,37 +51,60 @@ void MainMenu::Render()
 
 void MainMenu::ProcessLevel()
 {
-	if (Input::m_iSpecialKeyState[GLUT_KEY_UP] == INPUT_FIRST_PRESS || Input::m_iKeyState['w'] == INPUT_FIRST_PRESS) {
-		SoundManager::GetInstance()->SoundMenuMove();
-		m_pOptArr[m_iCurrentOpt]->ToggleActive();
-		if (m_iCurrentOpt == 0) {
-			m_iCurrentOpt = 2;
+	if (!SceneManager::GetInstance()->GetState())
+	{
+		if (Input::m_iSpecialKeyState[GLUT_KEY_UP] == INPUT_FIRST_PRESS || Input::m_iKeyState['w'] == INPUT_FIRST_PRESS) {
+			SoundManager::GetInstance()->SoundMenuMove();
+			m_pOptArr[m_iCurrentOpt]->ToggleActive();
+			if (m_iCurrentOpt == 0) {
+				m_iCurrentOpt = 2;
+			}
+			else m_iCurrentOpt--;
+			m_pOptArr[m_iCurrentOpt]->ToggleActive();
 		}
-		else m_iCurrentOpt--;
-		m_pOptArr[m_iCurrentOpt]->ToggleActive();
+		else if (Input::m_iSpecialKeyState[GLUT_KEY_DOWN] == INPUT_FIRST_PRESS || Input::m_iKeyState['s'] == INPUT_FIRST_PRESS) {
+			SoundManager::GetInstance()->SoundMenuMove();
+			m_pOptArr[m_iCurrentOpt]->ToggleActive();
+			if (m_iCurrentOpt == 2) {
+				m_iCurrentOpt = 0;
+			}
+			else m_iCurrentOpt++;
+			m_pOptArr[m_iCurrentOpt]->ToggleActive();
+		}
+		else if (Input::m_iKeyState['\r'] == INPUT_FIRST_PRESS || Input::m_iKeyState[32] == INPUT_FIRST_PRESS) {
+			SoundManager::GetInstance()->SoundMenuClose();
+			switch (m_iCurrentOpt) {
+			case 0: {
+				SoundManager::GetInstance()->StopBGM();
+				SceneManager::GetInstance()->SetTransitioning(true);
+				break;
+			}
+			case 2: {
+				glutLeaveMainLoop();
+			}
+			default:break;
+			}
+		}
 	}
-	else if (Input::m_iSpecialKeyState[GLUT_KEY_DOWN] == INPUT_FIRST_PRESS || Input::m_iKeyState['s'] == INPUT_FIRST_PRESS) {
-		SoundManager::GetInstance()->SoundMenuMove();
-		m_pOptArr[m_iCurrentOpt]->ToggleActive();
-		if (m_iCurrentOpt == 2) {
-			m_iCurrentOpt = 0;
-		}
-		else m_iCurrentOpt++;
-		m_pOptArr[m_iCurrentOpt]->ToggleActive();
-	}
-	else if (Input::m_iKeyState['\r'] == INPUT_FIRST_PRESS || Input::m_iKeyState[32] == INPUT_FIRST_PRESS) {
-		SoundManager::GetInstance()->SoundMenuClose();
-		switch (m_iCurrentOpt) {
-		case 0: {
-			SoundManager::GetInstance()->StopBGM();
-			SceneManager::GetInstance()->RestartLevelOne();
-			SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
-			break;
-		}
-		case 2: {
-			glutLeaveMainLoop();
-		}
-		default:break;
+	else
+	{
+		// Scene Transition
+		if (SceneManager::GetInstance()->GetState())
+		{
+			// Fade out 
+			float fSceneOpacity = SceneManager::GetInstance()->GetOpacity();
+			if (fSceneOpacity > 0.0f)
+			{
+				SceneManager::GetInstance()->SetOpacity(fSceneOpacity - (CClock::GetInstance()->GetDeltaTick() / 1000));
+			}
+			else
+			{
+				SceneManager::GetInstance()->SetOpacity(1.0f);
+				SceneManager::GetInstance()->SetTransitioning(false);
+				
+				SceneManager::GetInstance()->RestartLevelOne();
+				SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);					
+			}
 		}
 	}
 	Input::Update();

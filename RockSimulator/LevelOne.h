@@ -34,7 +34,7 @@ public:
 	void SpawnAsteroids(float _DeltaTick);
 	void OffscreenCleanup();
 	void MoveAsteroids(float _DeltaTick);
-	void CheckPlayerDeaths();
+	void CheckPlayerDeaths(float _DeltaTick);
 	void UpdateScoreValues();
 	void ProcessPlayerInput(float _DeltaTick);
 
