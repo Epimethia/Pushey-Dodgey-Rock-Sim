@@ -311,42 +311,43 @@ void LevelOne::SpawnAsteroids(const float& _DeltaTick)
 
 		switch (dis3(gen))
 		{
-		case 0:
-		{
-			// Left to right asteroid
-			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
-			TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
-			TempAsteroid->Initialize();
-			m_vpAsteroidVec0.push_back(TempAsteroid);
-
-			// Unit Testing
-			if (kb_UNITTESTS)
+			case 0:
 			{
-				// Checking that spawning asteroids worked
-				assert(UnitTests::SizeIncreaseCheck(vec0Size, m_vpAsteroidVec0.size()));
-			}
-			break;
-		}
-		case 1:
-		{
-			// Right to left asteroid
-			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
-			TempAsteroid->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
-			TempAsteroid->Initialize();
-			m_vpAsteroidVec1.push_back(TempAsteroid);
+				// Left to right asteroid
+				std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
+				TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
+				TempAsteroid->Initialize();
+				m_vpAsteroidVec0.push_back(TempAsteroid);
 
-			// Unit Testing
-			if (kb_UNITTESTS)
+				// Unit Testing
+				if (kb_UNITTESTS)
+				{
+					// Checking that spawning asteroids worked
+					assert(UnitTests::SizeIncreaseCheck(vec0Size, m_vpAsteroidVec0.size()));
+				}
+				break;
+			}
+			case 1:
 			{
-				// Checking that spawning asteroids worked				
-				assert(UnitTests::SizeIncreaseCheck(vec1Size, m_vpAsteroidVec1.size()));
-			}
-			break;
-		}
+				// Right to left asteroid
+				std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
+				TempAsteroid->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
+				TempAsteroid->Initialize();
+				m_vpAsteroidVec1.push_back(TempAsteroid);
 
-		// increment spawn timer
-		m_fSpawnTime = 0.0f;	
-	}	
+				// Unit Testing
+				if (kb_UNITTESTS)
+				{
+					// Checking that spawning asteroids worked				
+					assert(UnitTests::SizeIncreaseCheck(vec1Size, m_vpAsteroidVec1.size()));
+				}
+				break;
+			}
+			default: break;
+		}	
+	// increment spawn timer
+		m_fSpawnTime = 0.0f;
+	}
 }
 
 void LevelOne::OffscreenCleanup()
@@ -526,8 +527,7 @@ void LevelOne::ProcessPlayerInput(const float& _DeltaTick)
 	p1_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
 
 	//accelerate while w key is held
-	if (INPUT_HOLD == Input::m_iKeyState['w']|| INPUT_HOLD == p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON])
-	{
+	if (Input::m_iKeyState['w'] == INPUT_HOLD || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {		
 		m_pPlayerOne->AddVelocity(40.0f * _DeltaTick);
 		SoundManager::GetInstance()->SetEngineVolume(0, m_pPlayerOne->GetCurrentSpeed() / 50.0f);
 	}
