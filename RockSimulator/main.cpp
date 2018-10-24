@@ -8,6 +8,7 @@
 #include "SceneManager.h"
 #include "Utilities.h"
 #include "FrameBuffer.h"
+#include <vld.h>
 
 SceneManager* g_pSceneManager{ nullptr };
 FrameBuffer* exampleFrameBuffer = new FrameBuffer();
