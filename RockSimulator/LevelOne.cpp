@@ -287,6 +287,9 @@ void LevelOne::ProcessTimer(float _DeltaTick) {
 
 void LevelOne::SpawnAsteroids(float _DeltaTick)
 {
+	int vec0Size = m_vpAsteroidVec0.size();
+	int vec1Size = m_vpAsteroidVec1.size();
+
 	m_fSpawnTime += _DeltaTick;
 	if (m_fSpawnTime > 1.0f)
 	{
@@ -305,6 +308,13 @@ void LevelOne::SpawnAsteroids(float _DeltaTick)
 			TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
 			TempAsteroid->Initialize();
 			m_vpAsteroidVec0.push_back(TempAsteroid);
+
+			// Unit Testing
+			if (kb_UNITTESTS)
+			{
+				// Checking that spawning asteroids worked
+				assert(UnitTests::SizeIncreaseCheck(vec0Size, m_vpAsteroidVec0.size()));
+			}
 			break;
 		}
 		case 1:
@@ -314,13 +324,20 @@ void LevelOne::SpawnAsteroids(float _DeltaTick)
 			TempAsteroid->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
 			TempAsteroid->Initialize();
 			m_vpAsteroidVec1.push_back(TempAsteroid);
+
+			// Unit Testing
+			if (kb_UNITTESTS)
+			{
+				// Checking that spawning asteroids worked				
+				assert(UnitTests::SizeIncreaseCheck(vec1Size, m_vpAsteroidVec1.size()));
+			}
 			break;
 		}
 		}
 
 		// increment spawn timer
-		m_fSpawnTime = 0.0f;
-	}
+		m_fSpawnTime = 0.0f;	
+	}	
 }
 
 void LevelOne::OffscreenCleanup()
@@ -401,6 +418,13 @@ void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 			SceneManager::GetInstance()->SetWinner(1);
 			SoundManager::GetInstance()->StopBGM();
 		}
+
+		// Check that vectors were cleared properly
+		if (kb_UNITTESTS)
+		{
+			assert(m_vpAsteroidVec0.empty());
+			assert(m_vpAsteroidVec1.empty());
+		}
 	}
 	// Checking for player death..
 	if (m_pPlayerTwo->GetPlayerDead())
@@ -429,6 +453,13 @@ void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 			SceneManager::GetInstance()->InitializeScene(END_SCENE);
 			SoundManager::GetInstance()->StopBGM();
 			SceneManager::GetInstance()->SetWinner(0);			
+		}
+
+		// Check that vectors were cleared properly
+		if (kb_UNITTESTS)
+		{
+			assert(m_vpAsteroidVec0.empty());
+			assert(m_vpAsteroidVec1.empty());
 		}
 	}
 
@@ -461,7 +492,7 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	p1_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
 
 	//accelerate while w key is held
-	if (Input::m_iKeyState['w'] == INPUT_HOLD || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
+	if (Input::m_iKeyState['w'] == INPUT_HOLD || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {		
 		m_pPlayerOne->AddVelocity(40.0f * _DeltaTick);
 		SoundManager::GetInstance()->SetEngineVolume(0, m_pPlayerOne->GetCurrentSpeed() / 50.0f);
 	}

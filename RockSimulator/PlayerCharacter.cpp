@@ -184,6 +184,8 @@ void PlayerCharacter::Update()
 //Moves the player character by the input Translate
 void PlayerCharacter::AddVelocity(float _Speed)
 {
+	b2Vec2 tempVec = m_body->GetLinearVelocity();
+
 	m_body->ApplyForceToCenter(
 	b2Vec2(m_body->GetWorldVector(b2Vec2(0, 1)).x * _Speed,
 		   m_body->GetWorldVector(b2Vec2(0, 1)).y * _Speed),

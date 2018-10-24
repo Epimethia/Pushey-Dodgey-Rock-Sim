@@ -55,10 +55,22 @@ void Asteroid::Update()
 //Moves the player character by the input Translate
 void Asteroid::AddVelocity(b2Vec2 _direction, float _Speed)
 {
+	b2Vec2 tempVec = m_body->GetLinearVelocity();
+
 	m_body->ApplyForceToCenter(
 		b2Vec2((_direction.x * _Speed) * m_body->GetMass(),
 			   (_direction.y * _Speed) * m_body->GetMass()),
 		true);
+
+	// Unit testing
+	if (kb_UNITTESTS)
+	{
+		if ((_direction.x * _Speed) * m_body->GetMass() != 0.0f 
+		 || (_direction.y * _Speed) * m_body->GetMass() != 0.0f)
+		{
+			assert(tempVec != m_body->GetLinearVelocity());
+		}
+	}
 
 	// Limit/Clamp velocity
 	b2Vec2 LinearVelocity = m_body->GetLinearVelocity();
@@ -73,6 +85,7 @@ void Asteroid::AddRotation(float _AngularForce)
 
 void Asteroid::SetPosition(b2Vec2 _position)
 {
+
 	m_body->SetTransform(_position, m_body->GetAngle());
 }
 
