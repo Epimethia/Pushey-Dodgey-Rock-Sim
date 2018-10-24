@@ -29,6 +29,11 @@ LevelOne::LevelOne()
 	m_pPointsSpriteArr[0] = std::make_shared<Sprite>();
 	m_pPointsSpriteArr[1] = std::make_shared<Sprite>();
 
+	m_pPOne_OnePoint = std::make_shared<Sprite>();
+	m_pPTwo_OnePoint = std::make_shared<Sprite>();
+	m_pTwoPoints = std::make_shared<Sprite>();
+	m_pZeroPoints = std::make_shared<Sprite>();
+
 
 	Camera::GetInstance()->SetProj(ki_SCREENWIDTH, ki_SCREENHEIGHT);
 	Camera::GetInstance()->Update();
@@ -93,9 +98,7 @@ void LevelOne::InitializeObjects()
 	m_pP1HealthBar->SetPosition(glm::vec3(1.88f, 8.55f, 0.0f));
 	m_pP1HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
 
-	m_pPointsSpriteArr[0]->Initialize("Resources/Images/HUD/ZeroPoint.png");
-
-
+	
 	m_pPlayerTwo = std::make_shared<PlayerCharacter>();
 	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
 	m_pPlayerTwo->SetSpawnPosition(glm::vec3(13.0f, 4.5f, 0.0f));
@@ -112,7 +115,13 @@ void LevelOne::InitializeObjects()
 	m_pP2HealthBar->SetPosition(glm::vec3(14.11f, 8.55f, 0.0f));
 	m_pP2HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
 
-	m_pPointsSpriteArr[1]->Initialize("Resources/Images/HUD/ZeroPoint.png");
+	m_pPOne_OnePoint->Initialize("Resources/Images/HUD/P1_OnePoint.png");
+	m_pPTwo_OnePoint->Initialize("Resources/Images/HUD/P2_OnePoint.png");
+	m_pTwoPoints->Initialize("Resources/Images/HUD/TwoPoint.png");
+	m_pZeroPoints->Initialize("Resources/Images/HUD/ZeroPoint.png");
+
+	m_pPointsSpriteArr[0] = m_pZeroPoints;
+	m_pPointsSpriteArr[1] = m_pZeroPoints;
 
 	//	Initializing the timer text to appear at the top of the screen
 	m_pTimeDisplay = 
@@ -146,7 +155,7 @@ void LevelOne::ProcessLevel(float _DeltaTick)
 		if (m_pPlayerOne->GetHealth() > m_pPlayerTwo->GetHealth())
 		{
 			// Reset timer
-			m_fTimeRemaining = 0.0f;
+			m_fTimeRemaining = 0;
 
 			// Reset players
 			m_pPlayerTwo->Respawn();
@@ -156,21 +165,12 @@ void LevelOne::ProcessLevel(float _DeltaTick)
 			m_vpAsteroidVec0.clear();
 			m_vpAsteroidVec1.clear();
 			m_fSpawnTime = 0.0f;
-
-			//	Updating the corresponding points graphic
-			if (m_sDeathCount[1] == 1) {
-				m_pPointsSpriteArr[0]->Initialize("Resources/Images/HUD/P1_OnePoint.png");
-			}
-			else if (m_sDeathCount[1] == 2) {
-				m_pPointsSpriteArr[0]->Initialize("Resources/Images/HUD/TwoPoint.png");
-			}
-			return;
 		}
 
 		else if (m_pPlayerTwo->GetHealth() > m_pPlayerOne->GetHealth())
 		{
 			// Reset timer
-			m_fTimeRemaining = 0.0f;
+			m_fTimeRemaining = 0;
 
 			// Reset players
 			m_pPlayerOne->Respawn();
@@ -180,7 +180,7 @@ void LevelOne::ProcessLevel(float _DeltaTick)
 			m_vpAsteroidVec0.clear();
 			m_vpAsteroidVec1.clear();
 			m_fSpawnTime = 0.0f;
-			return;
+
 		}	
 
 		//	If both players are still alive but have equivalent health, the game just resets
@@ -196,8 +196,9 @@ void LevelOne::ProcessLevel(float _DeltaTick)
 			m_fSpawnTime = 0.0f;
 
 			// Reset timer
-			m_fTimeRemaining = 90.0f;	
+			m_fTimeRemaining = 90;	
 		}
+		UpdateScoreValues();
 		return;
 	}
 
@@ -218,7 +219,7 @@ void LevelOne::ProcessLevel(float _DeltaTick)
 	m_pPlayerOne->Update();
 	m_pPlayerTwo->Update();
 
-	// Checking for player death..
+	// Checking for player death
 	CheckPlayerDeaths(_DeltaTick);
 
 	// Spawn Asteroids
@@ -387,20 +388,19 @@ void LevelOne::MoveAsteroids(float _DeltaTick)
 	}
 }
 
-
 void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 {
 	//	Checks if either player has died
 	if (m_pPlayerOne->GetPlayerDead())
 	{
 		// Reset timer
-		m_fTimeRemaining = 0.0f;
+		m_fTimeRemaining = 0;
 
 		// Reset players
 		m_pPlayerOne->Respawn();
 		m_pPlayerTwo->ResetPlayer();
-		m_pP1HealthBar->SetSprite("Resources/Images/HUD/Player_One_Healthbar.png");
-		m_pP2HealthBar->SetSprite("Resources/Images/HUD/Player_Two_Healthbar.png");
+		m_pP1HealthBar->SetHealth(HEALTH::FULL);
+		m_pP2HealthBar->SetHealth(HEALTH::FULL);
 
 		// Reset asteroids
 		m_vpAsteroidVec0.clear();
@@ -420,13 +420,13 @@ void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 	if (m_pPlayerTwo->GetPlayerDead())
 	{
 		// Reset timer
-		m_fTimeRemaining = 0.0f;
+		m_fTimeRemaining = 0;
 
 		// Reset players
 		m_pPlayerTwo->Respawn();
 		m_pPlayerOne->ResetPlayer();
-		m_pP2HealthBar->SetSprite("Resources/Images/HUD/Player_Two_Healthbar.png");
-		m_pP1HealthBar->SetSprite("Resources/Images/HUD/Player_One_Healthbar.png");
+		m_pP2HealthBar->SetHealth(HEALTH::FULL);
+		m_pP1HealthBar->SetHealth(HEALTH::FULL);
 
 
 		// Reset asteroids
@@ -452,23 +452,38 @@ void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 
 void LevelOne::UpdateScoreValues()
 {
+	//if p1's death count is 1, set p2's score counter to 1 point
 	if (1 == m_sDeathCount[0])
 	{
-		m_pPointsSpriteArr[1]->Initialize("Resources/Images/HUD/P2_OnePoint.png");
+		m_pPointsSpriteArr[1] = m_pPTwo_OnePoint;
 	}
+	//if p1's death count is 2, set p2's score counter to 2 points
 	else if (2 == m_sDeathCount[0])
 	{
-		m_pPointsSpriteArr[1]->Initialize("Resources/Images/HUD/TwoPoint.png");
+		m_pPointsSpriteArr[1] = m_pTwoPoints;
+	}
+	//otherwise set it to 0 points
+	else		
+	{
+		m_pPointsSpriteArr[1] = m_pZeroPoints;
 	}
 
+	//if p2's death count is 1, set p1's score counter to 1 point
 	if (1 == m_sDeathCount[1])
 	{
-		m_pPointsSpriteArr[0]->Initialize("Resources/Images/HUD/P1_OnePoint.png");
+		m_pPointsSpriteArr[0] = m_pPOne_OnePoint;
 	}
+	//if p2's death count is 2, set p1's score counter to 2 points
 	else if (2 == m_sDeathCount[1])
 	{
-		m_pPointsSpriteArr[0]->Initialize("Resources/Images/HUD/TwoPoint.png");
+		m_pPointsSpriteArr[0] = m_pTwoPoints;
 	}
+	//otherwise set it to 0 points
+	else		
+	{
+		m_pPointsSpriteArr[0] = m_pZeroPoints;
+	}
+
 }
 
 void LevelOne::ProcessPlayerInput(float _DeltaTick)
@@ -540,7 +555,7 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 		m_pPlayerTwo->Shoot();
 	}
 
-	if (INPUT_HOLD == Input::m_iKeyState['4'] && INPUT_HOLD == Input::m_iKeyState['6'] == INPUT_HOLD)
+	if (INPUT_HOLD == Input::m_iKeyState['4'] && INPUT_HOLD == Input::m_iKeyState['6'])
 	{
 		//	Do Nothing.
 	}
@@ -548,7 +563,7 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	{
 		m_pPlayerTwo->AddRotation(3.0f * _DeltaTick);
 	}
-	else if (INPUT_HOLD == Input::m_iKeyState['6'] == INPUT_HOLD || 0.8f < p2_Controller->normalizedLX)
+	else if (INPUT_HOLD == Input::m_iKeyState['6'] || 0.8f < p2_Controller->normalizedLX)
 	{
 		m_pPlayerTwo->AddRotation(-3.0f * _DeltaTick);
 	}
@@ -557,12 +572,12 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	//If player health is less than or equal to 50%, swap to the 50% sprite
 	if (50.0f >= m_pPlayerOne->GetHealth())
 	{
-		m_pP1HealthBar->SetSprite("Resources/Images/HUD/Player_One_Half.png");
+		m_pP1HealthBar->SetHealth(HEALTH::HALF);
 	}
 	
 	if (50.0f >= m_pPlayerTwo->GetHealth())
 	{
-		m_pP2HealthBar->SetSprite("Resources/Images/HUD/Player_Two_Half.png");
+		m_pP2HealthBar->SetHealth(HEALTH::HALF);
 	}
 }
 
@@ -596,8 +611,8 @@ void LevelOne::RenderObjects()
 		}
 	}
 	
-	m_pPointsSpriteArr[0]->Render(glm::translate(glm::mat4(), glm::vec3(5.8f, 8.58f, 0.0f))* glm::scale(glm::mat4(), glm::vec3(0.585f, 0.115f, 0.0f)));
-	m_pPointsSpriteArr[1]->Render(glm::translate(glm::mat4(), glm::vec3(10.2f, 8.58f, 0.0f))* glm::scale(glm::mat4(), glm::vec3(0.585f, 0.115f, 0.0f)));
+	//m_pPointsSpriteArr[0]->Render(glm::translate(glm::mat4(), glm::vec3(5.8f, 8.58f, 0.0f))* glm::scale(glm::mat4(), glm::vec3(0.585f, 0.115f, 0.0f)));
+	//m_pPointsSpriteArr[1]->Render(glm::translate(glm::mat4(), glm::vec3(10.2f, 8.58f, 0.0f))* glm::scale(glm::mat4(), glm::vec3(0.585f, 0.115f, 0.0f)));
 
 	m_pP1HealthBar->Render();
 	m_pP2HealthBar->Render();

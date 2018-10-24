@@ -59,11 +59,16 @@ private:
 	float m_fTimerTick;
 
 	std::shared_ptr<Sprite> m_pHUDFrame;
+
 	std::shared_ptr<Sprite> m_pPointsSpriteArr[2];
+	std::shared_ptr<Sprite> m_pPOne_OnePoint;
+	std::shared_ptr<Sprite> m_pPTwo_OnePoint;
+	std::shared_ptr<Sprite> m_pTwoPoints;
+	std::shared_ptr<Sprite> m_pZeroPoints;
+
 
 	std::shared_ptr<TextLabel> m_pTimeDisplay;
 
-	//short m_sRoundCounter{ 1 };
 
 };
 

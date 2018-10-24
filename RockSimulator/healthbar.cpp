@@ -33,9 +33,19 @@ C_HealthBar::C_HealthBar(const char * _Filepath_Full, const char*  _Filepath_Hal
 }
 
 void
-C_HealthBar::SetSprite(const char* _Filepath)
+C_HealthBar::SetHealth(HEALTH _HealthVal)
 {
-	m_Sprite->Initialize(_Filepath);
+	switch (_HealthVal)
+	{
+		case FULL:
+			m_Sprite = m_HealthBarFull;
+			break;
+		case HALF:
+			m_Sprite = m_HealthBarHalf;
+			break;
+		default:break;
+	}
+	
 }
 
 void

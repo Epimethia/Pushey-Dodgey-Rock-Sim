@@ -52,7 +52,7 @@ void Asteroid::Update()
 }
 
 //Update Overload
-//Moves the player character by the input Translate
+//Moves the asteroid by the input Translate
 void Asteroid::AddVelocity(b2Vec2 _direction, float _Speed)
 {
 	m_body->ApplyForceToCenter(
@@ -79,7 +79,9 @@ void Asteroid::SetPosition(b2Vec2 _position)
 
 void Asteroid::Initialize()
 {
-	m_Sprite->Initialize("Resources/Images/Asteroids/Asteroid.png");
+	//randomizing the asteroid sprite
+	int spriteIndex = rand() % 7;
+	m_Sprite->Initialize(std::string("Resources/Images/Asteroids/Asteroid_" + std::to_string(spriteIndex) + ".png").c_str());
 }
 
 void Asteroid::InitializeDebugDraw()
