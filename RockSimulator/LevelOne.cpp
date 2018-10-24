@@ -21,6 +21,7 @@
 #include "healthbar.h"
 #include "SceneManager.h"
 
+
 LevelOne::LevelOne()
 {
 	m_pBackground = std::make_shared<Sprite>();	
@@ -131,12 +132,13 @@ void LevelOne::InitializeObjects()
 	SoundManager::GetInstance()->StartLevelBGM();
 }
 
-void LevelOne::ProcessLevel(float _DeltaTick) {
+void LevelOne::ProcessLevel(float _DeltaTick)
+{
 	// Process the timer
 	ProcessTimer(_DeltaTick);
 	
 	//	If the timer has ticked down to 0, check the player health values and award points accordingly
-	if (m_fTimeRemaining <= 0.0f)
+	if (0.0f >= m_fTimeRemaining)
 	{
 		//	If neither player has died, the game awards a point to the player with the most health.
 		//	Returns once processing is finished
@@ -236,7 +238,7 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	{
 		// Fade out 
 		float fSceneOpacity = SceneManager::GetInstance()->GetOpacity();
-		if (fSceneOpacity > 0.0f)
+		if (0.0f < fSceneOpacity)
 		{
 			SceneManager::GetInstance()->SetOpacity(fSceneOpacity - (_DeltaTick));
 		}
@@ -249,36 +251,43 @@ void LevelOne::ProcessLevel(float _DeltaTick) {
 	}
 }
 
-void LevelOne::ProcessTimer(float _DeltaTick) {
+void LevelOne::ProcessTimer(float _DeltaTick)
+{
 
 	//	Increments time by the elapsed time since last frame
-	if (m_fTimerTick >= 1.0f){
+	if (1.0f <= m_fTimerTick)
+	{
 		m_fTimeRemaining--;
 		m_fTimerTick = 0.0f;
 		SoundManager::GetInstance()->SoundTimerTick(0);
 
 		//	If the timer is above 90 seconds, we need to convert into form M:SS, so we minus 60 from it
 		//	and put "1:--" in front of it
-		if (m_fTimeRemaining >= 70) {
+		if (70 <= m_fTimeRemaining)
+		{
 			m_pTimeDisplay->SetText("1:" + std::to_string(static_cast<short>(m_fTimeRemaining - 60)));
 		}
 
 		//	If the timer is between 1:00 and 1:10, we need to change it so that it is "1:0-" instead
-		else if (m_fTimeRemaining <= 70 && m_fTimeRemaining > 60) {
+		else if (70 <= m_fTimeRemaining && 60 < m_fTimeRemaining)
+		{
 			m_pTimeDisplay->SetText("1:0" + std::to_string(static_cast<short>(m_fTimeRemaining - 60)));
 		}
 
 		//	If the timer has less than 60s left, we change the timer to "0:--"
-		else if (m_fTimeRemaining <= 60 && m_fTimeRemaining > 10) {
+		else if (60 >= m_fTimeRemaining && 10 < m_fTimeRemaining)
+		{
 			m_pTimeDisplay->SetText("0:" + std::to_string(static_cast<short>(m_fTimeRemaining)));
 		}
 
 		//	If the timer has less than 10s left, we change it one final time to "0:0-"
-		else {
+		else
+		{
 			m_pTimeDisplay->SetText("0:0" + std::to_string(static_cast<short>(m_fTimeRemaining)));
 		}
 	}
-	else{
+	else
+	{
 		m_fTimerTick += _DeltaTick;
 	}
 
@@ -288,7 +297,7 @@ void LevelOne::ProcessTimer(float _DeltaTick) {
 void LevelOne::SpawnAsteroids(float _DeltaTick)
 {
 	m_fSpawnTime += _DeltaTick;
-	if (m_fSpawnTime > 1.0f)
+	if (1.0f < m_fSpawnTime)
 	{
 		std::random_device rd;  //Will be used to obtain a seed for the random number engine
 		std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -298,24 +307,29 @@ void LevelOne::SpawnAsteroids(float _DeltaTick)
 
 		switch (dis3(gen))
 		{
-		case 0:
-		{
-			// Left to right asteroid
-			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
-			TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
-			TempAsteroid->Initialize();
-			m_vpAsteroidVec0.push_back(TempAsteroid);
+			case 0:
+			{
+				// Left to right asteroid
+				std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
+				TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
+				TempAsteroid->Initialize();
+				m_vpAsteroidVec0.push_back(TempAsteroid);
+				break;
+			}
+			case 1:
+			{
+				// Right to left asteroid
+				std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
+				TempAsteroid->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
+				TempAsteroid->Initialize();
+				m_vpAsteroidVec1.push_back(TempAsteroid);
+				break;
+			}
+			default:
+			{
+
+			}
 			break;
-		}
-		case 1:
-		{
-			// Right to left asteroid
-			std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
-			TempAsteroid->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
-			TempAsteroid->Initialize();
-			m_vpAsteroidVec1.push_back(TempAsteroid);
-			break;
-		}
 		}
 
 		// increment spawn timer
@@ -327,7 +341,7 @@ void LevelOne::OffscreenCleanup()
 {
 	for (unsigned int i = 0; i < m_vpAsteroidVec0.size(); i++)
 	{
-		if (m_vpAsteroidVec0[i] != nullptr)
+		if (nullptr != m_vpAsteroidVec0[i])
 		{
 			if (m_vpAsteroidVec0[i]->GetOffScreenBool())
 			{
@@ -337,7 +351,7 @@ void LevelOne::OffscreenCleanup()
 	}
 	for (unsigned int i = 0; i < m_vpAsteroidVec1.size(); i++)
 	{
-		if (m_vpAsteroidVec1[i] != nullptr)
+		if (nullptr != m_vpAsteroidVec1[i])
 		{
 			if (m_vpAsteroidVec1[i]->GetOffScreenBool())
 			{
@@ -354,8 +368,8 @@ void LevelOne::MoveAsteroids(float _DeltaTick)
 	{
 		m_vpAsteroidVec0[i]->AddVelocity(b2Vec2(1.0f, 0.0f), 40.0f * _DeltaTick);
 		// Destroy asteroid if it goes off screen
-		if (m_vpAsteroidVec0[i]->GetPosition().x > 20.0f || m_vpAsteroidVec0[i]->GetPosition().y > 20.0f
-			|| m_vpAsteroidVec0[i]->GetPosition().x < -20.0f || m_vpAsteroidVec0[i]->GetPosition().y < -20.0f)
+		if (20.0f < m_vpAsteroidVec0[i]->GetPosition().x || 20.0f < m_vpAsteroidVec0[i]->GetPosition().y
+			|| -20.0f > m_vpAsteroidVec0[i]->GetPosition().x || -20.0f > m_vpAsteroidVec0[i]->GetPosition().y)
 		{
 			m_vpAsteroidVec0[i]->SetOffScreenBool(true);
 		}
@@ -365,8 +379,8 @@ void LevelOne::MoveAsteroids(float _DeltaTick)
 	{
 		m_vpAsteroidVec1[i]->AddVelocity(b2Vec2(-1.0f, 0.0f), 40.0f * _DeltaTick);
 		// Destroy asteroid if it goes off screen
-		if (m_vpAsteroidVec1[i]->GetPosition().x > 20.0f || m_vpAsteroidVec1[i]->GetPosition().y > 20.0f
-			|| m_vpAsteroidVec1[i]->GetPosition().x < -20.0f || m_vpAsteroidVec1[i]->GetPosition().y < -20.0f)
+		if (20.0f < m_vpAsteroidVec1[i]->GetPosition().x || 20.0f < m_vpAsteroidVec1[i]->GetPosition().y
+			|| -20.0f > m_vpAsteroidVec1[i]->GetPosition().x || -20.0f > m_vpAsteroidVec1[i]->GetPosition().y)
 		{
 			m_vpAsteroidVec1[i]->SetOffScreenBool(true);
 		}
@@ -394,7 +408,7 @@ void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 		m_fSpawnTime = 0.0f;
 
 		// Check for win
-		if (m_sDeathCount[0] > 2)
+		if (2 < m_sDeathCount[0])
 		{			
 			SceneManager::GetInstance()->SetTransitioning(true);
 			SceneManager::GetInstance()->InitializeScene(END_SCENE);
@@ -423,7 +437,7 @@ void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 		// Increment score
 
 		// Check for win
-		if (m_sDeathCount[1] > 2)
+		if (2 < m_sDeathCount[1])
 		{				
 			SceneManager::GetInstance()->SetTransitioning(true);
 			SceneManager::GetInstance()->InitializeScene(END_SCENE);
@@ -438,17 +452,21 @@ void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 
 void LevelOne::UpdateScoreValues()
 {
-	if (m_sDeathCount[0] == 1) {
+	if (1 == m_sDeathCount[0])
+	{
 		m_pPointsSpriteArr[1]->Initialize("Resources/Images/HUD/P2_OnePoint.png");
 	}
-	else if (m_sDeathCount[0] == 2) {
+	else if (2 == m_sDeathCount[0])
+	{
 		m_pPointsSpriteArr[1]->Initialize("Resources/Images/HUD/TwoPoint.png");
 	}
 
-	if (m_sDeathCount[1] == 1) {
+	if (1 == m_sDeathCount[1])
+	{
 		m_pPointsSpriteArr[0]->Initialize("Resources/Images/HUD/P1_OnePoint.png");
 	}
-	else if (m_sDeathCount[1] == 2) {
+	else if (2 == m_sDeathCount[1])
+	{
 		m_pPointsSpriteArr[0]->Initialize("Resources/Images/HUD/TwoPoint.png");
 	}
 }
@@ -461,30 +479,36 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	p1_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
 
 	//accelerate while w key is held
-	if (Input::m_iKeyState['w'] == INPUT_HOLD || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
+	if (INPUT_HOLD == Input::m_iKeyState['w']|| INPUT_HOLD == p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON])
+	{
 		m_pPlayerOne->AddVelocity(40.0f * _DeltaTick);
 		SoundManager::GetInstance()->SetEngineVolume(0, m_pPlayerOne->GetCurrentSpeed() / 50.0f);
 	}
 	//if first press, begin the engine sound
-	if (Input::m_iKeyState['w'] == INPUT_FIRST_PRESS || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_PRESS) {
+	if (INPUT_FIRST_PRESS == Input::m_iKeyState['w'] || INPUT_FIRST_PRESS == p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON])
+	{
 		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
 		SoundManager::GetInstance()->ToggleEngineSound(0, m_pPlayerOne->GetPlayerAccelerate());
 	}
 	//if released, stop the engine sound
-	if (Input::m_iKeyState['w'] == INPUT_FIRST_RELEASE || p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_RELEASE) {
+	if (INPUT_FIRST_RELEASE == Input::m_iKeyState['w'] || INPUT_FIRST_RELEASE == p1_Controller->ControllerButtons[BOTTOM_FACE_BUTTON])
+	{
 		m_pPlayerOne->GetPlayerAccelerate() = !m_pPlayerOne->GetPlayerAccelerate();
 		SoundManager::GetInstance()->ToggleEngineSound(0, m_pPlayerOne->GetPlayerAccelerate());
 	}
 	//shoot when spacebar
-	if (Input::m_iKeyState[32] == INPUT_FIRST_PRESS || p1_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_FIRST_PRESS) {
+	if (INPUT_FIRST_PRESS == Input::m_iKeyState[32] || INPUT_FIRST_PRESS == p1_Controller->ControllerButtons[LEFT_FACE_BUTTON])
+	{
 		m_pPlayerOne->Shoot();
 	}
 
 	//turn when a/d
-	if (Input::m_iKeyState['a'] == INPUT_HOLD || p1_Controller->normalizedLX < -0.8f) {
+	if (INPUT_HOLD == Input::m_iKeyState['a'] || -0.8f > p1_Controller->normalizedLX)
+	{
 		m_pPlayerOne->AddRotation(3.0f * _DeltaTick);
 	}
-	if (Input::m_iKeyState['d'] == INPUT_HOLD || p1_Controller->normalizedLX > 0.8f) {
+	if (INPUT_HOLD == Input::m_iKeyState['d'] || 0.8f < p1_Controller->normalizedLX)
+	{
 		m_pPlayerOne->AddRotation(-3.0f * _DeltaTick);
 	}
 
@@ -493,39 +517,51 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 	//Making the controller vibrate
 	p2_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerTwo->GetVibrateRate()));
 	//accelerate while 8 key is held
-	if (Input::m_iKeyState['8'] == INPUT_HOLD || p2_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_HOLD) {
+	if (INPUT_HOLD == Input::m_iKeyState['8'] || INPUT_HOLD == p2_Controller->ControllerButtons[BOTTOM_FACE_BUTTON])
+	{
 		m_pPlayerTwo->AddVelocity(40.0f * _DeltaTick);
 		SoundManager::GetInstance()->SetEngineVolume(1, m_pPlayerTwo->GetCurrentSpeed() / 50.0f);
 	}
 	//if first press, begin the engine sound
-	if (Input::m_iKeyState['8'] == INPUT_FIRST_PRESS || p2_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_PRESS) {
+	if (INPUT_FIRST_PRESS == Input::m_iKeyState['8'] || INPUT_FIRST_PRESS == p2_Controller->ControllerButtons[BOTTOM_FACE_BUTTON])
+	{
 		m_pPlayerTwo->GetPlayerAccelerate() = !m_pPlayerTwo->GetPlayerAccelerate();
 		SoundManager::GetInstance()->ToggleEngineSound(1, m_pPlayerTwo->GetPlayerAccelerate());
 	}
 	//if released, stop the engine sound
-	if (Input::m_iKeyState['8'] == INPUT_FIRST_RELEASE || p2_Controller->ControllerButtons[BOTTOM_FACE_BUTTON] == INPUT_FIRST_RELEASE) {
+	if (INPUT_FIRST_RELEASE == Input::m_iKeyState['8'] || INPUT_FIRST_RELEASE == p2_Controller->ControllerButtons[BOTTOM_FACE_BUTTON])
+	{
 		m_pPlayerTwo->GetPlayerAccelerate() = !m_pPlayerTwo->GetPlayerAccelerate();
 		SoundManager::GetInstance()->ToggleEngineSound(1, m_pPlayerTwo->GetPlayerAccelerate());
 	}
 
-	if (Input::m_iKeyState['0'] == INPUT_FIRST_PRESS || p2_Controller->ControllerButtons[LEFT_FACE_BUTTON] == INPUT_FIRST_PRESS) {
+	if (INPUT_FIRST_PRESS == Input::m_iKeyState['0'] || INPUT_FIRST_PRESS == p2_Controller->ControllerButtons[LEFT_FACE_BUTTON])
+	{
 		m_pPlayerTwo->Shoot();
 	}
 
-	if (Input::m_iKeyState['4'] == INPUT_HOLD || p2_Controller->normalizedLX < -0.8f) {
+	if (INPUT_HOLD == Input::m_iKeyState['4'] && INPUT_HOLD == Input::m_iKeyState['6'] == INPUT_HOLD)
+	{
+		//	Do Nothing.
+	}
+	else if (INPUT_HOLD == Input::m_iKeyState['4'] || -0.8f > p2_Controller->normalizedLX)
+	{
 		m_pPlayerTwo->AddRotation(3.0f * _DeltaTick);
 	}
-	if (Input::m_iKeyState['6'] == INPUT_HOLD || p2_Controller->normalizedLX > 0.8f) {
+	else if (INPUT_HOLD == Input::m_iKeyState['6'] == INPUT_HOLD || 0.8f < p2_Controller->normalizedLX)
+	{
 		m_pPlayerTwo->AddRotation(-3.0f * _DeltaTick);
 	}
 
 	
 	//If player health is less than or equal to 50%, swap to the 50% sprite
-	if (m_pPlayerOne->GetHealth() <= 50.0f) {
+	if (50.0f >= m_pPlayerOne->GetHealth())
+	{
 		m_pP1HealthBar->SetSprite("Resources/Images/HUD/Player_One_Half.png");
 	}
 	
-	if (m_pPlayerTwo->GetHealth() <= 50.0f) {
+	if (50.0f >= m_pPlayerTwo->GetHealth())
+	{
 		m_pP2HealthBar->SetSprite("Resources/Images/HUD/Player_Two_Half.png");
 	}
 }
