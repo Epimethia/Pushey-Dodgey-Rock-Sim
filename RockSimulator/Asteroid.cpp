@@ -21,7 +21,7 @@ Asteroid::Asteroid(float _scale)
 	dynamicCircle.m_p.Set(0.0f, 0.0f);
 	dynamicCircle.m_radius = _scale;
 	fixtureDef.shape = &dynamicCircle;
-	fixtureDef.density = 3.0f * _scale;
+	fixtureDef.density = 0.4f + (_scale / 5.0f);
 	fixtureDef.friction = 0.3f;
 	fixtureDef.restitution = 1.0f;
 	m_body->CreateFixture(&fixtureDef);
