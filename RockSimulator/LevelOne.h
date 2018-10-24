@@ -29,14 +29,14 @@ public:
 
 	void InitializeObjects();
 	void RenderObjects();
-	void ProcessLevel(float _DeltaTick);
-	void ProcessTimer(float _DeltaTick);
-	void SpawnAsteroids(float _DeltaTick);
+	void ProcessLevel(const float& _DeltaTick);
+	void ProcessTimer(const float& _DeltaTick);
+	void SpawnAsteroids(const float& _DeltaTick);
 	void OffscreenCleanup();
-	void MoveAsteroids(float _DeltaTick);
-	void CheckPlayerDeaths(float _DeltaTick);
+	void MoveAsteroids(const float& _DeltaTick);
+	void CheckPlayerDeaths(const float& _DeltaTick);
 	void UpdateScoreValues();
-	void ProcessPlayerInput(float _DeltaTick);
+	void ProcessPlayerInput(const float& _DeltaTick);
 
 private:		
 	std::vector<std::shared_ptr<Asteroid>> m_vpAsteroidVec0;

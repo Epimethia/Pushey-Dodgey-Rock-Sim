@@ -46,14 +46,14 @@ void Asteroid::Update()
 {
 	// Screen wrapping
 	if (m_body->GetPosition().x < -0.4f) m_body->SetTransform(b2Vec2(16.5f, m_body->GetPosition().y), m_body->GetAngle());
-	if (m_body->GetPosition().x > 16.5f) m_body->SetTransform(b2Vec2(-0.4f, m_body->GetPosition().y), m_body->GetAngle());
+	else if (m_body->GetPosition().x > 16.5f) m_body->SetTransform(b2Vec2(-0.4f, m_body->GetPosition().y), m_body->GetAngle());
 	if (m_body->GetPosition().y < -0.4f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, 9.4f), m_body->GetAngle());
-	if (m_body->GetPosition().y > 9.5f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -0.4f), m_body->GetAngle());
+	else if (m_body->GetPosition().y > 9.5f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -0.4f), m_body->GetAngle());
 }
 
 //Update Overload
 //Moves the asteroid by the input Translate
-void Asteroid::AddVelocity(b2Vec2 _direction, float _Speed)
+void Asteroid::AddVelocity(b2Vec2 _direction, const float& _Speed)
 {
 	m_body->ApplyForceToCenter(
 		b2Vec2((_direction.x * _Speed) * m_body->GetMass(),
@@ -66,7 +66,7 @@ void Asteroid::AddVelocity(b2Vec2 _direction, float _Speed)
 
 }
 
-void Asteroid::AddRotation(float _AngularForce)
+void Asteroid::AddRotation(const float& _AngularForce)
 {
 	m_body->ApplyTorque(_AngularForce, true);
 }

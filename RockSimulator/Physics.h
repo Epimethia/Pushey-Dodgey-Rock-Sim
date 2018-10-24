@@ -15,7 +15,7 @@ public:
 	Physics();
 	~Physics();
 
-	void Process(float _deltaTick);
+	void Process(const float& _deltaTick);
 	b2Body* CreateBody(b2BodyDef _bodyDef);
 	b2World* GetWorld() const;
 

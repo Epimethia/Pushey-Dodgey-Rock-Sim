@@ -25,8 +25,8 @@ public:
 	glm::vec2 GetPosition() { return glm::vec2(m_body->GetPosition().x, m_body->GetPosition().y); }
 
 	void SetPosition(b2Vec2 _position);
-	void AddRotation(float _Angle);
-	void AddVelocity(b2Vec2 _direction, float _Speed);
+	void AddRotation(const float& _Angle);
+	void AddVelocity(b2Vec2 _direction, const float& _Speed);
 	bool GetOffScreenBool() { return m_bOffScreen; }
 	void SetOffScreenBool(bool _bool) { m_bOffScreen = _bool; }
 	

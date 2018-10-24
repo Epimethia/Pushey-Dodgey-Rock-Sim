@@ -38,9 +38,9 @@ public:
 	void RestartLevelOne();
 	void SetWinner(unsigned int _WinningPlayer);		
 	bool GetState() { return m_bTransitioning; }
-	void SetOpacity(float _opacity) { m_fOpacity = _opacity; }
+	void SetOpacity(const float& _opacity) { m_fOpacity = _opacity; }
 	float GetOpacity() { return m_fOpacity; }
-	void SetTransitioning(bool _state) { m_bTransitioning = _state; }
+	void SetTransitioning(const bool& _state) { m_bTransitioning = _state; }
 
 private:
 	static std::shared_ptr<SceneManager> s_pInstance;

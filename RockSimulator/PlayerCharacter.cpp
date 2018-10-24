@@ -184,7 +184,7 @@ void PlayerCharacter::Update()
 
 //Update Overload
 //Moves the player character by the input Translate
-void PlayerCharacter::AddVelocity(float _Speed)
+void PlayerCharacter::AddVelocity(const float& _Speed)
 {
 	m_body->ApplyForceToCenter(
 	b2Vec2(m_body->GetWorldVector(b2Vec2(0, 1)).x * _Speed,
@@ -199,7 +199,7 @@ void PlayerCharacter::AddVelocity(float _Speed)
 }
 
 //	Radians or Degrees?
-void PlayerCharacter::AddRotation(float _Angle)
+void PlayerCharacter::AddRotation(const float& _Angle)
 {	
 	m_body->ApplyTorque(_Angle, true);
 }
