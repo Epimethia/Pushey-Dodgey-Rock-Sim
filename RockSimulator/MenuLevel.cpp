@@ -10,7 +10,8 @@
 
 
 
-MainMenu::MainMenu() {
+MainMenu::MainMenu()
+{
 	m_pBackground = std::make_shared<Sprite>();
 
 	m_iCurrentOpt = 0;
@@ -18,7 +19,8 @@ MainMenu::MainMenu() {
 
 MainMenu::~MainMenu()
 {
-	for (auto& it : m_pOptArr) {
+	for (auto& it : m_pOptArr)
+	{
 		it.reset();
 	}
 	m_pMenuTitle.reset();
