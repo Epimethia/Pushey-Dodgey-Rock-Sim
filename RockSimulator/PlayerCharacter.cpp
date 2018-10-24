@@ -29,6 +29,12 @@ PlayerCharacter::PlayerCharacter()
 	Bullet = nullptr;
 	m_bDebugDrawEnabled = false;
 	m_bPlayerAccelerating = false;
+
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidCheck(m_body));
+	}
 }
 
 void PlayerCharacter::InitializeDebugDraw()
@@ -82,6 +88,12 @@ void PlayerCharacter::InitializeDebugDraw()
 		6 * sizeof(GLfloat), // Stride of the single vertex(pos + color)
 		(GLvoid*)(3 * sizeof(GLfloat))); // Offset from beginning of Vert	
 	glEnableVertexAttribArray(1);
+
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(sizeof(verts) / sizeof(*verts) > 0);
+	}
 }
 
 PlayerCharacter::~PlayerCharacter()
@@ -118,6 +130,12 @@ b2Body * PlayerCharacter::GetBody() const
 
 void PlayerCharacter::Render()
 {		
+	// Unit testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidProgramCheck(m_iProgram));
+	}
+
 	m_Sprite->Render(
 		glm::translate(glm::mat4(), glm::vec3(m_body->GetPosition().x, m_body->GetPosition().y, 0.0f)) *
 		glm::rotate(glm::mat4(), m_body->GetAngle(), m_RotationAxis) * 
@@ -180,12 +198,19 @@ void PlayerCharacter::Update()
 		};
 	};
 
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidCheck(m_body));
+	}
 }
 
 //Update Overload
 //Moves the player character by the input Translate
 void PlayerCharacter::AddVelocity(const float& _Speed)
 {
+	b2Vec2 tempVec = m_body->GetLinearVelocity();
+
 	m_body->ApplyForceToCenter(
 	b2Vec2(m_body->GetWorldVector(b2Vec2(0, 1)).x * _Speed,
 		   m_body->GetWorldVector(b2Vec2(0, 1)).y * _Speed),
@@ -201,12 +226,18 @@ void PlayerCharacter::AddVelocity(const float& _Speed)
 //	Radians or Degrees?
 void PlayerCharacter::AddRotation(const float& _Angle)
 {	
-	m_body->ApplyTorque(_Angle, true);
+	m_body->ApplyTorque(_Angle, true);	
 }
 
 void PlayerCharacter::SetPosition(b2Vec2 _position)
 {
 	m_body->SetTransform(_position, m_body->GetAngle());
+
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(m_body->GetPosition() == _position);
+	}
 }
 
 float PlayerCharacter::GetCurrentSpeed()
@@ -227,6 +258,12 @@ void PlayerCharacter::Shoot()
 		Bullet = new Projectile(pos, Direction, m_body->GetAngle());
 		SoundManager::GetInstance()->SoundPew();
 	}
+
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidCheck(Bullet));
+	}
 }
 
 void PlayerCharacter::LinkScore(short* _Deaths)
@@ -236,7 +273,11 @@ void PlayerCharacter::LinkScore(short* _Deaths)
 
 void PlayerCharacter::Respawn()
 {		
-	assert(m_body != nullptr);
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidCheck(m_body));
+	}
 
 	*m_pDeaths += 1;
 	ResetPlayer();

@@ -55,6 +55,8 @@ void Asteroid::Update()
 //Moves the asteroid by the input Translate
 void Asteroid::AddVelocity(b2Vec2 _direction, const float& _Speed)
 {
+	b2Vec2 tempVec = m_body->GetLinearVelocity();
+
 	m_body->ApplyForceToCenter(
 		b2Vec2((_direction.x * _Speed) * m_body->GetMass(),
 			   (_direction.y * _Speed) * m_body->GetMass()),
@@ -74,6 +76,12 @@ void Asteroid::AddRotation(const float& _AngularForce)
 void Asteroid::SetPosition(b2Vec2 _position)
 {
 	m_body->SetTransform(_position, m_body->GetAngle());
+
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(m_body->GetPosition() == _position);
+	}
 }
 
 
