@@ -116,11 +116,12 @@ void Input::Update()
 	//Processing all of the keys
 	for (int i = 0; i < 256; i++)
 	{
-		if (m_iKeyState[i] == INPUT_FIRST_PRESS)
+		if (INPUT_FIRST_PRESS == m_iKeyState[i])
 		{
 			m_iKeyState[i] = INPUT_HOLD;
 		}
-		else if (m_iKeyState[i] == INPUT_FIRST_RELEASE) {
+		else if (INPUT_FIRST_RELEASE == m_iKeyState[i])
+		{
 			m_iKeyState[i] = INPUT_RELEASED;
 		}
 	}
@@ -128,11 +129,12 @@ void Input::Update()
 	//Processing all of the special keys
 	for (int i = 0; i < 256; i++)
 	{
-		if (m_iSpecialKeyState[i] == INPUT_FIRST_PRESS)
+		if (INPUT_FIRST_PRESS == m_iSpecialKeyState[i])
 		{
 			m_iSpecialKeyState[i] = INPUT_HOLD;
 		}
-		else if (m_iSpecialKeyState[i] == INPUT_FIRST_RELEASE) {
+		else if (INPUT_FIRST_RELEASE == m_iSpecialKeyState[i])
+		{
 			m_iSpecialKeyState[i] = INPUT_RELEASED;
 		}
 	}
@@ -140,7 +142,7 @@ void Input::Update()
 	// Processing mouse buttons
 	for (int i = 0; i < 3; i++)
 	{
-		if (m_iMouseState[i] == INPUT_FIRST_PRESS)
+		if (INPUT_FIRST_PRESS == m_iMouseState[i])
 		{
 			m_iMouseState[i] = INPUT_HOLD;
 		}
@@ -193,13 +195,13 @@ void Input::ProcessSpecialKeyUp(int _key, int _x, int _y)
 //                  
 void Input::MouseButton(int _button, int _state, int _x, int _y)
 {
-	if (_button < 3)
+	if (3 > _button)
 	{
-		if (_state == GLUT_DOWN)
+		if (GLUT_DOWN == _state)
 		{
 			m_iMouseState[_button] = INPUT_FIRST_PRESS;
 		}
-		else if (_state == GLUT_UP)
+		else if (GLUT_UP == _state)
 		{
 			m_iMouseState[_button] = INPUT_RELEASED;
 		}

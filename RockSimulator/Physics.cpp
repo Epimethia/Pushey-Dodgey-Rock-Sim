@@ -34,7 +34,7 @@ Physics::Physics()
 	m_pWorld->SetContactListener(&MyContactListener::GetInstance());
 }
 
-void Physics::Process(float _deltaTick)
+void Physics::Process(const float& _deltaTick)
 {
 	m_fAccumulator += _deltaTick;
 	

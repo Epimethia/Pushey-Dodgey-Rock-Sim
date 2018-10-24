@@ -25,8 +25,8 @@ public:
 	// Virtual Functions
 	void Render();
 	void Update();
-	void AddVelocity(float _Speed);
-	void AddRotation(float _Angle);
+	void AddVelocity(const float& _Speed);
+	void AddRotation(const float& _Angle);
 	void SetPosition(b2Vec2 _position);
 	float GetCurrentSpeed();
 	void Shoot();

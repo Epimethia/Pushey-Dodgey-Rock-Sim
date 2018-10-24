@@ -141,7 +141,7 @@ void LevelOne::Init()
 	SoundManager::GetInstance()->StartLevelBGM();
 }
 
-void LevelOne::ProcessLevel(float _DeltaTick)
+void LevelOne::ProcessLevel(const float& _DeltaTick)
 {
 	// Process the timer
 	ProcessTimer(_DeltaTick);
@@ -252,7 +252,7 @@ void LevelOne::ProcessLevel(float _DeltaTick)
 	}
 }
 
-void LevelOne::ProcessTimer(float _DeltaTick)
+void LevelOne::ProcessTimer(const float& _DeltaTick)
 {
 
 	//	Increments time by the elapsed time since last frame
@@ -295,7 +295,7 @@ void LevelOne::ProcessTimer(float _DeltaTick)
 	
 }
 
-void LevelOne::SpawnAsteroids(float _DeltaTick)
+void LevelOne::SpawnAsteroids(const float& _DeltaTick)
 {
 	m_fSpawnTime += _DeltaTick;
 	if (1.0f < m_fSpawnTime)
@@ -362,7 +362,7 @@ void LevelOne::OffscreenCleanup()
 	}
 }
 
-void LevelOne::MoveAsteroids(float _DeltaTick)
+void LevelOne::MoveAsteroids(const float& _DeltaTick)
 {
 	// Left to right asteroids
 	for (unsigned int i = 0; i < m_vpAsteroidVec0.size(); i++)
@@ -388,7 +388,7 @@ void LevelOne::MoveAsteroids(float _DeltaTick)
 	}
 }
 
-void LevelOne::CheckPlayerDeaths(float _DeltaTick)
+void LevelOne::CheckPlayerDeaths(const float& _DeltaTick)
 {
 	//	Checks if either player has died
 	if (m_pPlayerOne->GetPlayerDead())
@@ -486,7 +486,7 @@ void LevelOne::UpdateScoreValues()
 
 }
 
-void LevelOne::ProcessPlayerInput(float _DeltaTick)
+void LevelOne::ProcessPlayerInput(const float& _DeltaTick)
 {
 	//Reading inputs
 	//PLAYER_1 INPUTS

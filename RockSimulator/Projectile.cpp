@@ -12,7 +12,7 @@
 
 Projectile::Projectile() {}
 
-Projectile::Projectile(b2Vec2 _Pos, b2Vec2 _Direction, float _Angle)
+Projectile::Projectile(b2Vec2 _Pos, b2Vec2 _Direction, const float& _Angle)
 {
 	m_Sprite = std::make_shared<Sprite>();
 	m_Scale = glm::vec3(0.20f, 0.20f, 0.0f);

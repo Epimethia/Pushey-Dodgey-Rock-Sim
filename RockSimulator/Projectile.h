@@ -11,7 +11,7 @@
 class Projectile : public Entity {
 public:
 	Projectile();
-	Projectile(b2Vec2 _Pos, b2Vec2 Direction, float _Angle);
+	Projectile(b2Vec2 _Pos, b2Vec2 Direction, const float& _Angle);
 	void Update();
 	void Render();
 	void Initialize();

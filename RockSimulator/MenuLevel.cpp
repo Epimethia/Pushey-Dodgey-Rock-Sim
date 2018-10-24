@@ -64,8 +64,8 @@ void MainMenu::ProcessLevel()
 	//Handling key input for the menu
 	if (!SceneManager::GetInstance()->GetState())
 	{
-		//Move option up
-		if (Input::m_iSpecialKeyState[GLUT_KEY_UP] == INPUT_FIRST_PRESS || Input::m_iKeyState['w'] == INPUT_FIRST_PRESS) {
+		if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_UP] || INPUT_FIRST_PRESS == Input::m_iKeyState['w'])
+		{
 			SoundManager::GetInstance()->SoundMenuMove();
 			m_pOptionArr[m_iCurrentOpt]->ToggleActive();
 			if (m_iCurrentOpt == 0) {
@@ -74,8 +74,8 @@ void MainMenu::ProcessLevel()
 			else m_iCurrentOpt--;
 			m_pOptionArr[m_iCurrentOpt]->ToggleActive();
 		}
-		//Move Option Down
-		else if (Input::m_iSpecialKeyState[GLUT_KEY_DOWN] == INPUT_FIRST_PRESS || Input::m_iKeyState['s'] == INPUT_FIRST_PRESS) {
+		else if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_DOWN] || INPUT_FIRST_PRESS == Input::m_iKeyState['s'])
+		{
 			SoundManager::GetInstance()->SoundMenuMove();
 			m_pOptionArr[m_iCurrentOpt]->ToggleActive();
 			if (m_iCurrentOpt == 2) {
@@ -84,18 +84,21 @@ void MainMenu::ProcessLevel()
 			else m_iCurrentOpt++;
 			m_pOptionArr[m_iCurrentOpt]->ToggleActive();
 		}
-		//Select option
-		else if (Input::m_iKeyState['\r'] == INPUT_FIRST_PRESS || Input::m_iKeyState[32] == INPUT_FIRST_PRESS) {
+		else if (INPUT_FIRST_PRESS == Input::m_iKeyState['\r'] || INPUT_FIRST_PRESS == Input::m_iKeyState[32])
+		{
 			SoundManager::GetInstance()->SoundMenuClose();
-			switch (m_iCurrentOpt) {
-				case 0: {
-					SoundManager::GetInstance()->StopBGM();
-					SceneManager::GetInstance()->SetTransitioning(true);
-					break;
-				}
-				case 2: {
-					glutLeaveMainLoop();
-				}
+			switch (m_iCurrentOpt)
+			{
+			case 0:
+			{
+				SoundManager::GetInstance()->StopBGM();
+				SceneManager::GetInstance()->SetTransitioning(true);
+				break;
+			}
+			case 2:
+			{
+				glutLeaveMainLoop();
+			}
 			default:break;
 			}
 		}
@@ -107,7 +110,7 @@ void MainMenu::ProcessLevel()
 		{
 			// Fade out 
 			float fSceneOpacity = SceneManager::GetInstance()->GetOpacity();
-			if (fSceneOpacity > 0.0f)
+			if (0.0f < fSceneOpacity)
 			{
 				SceneManager::GetInstance()->SetOpacity(fSceneOpacity - (CClock::GetInstance()->GetDeltaTick() / 1000));
 			}
