@@ -46,7 +46,7 @@ struct UnitTests
 	static bool ValidProgramCheck(GLuint _program)
 	{
 		if (_program < 0) return 0;
-		if (_program > 10) return 0;
+		if (_program > 100000) return 0;
 		else return 1;
 	}
 };
