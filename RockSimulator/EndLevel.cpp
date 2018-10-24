@@ -16,7 +16,8 @@ EndLevel::EndLevel()
 
 EndLevel::~EndLevel()
 {
-	for (auto& it : m_pOptArr) {
+	for (auto& it : m_pOptArr)
+	{
 		it.reset();
 	}
 	m_pBackground.reset();
@@ -28,9 +29,8 @@ void EndLevel::Init()
 	m_pEndTitle = std::make_shared<TextLabel>("Pushy Dodgy Rock Simulator", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(165.0f, 800.0f));
 	m_pEndTitle->SetScale(1.6f);	
 	
-	m_pWinnerTitle = std::make_shared<TextLabel>("<Winning Player>", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(165.0f, 600.0f));
+	m_pWinnerTitle = std::make_shared<TextLabel>("Player Two Won!", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(435.0f, 600.0f));
 	m_pWinnerTitle->SetScale(1.6f);
-
 
 	m_pOptArr[0] = std::make_shared<Option>("Play Again", glm::vec2(630.0f, 430.0f), glm::vec2(565.0f, 420.0f));
 	m_pOptArr[1] = std::make_shared<Option>("Main Menu", glm::vec2(630.0f, 240.0f), glm::vec2(590.0f, 230.0f));
@@ -54,7 +54,8 @@ void EndLevel::ProcessLevel()
 {
 	if (!SceneManager::GetInstance()->GetState())
 	{
-		if (Input::m_iSpecialKeyState[GLUT_KEY_UP] == INPUT_FIRST_PRESS || Input::m_iKeyState['w'] == INPUT_FIRST_PRESS) {
+		if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_UP] || INPUT_FIRST_PRESS == Input::m_iKeyState['w'])
+		{
 			SoundManager::GetInstance()->SoundMenuMove();
 			m_pOptArr[m_iCurrentOpt]->ToggleActive();
 			if (m_iCurrentOpt == 0) {
@@ -63,7 +64,7 @@ void EndLevel::ProcessLevel()
 			else m_iCurrentOpt--;
 			m_pOptArr[m_iCurrentOpt]->ToggleActive();
 		}
-		else if (Input::m_iSpecialKeyState[GLUT_KEY_DOWN] == INPUT_FIRST_PRESS || Input::m_iKeyState['s'] == INPUT_FIRST_PRESS) {
+		else if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_DOWN] || INPUT_FIRST_PRESS == Input::m_iKeyState['s']) {
 			SoundManager::GetInstance()->SoundMenuMove();
 			m_pOptArr[m_iCurrentOpt]->ToggleActive();
 			if (m_iCurrentOpt == 1) {
@@ -72,15 +73,18 @@ void EndLevel::ProcessLevel()
 			else m_iCurrentOpt++;
 			m_pOptArr[m_iCurrentOpt]->ToggleActive();
 		}
-		else if (Input::m_iKeyState['\r'] == INPUT_FIRST_PRESS || Input::m_iKeyState[32] == INPUT_FIRST_PRESS) {
+		else if (INPUT_FIRST_PRESS == Input::m_iKeyState['\r'] || INPUT_FIRST_PRESS == Input::m_iKeyState[32]) {
 			SoundManager::GetInstance()->SoundMenuClose();
-			switch (m_iCurrentOpt) {
-			case 0: {
+			switch (m_iCurrentOpt)
+			{
+			case 0:
+			{
 				SceneManager::GetInstance()->SetTransitioning(true);
 				m_iWinner = -1; // reset winner
 				break;
 			}
-			case 1: {				
+			case 1:
+			{				
 				SceneManager::GetInstance()->SetTransitioning(true);
 				m_iWinner = -1; // reset winner
 			}
@@ -95,7 +99,7 @@ void EndLevel::ProcessLevel()
 		{
 			// Fade out 
 			float fSceneOpacity = SceneManager::GetInstance()->GetOpacity();
-			if (fSceneOpacity > 0.0f)
+			if (0.0f < fSceneOpacity)
 			{
 				SceneManager::GetInstance()->SetOpacity(fSceneOpacity - (CClock::GetInstance()->GetDeltaTick() / 1000));
 			}
@@ -104,17 +108,20 @@ void EndLevel::ProcessLevel()
 				SceneManager::GetInstance()->SetOpacity(1.0f);
 				SceneManager::GetInstance()->SetTransitioning(false);
 
-				switch (m_iCurrentOpt) {
-				case 0: {
-					SceneManager::GetInstance()->RestartLevelOne();
-					SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
-					break;
-				}
-				case 1: {
-					SceneManager::GetInstance()->InitializeScene(MENU_SCENE);
-					SceneManager::GetInstance()->SetCurrentScene(MENU_SCENE);
-				}
-				default:break;
+				switch (m_iCurrentOpt)
+				{
+					case 0:
+					{
+						SceneManager::GetInstance()->RestartLevelOne();
+						SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
+						break;
+					}
+					case 1:
+					{
+						SceneManager::GetInstance()->InitializeScene(MENU_SCENE);
+						SceneManager::GetInstance()->SetCurrentScene(MENU_SCENE);
+					}
+					default:break;
 				}
 			}
 		}		
@@ -126,10 +133,12 @@ void EndLevel::ProcessLevel()
 void EndLevel::SetWinner(unsigned int _WinningPlayer)
 {
 	m_iWinner = _WinningPlayer;
-	if (_WinningPlayer == 0) {
+	if (0 == _WinningPlayer)
+	{
 		m_pWinnerTitle->SetText("Player One Won!");
 	}
-	else if (_WinningPlayer == 1) {
+	else if (1 == _WinningPlayer)
+	{
 		m_pWinnerTitle->SetText("Player Two Won!");
 	}
 }

@@ -33,9 +33,9 @@ int main(int argc, char** argv)
 	std::srand(static_cast<unsigned int>(time(NULL)));
 
 	// Initialize the starting scene
-	SceneManager::GetInstance()->InitializeScene(MENU_SCENE);
+	SceneManager::GetInstance()->InitializeScene(OPTION_SCENE);
 	// Set the starting scene
-	SceneManager::GetInstance()->SetCurrentScene(MENU_SCENE);
+	SceneManager::GetInstance()->SetCurrentScene(OPTION_SCENE);
 	// Init frame buffer
 	exampleFrameBuffer->Initialize();
 

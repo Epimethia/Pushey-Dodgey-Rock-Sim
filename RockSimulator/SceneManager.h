@@ -11,13 +11,15 @@
 enum SceneState
 {
 	MENU_SCENE,
+	OPTION_SCENE,
 	LEVEL1_SCENE,
 	END_SCENE
 };
 
 //Forward Declarations
-class LevelOne;
 class MainMenu;
+class OptionsMenu;
+class LevelOne;
 class EndLevel;
 class Input;
 class CClock;
@@ -38,9 +40,9 @@ public:
 	void RestartLevelOne();
 	void SetWinner(unsigned int _WinningPlayer);		
 	bool GetState() { return m_bTransitioning; }
-	void SetOpacity(float _opacity) { m_fOpacity = _opacity; }
+	void SetOpacity(const float& _opacity) { m_fOpacity = _opacity; }
 	float GetOpacity() { return m_fOpacity; }
-	void SetTransitioning(bool _state) { m_bTransitioning = _state; }
+	void SetTransitioning(const bool& _state) { m_bTransitioning = _state; }
 
 private:
 	static std::shared_ptr<SceneManager> s_pInstance;
@@ -51,7 +53,9 @@ private:
 	SceneState m_eCurrentScene;		
 	std::shared_ptr<LevelOne> m_pLevelOneScene;
 	std::shared_ptr<MainMenu> m_pMenuLevelScene;
+	std::shared_ptr<OptionsMenu> m_pOptionLevelScene;
 	std::shared_ptr<EndLevel> m_pEndLevelScene;
+
 	std::shared_ptr<CClock> m_pClock;
 
 	// Scene transition stuff

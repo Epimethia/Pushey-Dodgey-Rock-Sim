@@ -31,7 +31,6 @@ public:
 	bool Initialize();
 	const bool LoadAudio(const char * _path, FMOD::Sound * &_sound, int _mode);
 	void Update();
-	void ChangeVolume();
 	void StartMenuBGM();
 	void StartLevelBGM();
 	void StopBGM();
@@ -48,6 +47,9 @@ public:
 	//engine functions
 	void ToggleEngineSound(unsigned int _PlayerIndex, bool _EnablePlayback);
 	void SetEngineVolume(unsigned int _PlayerIndex, float _Vol);
+
+	float BGMScale = 0.5f;
+	float EffectScale = 0.5f;
 
 protected:
 

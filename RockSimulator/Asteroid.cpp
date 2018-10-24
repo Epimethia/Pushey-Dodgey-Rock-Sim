@@ -21,7 +21,7 @@ Asteroid::Asteroid(float _scale)
 	dynamicCircle.m_p.Set(0.0f, 0.0f);
 	dynamicCircle.m_radius = _scale;
 	fixtureDef.shape = &dynamicCircle;
-	fixtureDef.density = 3.0f * _scale;
+	fixtureDef.density = 0.4f + (_scale / 5.0f);
 	fixtureDef.friction = 0.3f;
 	fixtureDef.restitution = 1.0f;
 	m_body->CreateFixture(&fixtureDef);
@@ -46,14 +46,14 @@ void Asteroid::Update()
 {
 	// Screen wrapping
 	if (m_body->GetPosition().x < -0.4f) m_body->SetTransform(b2Vec2(16.5f, m_body->GetPosition().y), m_body->GetAngle());
-	if (m_body->GetPosition().x > 16.5f) m_body->SetTransform(b2Vec2(-0.4f, m_body->GetPosition().y), m_body->GetAngle());
+	else if (m_body->GetPosition().x > 16.5f) m_body->SetTransform(b2Vec2(-0.4f, m_body->GetPosition().y), m_body->GetAngle());
 	if (m_body->GetPosition().y < -0.4f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, 9.4f), m_body->GetAngle());
-	if (m_body->GetPosition().y > 9.5f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -0.4f), m_body->GetAngle());
+	else if (m_body->GetPosition().y > 9.5f) m_body->SetTransform(b2Vec2(m_body->GetPosition().x, -0.4f), m_body->GetAngle());
 }
 
 //Update Overload
-//Moves the player character by the input Translate
-void Asteroid::AddVelocity(b2Vec2 _direction, float _Speed)
+//Moves the asteroid by the input Translate
+void Asteroid::AddVelocity(b2Vec2 _direction, const float& _Speed)
 {
 	b2Vec2 tempVec = m_body->GetLinearVelocity();
 
@@ -68,7 +68,7 @@ void Asteroid::AddVelocity(b2Vec2 _direction, float _Speed)
 
 }
 
-void Asteroid::AddRotation(float _AngularForce)
+void Asteroid::AddRotation(const float& _AngularForce)
 {
 	m_body->ApplyTorque(_AngularForce, true);
 }
@@ -87,7 +87,9 @@ void Asteroid::SetPosition(b2Vec2 _position)
 
 void Asteroid::Initialize()
 {
-	m_Sprite->Initialize("Resources/Images/Asteroids/Asteroid.png");
+	//randomizing the asteroid sprite
+	int spriteIndex = rand() % 7;
+	m_Sprite->Initialize(std::string("Resources/Images/Asteroids/Asteroid_" + std::to_string(spriteIndex) + ".png").c_str());
 }
 
 void Asteroid::InitializeDebugDraw()

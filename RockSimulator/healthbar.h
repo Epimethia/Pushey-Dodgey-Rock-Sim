@@ -8,7 +8,10 @@
 
 
 //	Local includes.
-
+enum HEALTH{
+	FULL,
+	HALF
+};
 
 class Sprite;
 
@@ -19,7 +22,7 @@ public:
 	C_HealthBar();
 	~C_HealthBar();
 	C_HealthBar(const char * _Filepath_Full, const char*  _Filepath_Half);
-	void SetSprite(const char* _Filepath);
+	void SetHealth(HEALTH _HealthVal);
 	void SetPosition(glm::vec3& _Position);
 	void SetScale(glm::vec3& _Scale);
 	void Render();

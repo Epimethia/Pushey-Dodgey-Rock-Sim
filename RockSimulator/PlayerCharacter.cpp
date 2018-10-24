@@ -37,9 +37,10 @@ PlayerCharacter::PlayerCharacter()
 	}
 }
 
-void PlayerCharacter::InitializeDebugDraw() {
+void PlayerCharacter::InitializeDebugDraw()
+{
 	// Check that the shape has vertices
-	if (m_shape.m_count < 1)
+	if (1 > m_shape.m_count)
 	{
 		return;
 	}
@@ -51,7 +52,8 @@ void PlayerCharacter::InitializeDebugDraw() {
 	//translating the vertices supplied by Box2D into vertices usable by GLEW
 	float verts[24];
 	int CurrentIndex = 0;
-	for (int i = 0; i < m_shape.m_count; i++) {
+	for (int i = 0; i < m_shape.m_count; i++)
+	{
 		verts[CurrentIndex++] = (m_shape.m_vertices[i].x); //x
 		verts[CurrentIndex++] = (m_shape.m_vertices[i].y); //y
 		verts[CurrentIndex++] = 0.0f; //z
@@ -96,7 +98,6 @@ void PlayerCharacter::InitializeDebugDraw() {
 
 PlayerCharacter::~PlayerCharacter()
 {
-
 	//CLEAR UP ALL THE POINTERS
 	delete Bullet;
 	Bullet = nullptr;
@@ -104,7 +105,7 @@ PlayerCharacter::~PlayerCharacter()
 
 void PlayerCharacter::Initialize()
 {	
-	if (m_kcPlayerTexture == nullptr)
+	if (nullptr == m_kcPlayerTexture)
 	{
 		m_Sprite->Initialize("Resources/Images/Player_Sprite.png");
 	}
@@ -162,7 +163,8 @@ void PlayerCharacter::Render()
 		glBindVertexArray(0);
 	}
 
-	if (Bullet) {
+	if (Bullet)
+	{
 		Bullet->Render();
 	};
 }
@@ -184,7 +186,7 @@ void PlayerCharacter::Update()
 	m_body->SetLinearVelocity(0.995f * m_body->GetLinearVelocity());
 	m_body->SetAngularVelocity(0.975f * m_body->GetAngularVelocity());
 
-	if (Bullet != nullptr)
+	if (nullptr != Bullet)
 	{
 		if (Bullet->m_bValid)
 		{
@@ -205,7 +207,7 @@ void PlayerCharacter::Update()
 
 //Update Overload
 //Moves the player character by the input Translate
-void PlayerCharacter::AddVelocity(float _Speed)
+void PlayerCharacter::AddVelocity(const float& _Speed)
 {
 	b2Vec2 tempVec = m_body->GetLinearVelocity();
 
@@ -222,7 +224,7 @@ void PlayerCharacter::AddVelocity(float _Speed)
 }
 
 //	Radians or Degrees?
-void PlayerCharacter::AddRotation(float _Angle)
+void PlayerCharacter::AddRotation(const float& _Angle)
 {	
 	m_body->ApplyTorque(_Angle, true);	
 }
@@ -247,7 +249,7 @@ float PlayerCharacter::GetCurrentSpeed()
 void PlayerCharacter::Shoot()
 {
 	//getting the position of the bullet spawn
-	if (Bullet == nullptr)
+	if (nullptr == Bullet)
 	{
 		b2Vec2 Direction = m_body->GetWorldVector(b2Vec2(0, 1));
 		Direction.Normalize();
