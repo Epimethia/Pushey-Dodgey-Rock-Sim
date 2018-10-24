@@ -120,6 +120,12 @@ TextLabel::~TextLabel()
 //                  
 void TextLabel::Render()
 {
+	// Unit testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidProgramCheck(m_iProgram));
+	}
+
 	glm::vec2 textPos = m_vPosition;
 
 	// Enable blending

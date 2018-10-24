@@ -45,6 +45,11 @@ Projectile::Projectile(b2Vec2 _Pos, b2Vec2 _Direction, float _Angle)
 	m_bValid = true;
 	m_Sprite->Initialize("Resources/Images/Wave.png");
 
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidCheck(m_body));
+	}
 }
 
 void Projectile::Initialize() {

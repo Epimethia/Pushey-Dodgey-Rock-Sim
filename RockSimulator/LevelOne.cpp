@@ -393,6 +393,13 @@ void LevelOne::MoveAsteroids(float _DeltaTick)
 
 void LevelOne::CheckPlayerDeaths(float _DeltaTick)
 {
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidCheck(m_pPlayerOne.get()));
+		assert(UnitTests::ValidCheck(m_pPlayerTwo.get()));
+	}
+
 	//	Checks if either player has died
 	if (m_pPlayerOne->GetPlayerDead())
 	{

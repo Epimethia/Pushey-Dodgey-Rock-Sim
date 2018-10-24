@@ -35,6 +35,14 @@ SceneManager::SceneManager()
 	m_pClock = CClock::GetInstance();
 	m_pClock->Initialise();
 	SoundManager::GetInstance()->Initialize();
+
+	// Unit Testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidCheck(m_pLevelOneScene.get()));
+		assert(UnitTests::ValidCheck(m_pMenuLevelScene.get()));
+		assert(UnitTests::ValidCheck(m_pEndLevelScene.get()));
+	}
 }
 
 SceneManager::~SceneManager()

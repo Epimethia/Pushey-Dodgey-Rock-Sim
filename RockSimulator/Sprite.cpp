@@ -111,6 +111,12 @@ void Sprite::Update()
 
 void Sprite::Render(glm::mat4 _ModelMatrix)
 {
+	// Unit testing
+	if (kb_UNITTESTS)
+	{
+		assert(UnitTests::ValidProgramCheck(m_iProgram));
+	}
+
 	// Set Culling and Use program
 	glCullFace(GL_BACK);		// Cull the Back faces
 	glFrontFace(GL_CW);			// Front face is Clockwise order

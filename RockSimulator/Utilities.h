@@ -33,6 +33,21 @@ struct UnitTests
 		if (_before == _after) return 0;
 		if (_before > _after) return 0;
 		if (_before < _after) return 1;
+		else return 0;
+	}
+
+	static bool ValidCheck(void* _pointer)
+	{
+		if (_pointer == nullptr) return 0;
+		if (_pointer != _pointer) return 0; // only true if _pointer is NaN		
+		else return 1;
+	}
+
+	static bool ValidProgramCheck(GLuint _program)
+	{
+		if (_program < 0) return 0;
+		if (_program > 10) return 0;
+		else return 1;
 	}
 };
 
