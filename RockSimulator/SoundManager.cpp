@@ -37,15 +37,21 @@ SoundManager::~SoundManager()
 	m_pBGGame2->release();
 	m_pBGGame3->release();
 	m_pBGGame4->release();
+	m_pEffectRocket->release();
 	m_pEffectPew->release();
 	m_pEffectSpawn->release();
 	m_pEffectPlayerDeath->release();
 	m_pEffectEnemyDeath->release();
 	m_pEffectPowerup->release();
+	m_pEffectMenuMove->release();
+	m_pEffectDamage->release();
+	m_pEffectMenuClose->release();
+	m_pEffectTimerTick0->release();
+	m_pEffectTimerTick1->release();
+	m_pEffectTimerTick2->release();
 	m_audioMgr->release();
 	m_pMusicChannel->stop();
 	m_pEffectChannel->stop();
-
 }
 
 //Name:			    SoundManagerConstructor
@@ -56,7 +62,7 @@ SoundManager::~SoundManager()
 //                  
 SoundManager::SoundManager()
 {	
-	m_fBGMVolume = 0.16f;
+	m_fBGMVolume = 0.4f;
 	m_fEffectsVolume = 0.8f;	
 }
 
@@ -137,26 +143,6 @@ void SoundManager::Update()
 	m_audioMgr->update();
 }
 
-//Name:			    ChangeVolume
-//Parameters:		None
-//Return Type:		None
-//Description:		Toggles volume
-//                  
-//                  
-void SoundManager::ChangeVolume()
-{
-	if (m_fBGMVolume != 0.0f)
-	{
-		m_fBGMVolume = 0.0f;
-		m_fEffectsVolume = 0.0f;
-	}
-	else
-	{
-		m_fBGMVolume = 0.04f;
-		m_fEffectsVolume = 0.5f;
-	}		
-}
-
 //Name:			    StartBGM
 //Parameters:		None
 //Return Type:		None
@@ -166,7 +152,7 @@ void SoundManager::ChangeVolume()
 void SoundManager::StartMenuBGM()
 {			
 	m_audioMgr->playSound(m_pBGMenu, 0, false, &m_pMusicChannel);	
-	m_pMusicChannel->setVolume(m_fBGMVolume);	
+	m_pMusicChannel->setVolume(m_fBGMVolume * BGMScale);	
 }
 
 //Name:			    StartLevelBGM
@@ -179,7 +165,7 @@ void SoundManager::StartLevelBGM()
 {
 	std::random_shuffle(m_vBGMPlaylist.begin(), m_vBGMPlaylist.end());
 	m_audioMgr->playSound(m_vBGMPlaylist.back(), 0, false, &m_pMusicChannel);
-	m_pMusicChannel->setVolume(m_fBGMVolume);
+	m_pMusicChannel->setVolume(m_fBGMVolume * BGMScale);
 }
 
 //Name:			    StopBGM
@@ -202,7 +188,7 @@ void SoundManager::StopBGM()
 void SoundManager::SoundPew()
 {	
 	m_audioMgr->playSound(m_pEffectPew, 0, false, &m_pEffectChannel);	
-	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
 
 void
@@ -210,19 +196,19 @@ SoundManager::SoundTakeDamage()
 {
 		//	Add sound for this.
 	m_audioMgr->playSound(m_pEffectDamage, 0, false, &m_pEffectChannel);
-	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
 
 void SoundManager::SoundMenuMove()
 {
 	m_audioMgr->playSound(m_pEffectMenuMove, 0, false, &m_pEffectChannel);
-	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
 
 void SoundManager::SoundMenuClose()
 {
 	m_audioMgr->playSound(m_pEffectMenuClose, 0, false, &m_pEffectChannel);
-	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
 
 //Name:			    ToggleEngineSound
@@ -289,7 +275,7 @@ void SoundManager::SetEngineVolume(unsigned int _PlayerIndex, float _Vol)
 void SoundManager::SoundSpawn()
 {	
 	m_audioMgr->playSound(m_pEffectSpawn, 0, false, &m_pEffectChannel);	
-	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
 
 void SoundManager::SoundTimerTick(int _TickType){
@@ -302,7 +288,7 @@ void SoundManager::SoundTimerTick(int _TickType){
 	}
 
 	m_audioMgr->playSound(sound, 0, false, &m_pEffectChannel);	
-	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 	sound = nullptr;
 }
 
@@ -315,7 +301,7 @@ void SoundManager::SoundTimerTick(int _TickType){
 void SoundManager::SoundPlayerDeath()
 {	
 	m_audioMgr->playSound(m_pEffectPlayerDeath, 0, false, &m_pEffectChannel);	
-	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
 
 //Name:			    SoundEnemyDeath
@@ -327,7 +313,7 @@ void SoundManager::SoundPlayerDeath()
 void SoundManager::SoundEnemyDeath()
 {	
 	m_audioMgr->playSound(m_pEffectEnemyDeath, 0, false, &m_pEffectChannel);	
-	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
 
 //Name:			    SoundPowerup
@@ -339,5 +325,5 @@ void SoundManager::SoundEnemyDeath()
 void SoundManager::SoundPowerup()
 {	
 	m_audioMgr->playSound(m_pEffectPowerup, 0, false, &m_pEffectChannel);	
-	m_pEffectChannel->setVolume(m_fEffectsVolume);
+	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }

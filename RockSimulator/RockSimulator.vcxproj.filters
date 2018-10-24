@@ -25,9 +25,6 @@
     <ClCompile Include="TextLabel.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="LevelOne.cpp">
-      <Filter>NotEngine\Levels</Filter>
-    </ClCompile>
     <ClCompile Include="KeyboardInput.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -49,9 +46,6 @@
     <ClCompile Include="healthbar.cpp">
       <Filter>NotEngine\HealthBar</Filter>
     </ClCompile>
-    <ClCompile Include="MenuLevel.cpp">
-      <Filter>NotEngine\Levels</Filter>
-    </ClCompile>
     <ClCompile Include="ContactListener.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -63,6 +57,15 @@
     </ClCompile>
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelOne.cpp">
+      <Filter>NotEngine\Levels\Level One</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuLevel.cpp">
+      <Filter>NotEngine\Levels\Menu Level</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsMenu.cpp">
+      <Filter>NotEngine\Levels\Option Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,9 +93,6 @@
     <ClInclude Include="Utilities.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="LevelOne.h">
-      <Filter>NotEngine\Levels</Filter>
-    </ClInclude>
     <ClInclude Include="XboxControllerInput.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -114,9 +114,6 @@
     <ClInclude Include="healthbar.h">
       <Filter>NotEngine\HealthBar</Filter>
     </ClInclude>
-    <ClInclude Include="MenuLevel.h">
-      <Filter>NotEngine\Levels</Filter>
-    </ClInclude>
     <ClInclude Include="ContactListener.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -131,6 +128,15 @@
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelOne.h">
+      <Filter>NotEngine\Levels\Level One</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuLevel.h">
+      <Filter>NotEngine\Levels\Menu Level</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsMenu.h">
+      <Filter>NotEngine\Levels\Option Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -187,8 +193,14 @@
     <Filter Include="NotEngine\Levels\End Level">
       <UniqueIdentifier>{6399583c-197d-4419-8f57-db3c2078182a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NotEngine\Levels\NewFilter1">
+    <Filter Include="NotEngine\Levels\Level One">
       <UniqueIdentifier>{f6964a42-c83e-4ee6-8cde-2881d057a236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Levels\Menu Level">
+      <UniqueIdentifier>{2d431360-edc0-4539-9459-8d19d09c66c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NotEngine\Levels\Option Level">
+      <UniqueIdentifier>{0ebb4878-3109-41b4-9133-8a80ad195fc8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

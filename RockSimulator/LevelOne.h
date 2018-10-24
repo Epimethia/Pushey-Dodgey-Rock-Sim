@@ -27,7 +27,7 @@ public:
 	LevelOne();
 	~LevelOne();
 
-	void InitializeObjects();
+	void Init();
 	void RenderObjects();
 	void ProcessLevel(float _DeltaTick);
 	void ProcessTimer(float _DeltaTick);

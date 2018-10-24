@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "clock.h"
 #include "MenuLevel.h"
+#include "OptionsMenu.h"
 #include "EndLevel.h"
 #include "SoundManager.h"
 
@@ -29,6 +30,7 @@ SceneManager::SceneManager()
 	m_pLevelOneScene = std::make_shared<LevelOne>();
 	m_pMenuLevelScene = std::make_shared<MainMenu>();
 	m_pEndLevelScene = std::make_shared<EndLevel>();
+	m_pOptionLevelScene = std::make_shared<OptionsMenu>();
 
 	//Initializing the input manager
 	Input::GetInstance()->Initialize();
@@ -48,21 +50,25 @@ void SceneManager::RenderCurrentScene()
 {
 	switch (m_eCurrentScene)
 	{
-	case MENU_SCENE:
-	{
-		m_pMenuLevelScene->Render();
-		break;
-	}
-	case LEVEL1_SCENE:
-	{
-		m_pLevelOneScene->RenderObjects();
-		break;
-	}
-	case END_SCENE:
-	{
-		m_pEndLevelScene->Render();
-		break;
-	}
+		case MENU_SCENE:
+		{
+			m_pMenuLevelScene->Render();
+			break;
+		}
+		case OPTION_SCENE: {
+			m_pOptionLevelScene->Render();
+			break;
+		}
+		case LEVEL1_SCENE:
+		{
+			m_pLevelOneScene->RenderObjects();
+			break;
+		}
+		case END_SCENE:
+		{
+			m_pEndLevelScene->Render();
+			break;
+		}
 	default:break;
 	}
 }
@@ -76,6 +82,10 @@ void SceneManager::UpdateCurrentScene()
 	case MENU_SCENE:
 	{
 		m_pMenuLevelScene->ProcessLevel();
+		break;
+	}
+	case OPTION_SCENE: {
+		m_pOptionLevelScene->ProcessLevel();
 		break;
 	}
 	case LEVEL1_SCENE: 
@@ -96,7 +106,7 @@ void SceneManager::RestartLevelOne()
 {
 	m_pLevelOneScene.reset();
 	m_pLevelOneScene = std::make_shared<LevelOne>();
-	m_pLevelOneScene->InitializeObjects();
+	m_pLevelOneScene->Init();
 
 }
 
@@ -123,14 +133,19 @@ void SceneManager::InitializeScene(SceneState _scene)
 			m_pMenuLevelScene->Init();
 			break;
 		}
+		case OPTION_SCENE: {
+			m_pOptionLevelScene->Init();
+			break;
+		}
 		case LEVEL1_SCENE:
 		{
-			m_pLevelOneScene->InitializeObjects();
+			m_pLevelOneScene->Init();
 			break;
 		}
 		case END_SCENE:
 		{
 			m_pEndLevelScene->Init();
+			break;
 		}
 	default:break;
 	}	

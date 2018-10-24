@@ -74,7 +74,7 @@ LevelOne::~LevelOne()
 	m_pPointsSpriteArr[1].reset();
 }
 
-void LevelOne::InitializeObjects()
+void LevelOne::Init()
 {
 	// Initialize Scene Background	
 	m_pBackground->Initialize("Resources/Images/New Background.png");
@@ -489,7 +489,7 @@ void LevelOne::UpdateScoreValues()
 void LevelOne::ProcessPlayerInput(float _DeltaTick)
 {
 	//Reading inputs
-	//PLAYER_0 INPUTS
+	//PLAYER_1 INPUTS
 	auto& p1_Controller = m_pPlayerOneController;
 	p1_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerOne->GetVibrateRate()));
 
@@ -527,7 +527,7 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 		m_pPlayerOne->AddRotation(-3.0f * _DeltaTick);
 	}
 
-	//PLAYER_1 INPUTS
+	//PLAYER_2 INPUTS
 	auto& p2_Controller = m_pPlayerTwoController;
 	//Making the controller vibrate
 	p2_Controller->Vibrate(0, static_cast<int>(1000.0f * m_pPlayerTwo->GetVibrateRate()));
@@ -568,7 +568,6 @@ void LevelOne::ProcessPlayerInput(float _DeltaTick)
 		m_pPlayerTwo->AddRotation(-3.0f * _DeltaTick);
 	}
 
-	
 	//If player health is less than or equal to 50%, swap to the 50% sprite
 	if (50.0f >= m_pPlayerOne->GetHealth())
 	{
@@ -611,8 +610,8 @@ void LevelOne::RenderObjects()
 		}
 	}
 	
-	//m_pPointsSpriteArr[0]->Render(glm::translate(glm::mat4(), glm::vec3(5.8f, 8.58f, 0.0f))* glm::scale(glm::mat4(), glm::vec3(0.585f, 0.115f, 0.0f)));
-	//m_pPointsSpriteArr[1]->Render(glm::translate(glm::mat4(), glm::vec3(10.2f, 8.58f, 0.0f))* glm::scale(glm::mat4(), glm::vec3(0.585f, 0.115f, 0.0f)));
+	m_pPointsSpriteArr[0]->Render(glm::translate(glm::mat4(), glm::vec3(5.8f, 8.58f, 0.0f))* glm::scale(glm::mat4(), glm::vec3(0.585f, 0.115f, 0.0f)));
+	m_pPointsSpriteArr[1]->Render(glm::translate(glm::mat4(), glm::vec3(10.2f, 8.58f, 0.0f))* glm::scale(glm::mat4(), glm::vec3(0.585f, 0.115f, 0.0f)));
 
 	m_pP1HealthBar->Render();
 	m_pP2HealthBar->Render();
