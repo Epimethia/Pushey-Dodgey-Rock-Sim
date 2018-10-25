@@ -12,6 +12,7 @@
 
 #include "SoundManager.h"
 #include <algorithm>
+#include <iostream>
 
 std::shared_ptr<SoundManager> SoundManager::s_pInstance;
 
@@ -141,6 +142,8 @@ const bool SoundManager::LoadAudio(const char * _path, FMOD::Sound * &_sound, in
 void SoundManager::Update()
 {
 	m_audioMgr->update();
+	m_pMusicChannel->setVolume(m_fBGMVolume * BGMScale);
+	std::cout << m_fBGMVolume * BGMScale << std::endl;
 }
 
 //Name:			    StartBGM
@@ -151,6 +154,7 @@ void SoundManager::Update()
 //                  
 void SoundManager::StartMenuBGM()
 {			
+	m_pMusicChannel->stop();
 	m_audioMgr->playSound(m_pBGMenu, 0, false, &m_pMusicChannel);	
 	m_pMusicChannel->setVolume(m_fBGMVolume * BGMScale);	
 }
@@ -163,6 +167,7 @@ void SoundManager::StartMenuBGM()
 //   
 void SoundManager::StartLevelBGM()
 {
+	m_pMusicChannel->stop();
 	std::random_shuffle(m_vBGMPlaylist.begin(), m_vBGMPlaylist.end());
 	m_audioMgr->playSound(m_vBGMPlaylist.back(), 0, false, &m_pMusicChannel);
 	m_pMusicChannel->setVolume(m_fBGMVolume * BGMScale);

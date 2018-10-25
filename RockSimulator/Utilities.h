@@ -18,7 +18,6 @@
 #include "Dependencies\glm\gtc\type_ptr.hpp"
 #include "Dependencies\Box2D\Box2D.h"
 
-
 //	Global variables.
 const int ki_SCREENWIDTH = 1600;
 const int ki_SCREENHEIGHT = 900;

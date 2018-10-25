@@ -45,6 +45,67 @@ LevelOne::LevelOne()
 	m_fSpawnTime = 0.0f;
 	m_fTimeRemaining = 90;
 	m_fTimerTick = 0.0f;
+
+	// Initialize Scene Background	
+	m_pBackground->Initialize("Resources/Images/New Background.png");
+
+	//	Initializing the HUD frame
+	m_pHUDFrame->Initialize("Resources/Images/HUD/HUD_Frame.png");
+
+	m_pPlayerOne = std::make_shared<PlayerCharacter>();
+	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
+	m_pPlayerOne->SetSpawnPosition(glm::vec3(3.0f, 4.5f, 0.0f));
+	m_pPlayerOne->SetPlayerTexture("Resources/Images/Player_Sprite.png");
+	m_pPlayerOne->LinkScore(&m_sDeathCount[0]);
+	m_pPlayerOne->Initialize();
+	m_vpEntityVec.push_back(m_pPlayerOne);
+
+
+	m_pP1HealthBar = std::make_shared<C_HealthBar>(
+		"Resources/Images/HUD/Player_One_Healthbar.png",
+		"Resources/Images/HUD/Player_One_Half.png"
+		);
+	m_pP1HealthBar->SetPosition(glm::vec3(1.88f, 8.55f, 0.0f));
+	m_pP1HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
+
+
+	m_pPlayerTwo = std::make_shared<PlayerCharacter>();
+	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
+	m_pPlayerTwo->SetSpawnPosition(glm::vec3(13.0f, 4.5f, 0.0f));
+	m_pPlayerTwo->SetPlayerTexture("Resources/Images/Player_Sprite2.png");
+	m_vpEntityVec.push_back(m_pPlayerTwo);
+	m_pPlayerTwo->Initialize();
+	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
+
+	m_pP2HealthBar = std::make_shared<C_HealthBar>(
+		"Resources/Images/HUD/Player_Two_Healthbar.png",
+		"Resources/Images/HUD/Player_Two_Half.png"
+		);
+
+	m_pP2HealthBar->SetPosition(glm::vec3(14.11f, 8.55f, 0.0f));
+	m_pP2HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
+
+	m_pPOne_OnePoint->Initialize("Resources/Images/HUD/P1_OnePoint.png");
+	m_pPTwo_OnePoint->Initialize("Resources/Images/HUD/P2_OnePoint.png");
+	m_pTwoPoints->Initialize("Resources/Images/HUD/TwoPoint.png");
+	m_pZeroPoints->Initialize("Resources/Images/HUD/ZeroPoint.png");
+
+	m_pPointsSpriteArr[0] = m_pZeroPoints;
+	m_pPointsSpriteArr[1] = m_pZeroPoints;
+
+	//	Initializing the timer text to appear at the top of the screen
+	m_pTimeDisplay =
+		std::make_shared<TextLabel>(
+			"1:30",													//Timer value itself
+			"Resources/Fonts/Thirteen-Pixel-Fonts.ttf",				//Font
+			glm::vec2(700.0f, 790.0f)								//Position of the timer
+			);
+	m_pTimeDisplay->SetScale(1.9f);
+
+	//	Contact listeners to handle collision between Box2D entities
+	m_pContactListener = &MyContactListener::GetInstance();
+	m_pContactListener->SetPlayer(&(*m_pPlayerOne));
+	m_pContactListener->SetPlayer(&(*m_pPlayerTwo));
 }
 
 LevelOne::~LevelOne()
@@ -76,68 +137,17 @@ LevelOne::~LevelOne()
 
 void LevelOne::Init()
 {
-	// Initialize Scene Background	
-	m_pBackground->Initialize("Resources/Images/New Background.png");
-
-	//	Initializing the HUD frame
-	m_pHUDFrame->Initialize("Resources/Images/HUD/HUD_Frame.png");
-
-	m_pPlayerOne = std::make_shared<PlayerCharacter>();
-	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
-	m_pPlayerOne->SetSpawnPosition(glm::vec3(3.0f, 4.5f, 0.0f));
-	m_pPlayerOne->SetPlayerTexture("Resources/Images/Player_Sprite.png");
-	m_pPlayerOne->LinkScore(&m_sDeathCount[0]);
-	m_pPlayerOne->Initialize();
-	m_vpEntityVec.push_back(m_pPlayerOne);
-
-
-	m_pP1HealthBar = std::make_shared<C_HealthBar>(
-		"Resources/Images/HUD/Player_One_Healthbar.png", 
-		"Resources/Images/HUD/Player_One_Half.png"
-	);
-	m_pP1HealthBar->SetPosition(glm::vec3(1.88f, 8.55f, 0.0f));
-	m_pP1HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
-
+	m_pP1HealthBar->SetHealth(HEALTH::FULL);
+	m_pP2HealthBar->SetHealth(HEALTH::FULL);
 	
-	m_pPlayerTwo = std::make_shared<PlayerCharacter>();
-	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
-	m_pPlayerTwo->SetSpawnPosition(glm::vec3(13.0f, 4.5f, 0.0f));
-	m_pPlayerTwo->SetPlayerTexture("Resources/Images/Player_Sprite2.png");
-	m_vpEntityVec.push_back(m_pPlayerTwo);
-	m_pPlayerTwo->Initialize();
-	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
-
-	m_pP2HealthBar = std::make_shared<C_HealthBar>(
-		"Resources/Images/HUD/Player_Two_Healthbar.png", 
-		"Resources/Images/HUD/Player_Two_Half.png"
-	);
-
-	m_pP2HealthBar->SetPosition(glm::vec3(14.11f, 8.55f, 0.0f));
-	m_pP2HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
-
-	m_pPOne_OnePoint->Initialize("Resources/Images/HUD/P1_OnePoint.png");
-	m_pPTwo_OnePoint->Initialize("Resources/Images/HUD/P2_OnePoint.png");
-	m_pTwoPoints->Initialize("Resources/Images/HUD/TwoPoint.png");
-	m_pZeroPoints->Initialize("Resources/Images/HUD/ZeroPoint.png");
-
 	m_pPointsSpriteArr[0] = m_pZeroPoints;
 	m_pPointsSpriteArr[1] = m_pZeroPoints;
 
-	//	Initializing the timer text to appear at the top of the screen
-	m_pTimeDisplay = 
-		std::make_shared<TextLabel>(
-			"1:30",	//Timer value itself
-			"Resources/Fonts/Thirteen-Pixel-Fonts.ttf",				//Font
-			glm::vec2(700.0f, 790.0f)								//Position of the timer
-		);
-	m_pTimeDisplay->SetScale(1.9f);
+	m_pPlayerOne->ResetPlayer();
+	m_pPlayerTwo->ResetPlayer();
 
-	//	Contact listeners to handle collision between Box2D entities
-	m_pContactListener = &MyContactListener::GetInstance();
-	m_pContactListener->SetPlayer(&(*m_pPlayerOne));
-	m_pContactListener->SetPlayer(&(*m_pPlayerTwo));
-
-	//Starting the sound manager to play some music
+	m_sDeathCount[0] = 0;
+	m_sDeathCount[1] = 0;
 	SoundManager::GetInstance()->StartLevelBGM();
 }
 
@@ -270,13 +280,13 @@ void LevelOne::ProcessTimer(const float& _DeltaTick)
 		}
 
 		//	If the timer is between 1:00 and 1:10, we need to change it so that it is "1:0-" instead
-		else if (70 <= m_fTimeRemaining && 60 < m_fTimeRemaining)
+		else if (70 >= m_fTimeRemaining && 60 <= m_fTimeRemaining)
 		{
 			m_pTimeDisplay->SetText("1:0" + std::to_string(static_cast<short>(m_fTimeRemaining - 60)));
 		}
 
 		//	If the timer has less than 60s left, we change the timer to "0:--"
-		else if (60 >= m_fTimeRemaining && 10 < m_fTimeRemaining)
+		else if (60 > m_fTimeRemaining && 10 < m_fTimeRemaining)
 		{
 			m_pTimeDisplay->SetText("0:" + std::to_string(static_cast<short>(m_fTimeRemaining)));
 		}
@@ -291,8 +301,6 @@ void LevelOne::ProcessTimer(const float& _DeltaTick)
 	{
 		m_fTimerTick += _DeltaTick;
 	}
-
-	
 }
 
 void LevelOne::SpawnAsteroids(const float& _DeltaTick)
@@ -402,85 +410,89 @@ void LevelOne::MoveAsteroids(const float& _DeltaTick)
 
 void LevelOne::CheckPlayerDeaths(const float& _DeltaTick)
 {
-	// Unit Testing
-	if (kb_UNITTESTS)
-	{
-		assert(UnitTests::ValidCheck(m_pPlayerOne.get()));
-		assert(UnitTests::ValidCheck(m_pPlayerTwo.get()));
-	}
-
-	//	Checks if either player has died
-	if (m_pPlayerOne->GetPlayerDead())
-	{
-		// Reset timer
-		m_fTimeRemaining = 0;
-
-		// Reset players
-		m_pPlayerOne->Respawn();
-		m_pPlayerTwo->ResetPlayer();
-		m_pP1HealthBar->SetHealth(HEALTH::FULL);
-		m_pP2HealthBar->SetHealth(HEALTH::FULL);
-
-		// Reset asteroids
-		m_vpAsteroidVec0.clear();
-		m_vpAsteroidVec1.clear();
-		m_fSpawnTime = 0.0f;
-
-		// Check for win
-		if (2 < m_sDeathCount[0])
-		{			
-			SceneManager::GetInstance()->SetTransitioning(true);
-			SceneManager::GetInstance()->InitializeScene(END_SCENE);
-			SceneManager::GetInstance()->SetWinner(1);
-			SoundManager::GetInstance()->StopBGM();
-		}
-
-		// Check that vectors were cleared properly
+	if (!SceneManager::GetInstance()->GetState()) {
+		// Unit Testing
 		if (kb_UNITTESTS)
 		{
-			assert(m_vpAsteroidVec0.empty());
-			assert(m_vpAsteroidVec1.empty());
-		}
-	}
-	// Checking for player death..
-	if (m_pPlayerTwo->GetPlayerDead())
-	{
-		// Reset timer
-		m_fTimeRemaining = 0;
-
-		// Reset players
-		m_pPlayerTwo->Respawn();
-		m_pPlayerOne->ResetPlayer();
-		m_pP2HealthBar->SetHealth(HEALTH::FULL);
-		m_pP1HealthBar->SetHealth(HEALTH::FULL);
-
-
-		// Reset asteroids
-		m_vpAsteroidVec0.clear();
-		m_vpAsteroidVec1.clear();
-		m_fSpawnTime = 0.0f;
-
-		// Increment score
-
-		// Check for win
-		if (2 < m_sDeathCount[1])
-		{				
-			SceneManager::GetInstance()->SetTransitioning(true);
-			SceneManager::GetInstance()->InitializeScene(END_SCENE);
-			SoundManager::GetInstance()->StopBGM();
-			SceneManager::GetInstance()->SetWinner(0);			
+			assert(UnitTests::ValidCheck(m_pPlayerOne.get()));
+			assert(UnitTests::ValidCheck(m_pPlayerTwo.get()));
 		}
 
-		// Check that vectors were cleared properly
-		if (kb_UNITTESTS)
+		//	Checks if either player has died
+		if (m_pPlayerOne->GetPlayerDead())
 		{
-			assert(m_vpAsteroidVec0.empty());
-			assert(m_vpAsteroidVec1.empty());
+			// Reset timer
+			m_fTimeRemaining = 0;
+
+			// Reset players
+			m_pPlayerOne->Respawn();
+			m_pPlayerTwo->ResetPlayer();
+			m_pP1HealthBar->SetHealth(HEALTH::FULL);
+			m_pP2HealthBar->SetHealth(HEALTH::FULL);
+
+			// Reset asteroids
+			m_vpAsteroidVec0.clear();
+			m_vpAsteroidVec1.clear();
+			m_fSpawnTime = 0.0f;
+
+			// Check for win
+			if (2 < m_sDeathCount[0])
+			{
+				SceneManager::GetInstance()->SetTransitioning(true);
+				SceneManager::GetInstance()->InitializeScene(END_SCENE);
+				SceneManager::GetInstance()->SetWinner(1);
+				SoundManager::GetInstance()->StopBGM();
+			}
+
+			// Check that vectors were cleared properly
+			if (kb_UNITTESTS)
+			{
+				assert(m_vpAsteroidVec0.empty());
+				assert(m_vpAsteroidVec1.empty());
+			}
 		}
+		// Checking for player death..
+		if (m_pPlayerTwo->GetPlayerDead())
+		{
+			// Reset timer
+			m_fTimeRemaining = 0;
+
+			// Reset players
+			m_pPlayerTwo->Respawn();
+			m_pPlayerOne->ResetPlayer();
+			m_pP2HealthBar->SetHealth(HEALTH::FULL);
+			m_pP1HealthBar->SetHealth(HEALTH::FULL);
+
+
+			// Reset asteroids
+			m_vpAsteroidVec0.clear();
+			m_vpAsteroidVec1.clear();
+			m_fSpawnTime = 0.0f;
+
+			// Increment score
+
+			// Check for win
+			if (2 < m_sDeathCount[1])
+			{
+				SceneManager::GetInstance()->SetTransitioning(true);
+				SceneManager::GetInstance()->InitializeScene(END_SCENE);
+
+
+				SceneManager::GetInstance()->SetWinner(0);
+			}
+
+			// Check that vectors were cleared properly
+			if (kb_UNITTESTS)
+			{
+				assert(m_vpAsteroidVec0.empty());
+				assert(m_vpAsteroidVec1.empty());
+			}
+		}
+
+		//	Updating score marks
+		UpdateScoreValues();
 	}
 
-	//	Updating score marks
-	UpdateScoreValues();
 }
 
 void LevelOne::UpdateScoreValues()
@@ -609,6 +621,11 @@ void LevelOne::ProcessPlayerInput(const float& _DeltaTick)
 	if (50.0f >= m_pPlayerTwo->GetHealth())
 	{
 		m_pP2HealthBar->SetHealth(HEALTH::HALF);
+	}
+
+	if (INPUT_FIRST_PRESS == Input::m_iKeyState['l']){
+		SceneManager::GetInstance()->SetTransitioning(true);
+		SceneManager::GetInstance()->InitializeScene(END_SCENE);
 	}
 }
 

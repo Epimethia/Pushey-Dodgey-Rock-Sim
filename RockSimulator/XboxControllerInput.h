@@ -47,6 +47,7 @@ public:
 	void Update();
 
 	float normalizedLX;
+	float normalizedLY;
 
 	unsigned int ControllerButtons[14];
 };

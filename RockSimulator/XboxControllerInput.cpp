@@ -12,6 +12,7 @@ XBOXController::XBOXController(int playerNumber)
 	std::fill(ControllerButtons, ControllerButtons + 14, InputState::INPUT_RELEASED);
 
 	normalizedLX = 0.0f;
+	normalizedLY = 0.0f;
 }
 
 XINPUT_STATE XBOXController::GetState()
@@ -122,9 +123,10 @@ void XBOXController::Update()
 
 	//determine how far the controller is pushed
 	float Lmagnitude = sqrt(LX*LX + LY*LY);
-
 	//determine the direction the controller is pushed
 	normalizedLX = LX / Lmagnitude;
+	normalizedLY = LY / Lmagnitude;
+
 
 	float normalizedLMagnitude = 0;
 
@@ -145,9 +147,10 @@ void XBOXController::Update()
 	{
 		Lmagnitude = 0.0;
 		normalizedLMagnitude = 0.0;
+		normalizedLX = 0.0f;
+		normalizedLY = 0.0f;
 	}
 
-
-
+	std::cout << normalizedLY << std::endl;
 #pragma endregion
 }

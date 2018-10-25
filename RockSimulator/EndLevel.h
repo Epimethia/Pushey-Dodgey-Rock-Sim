@@ -5,7 +5,7 @@
 
 //	Local includes.
 #include "Utilities.h"
-
+#include "XboxControllerInput.h"
 
 //	Class prototypes.
 class Camera;
@@ -36,6 +36,9 @@ private:
 	std::shared_ptr<Sprite> m_pBackground;
 	unsigned int m_iCurrentOpt;
 	unsigned int m_iWinner;
+
+	bool m_bControllerMoved = false;
+	std::shared_ptr<XBOXController> m_pPlayerOneController;
 };
 
 #endif

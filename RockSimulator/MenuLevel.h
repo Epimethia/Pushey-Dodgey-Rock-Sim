@@ -5,6 +5,7 @@
 
 //	Local includes.
 #include "Utilities.h"
+#include "XboxControllerInput.h"
 
 
 //	Class prototypes.
@@ -30,8 +31,8 @@ private:
 	std::shared_ptr<Option> m_pOptionArr[3];
 	std::shared_ptr<Sprite> m_pBackground;
 	unsigned int m_iCurrentOpt;
-
-
+	bool m_bControllerMoved = false;
+	std::shared_ptr<XBOXController> m_pPlayerOneController;
 };
 
 #endif

@@ -35,6 +35,9 @@ void EndLevel::Init()
 	m_pOptArr[0] = std::make_shared<Option>("Play Again", glm::vec2(630.0f, 430.0f), glm::vec2(565.0f, 420.0f));
 	m_pOptArr[1] = std::make_shared<Option>("Main Menu", glm::vec2(630.0f, 240.0f), glm::vec2(590.0f, 230.0f));
 	m_pOptArr[0]->ToggleActive();
+
+	m_pPlayerOneController = std::make_shared<XBOXController>(1);
+
 }
 
 void EndLevel::Render()
@@ -54,26 +57,34 @@ void EndLevel::ProcessLevel()
 {
 	if (!SceneManager::GetInstance()->GetState())
 	{
-		if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_UP] || INPUT_FIRST_PRESS == Input::m_iKeyState['w'])
+		if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_UP] || INPUT_FIRST_PRESS == Input::m_iKeyState['w'] || 0.97f < m_pPlayerOneController->normalizedLY)
 		{
-			SoundManager::GetInstance()->SoundMenuMove();
-			m_pOptArr[m_iCurrentOpt]->ToggleActive();
-			if (m_iCurrentOpt == 0) {
-				m_iCurrentOpt = 1;
+			if (m_bControllerMoved == false) {
+				SoundManager::GetInstance()->SoundMenuMove();
+				m_pOptArr[m_iCurrentOpt]->ToggleActive();
+				if (m_iCurrentOpt == 0) {
+					m_iCurrentOpt = 1;
+				}
+				else m_iCurrentOpt--;
+				m_pOptArr[m_iCurrentOpt]->ToggleActive();
+				m_bControllerMoved = true;
 			}
-			else m_iCurrentOpt--;
-			m_pOptArr[m_iCurrentOpt]->ToggleActive();
 		}
-		else if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_DOWN] || INPUT_FIRST_PRESS == Input::m_iKeyState['s']) {
-			SoundManager::GetInstance()->SoundMenuMove();
-			m_pOptArr[m_iCurrentOpt]->ToggleActive();
-			if (m_iCurrentOpt == 1) {
-				m_iCurrentOpt = 0;
+		else if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_DOWN] || INPUT_FIRST_PRESS == Input::m_iKeyState['s'] || -0.97f > m_pPlayerOneController->normalizedLY) 
+		{
+			if (m_bControllerMoved == false) {
+				SoundManager::GetInstance()->SoundMenuMove();
+				m_pOptArr[m_iCurrentOpt]->ToggleActive();
+				if (m_iCurrentOpt == 1) {
+					m_iCurrentOpt = 0;
+				}
+				else m_iCurrentOpt++;
+				m_pOptArr[m_iCurrentOpt]->ToggleActive();
+				m_bControllerMoved = true;
 			}
-			else m_iCurrentOpt++;
-			m_pOptArr[m_iCurrentOpt]->ToggleActive();
+
 		}
-		else if (INPUT_FIRST_PRESS == Input::m_iKeyState['\r'] || INPUT_FIRST_PRESS == Input::m_iKeyState[32]) {
+		else if (INPUT_FIRST_PRESS == Input::m_iKeyState['\r'] || INPUT_FIRST_PRESS == Input::m_iKeyState[32] || INPUT_FIRST_PRESS == m_pPlayerOneController->ControllerButtons[BOTTOM_FACE_BUTTON]) {
 			SoundManager::GetInstance()->SoundMenuClose();
 			switch (m_iCurrentOpt)
 			{
@@ -120,6 +131,7 @@ void EndLevel::ProcessLevel()
 					{
 						SceneManager::GetInstance()->InitializeScene(MENU_SCENE);
 						SceneManager::GetInstance()->SetCurrentScene(MENU_SCENE);
+						SoundManager::GetInstance()->StartMenuBGM();
 					}
 					default:break;
 				}
@@ -128,6 +140,10 @@ void EndLevel::ProcessLevel()
 	}
 
 	Input::Update();
+	if (m_pPlayerOneController->normalizedLY < 0.5f && m_pPlayerOneController->normalizedLY > -0.5f) {
+		m_bControllerMoved = false;
+	}
+	m_pPlayerOneController->Update();
 }
 
 void EndLevel::SetWinner(unsigned int _WinningPlayer)

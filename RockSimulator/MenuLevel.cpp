@@ -15,6 +15,17 @@ MainMenu::MainMenu()
 	m_pBackground = std::make_shared<Sprite>();
 
 	m_iCurrentOpt = 0;
+	m_pBackground->Initialize("Resources/Images/MenuBackground2.png");
+
+	m_pMenuTitle = std::make_shared<TextLabel>("Pushy Dodgy Rock Simulator", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(165.0f, 800.0f));
+	m_pMenuTitle->SetScale(1.6f);
+
+	//creating the buttons
+	m_pOptionArr[0] = std::make_shared<Option>("Play", glm::vec2(715.0f, 620.0f), glm::vec2(690.0f, 610.0f));
+	m_pOptionArr[1] = std::make_shared<Option>("Option", glm::vec2(680.0f, 430.0f), glm::vec2(640.0f, 420.0f));
+	m_pOptionArr[2] = std::make_shared<Option>("Quit", glm::vec2(715.0f, 240.0f), glm::vec2(690.0f, 230.0f));
+
+	m_pPlayerOneController = std::make_shared<XBOXController>(1);
 }
 
 MainMenu::~MainMenu()
@@ -28,19 +39,13 @@ MainMenu::~MainMenu()
 
 void MainMenu::Init()
 {
-	m_pBackground->Initialize("Resources/Images/MenuBackground2.png");
-
-	m_pMenuTitle = std::make_shared<TextLabel>("Pushy Dodgy Rock Simulator", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(165.0f, 800.0f));
-	m_pMenuTitle->SetScale(1.6f);
-
-	//creating the buttons
-	m_pOptionArr[0] = std::make_shared<Option>("Play", glm::vec2(715.0f, 620.0f), glm::vec2(690.0f, 610.0f));
-	m_pOptionArr[1] = std::make_shared<Option>("Option", glm::vec2(680.0f, 430.0f), glm::vec2(640.0f, 420.0f));
-	m_pOptionArr[2] = std::make_shared<Option>("Quit", glm::vec2(715.0f, 240.0f), glm::vec2(690.0f, 230.0f));
+	for (auto it : m_pOptionArr) {
+		if (it->m_bSelected) {
+			it->ToggleActive();
+		}
+	}
 	m_pOptionArr[0]->ToggleActive();
-
-	//starting up the BGM
-	SoundManager::GetInstance()->StartMenuBGM();
+	m_iCurrentOpt = 0;
 }
 
 void MainMenu::Render()
@@ -64,27 +69,35 @@ void MainMenu::ProcessLevel()
 	//Handling key input for the menu
 	if (!SceneManager::GetInstance()->GetState())
 	{
-		if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_UP] || INPUT_FIRST_PRESS == Input::m_iKeyState['w'])
+		if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_UP] || INPUT_FIRST_PRESS == Input::m_iKeyState['w'] || 0.6f < m_pPlayerOneController->normalizedLY)
 		{
-			SoundManager::GetInstance()->SoundMenuMove();
-			m_pOptionArr[m_iCurrentOpt]->ToggleActive();
-			if (m_iCurrentOpt == 0) {
-				m_iCurrentOpt = 2;
+			if (m_bControllerMoved == false) {
+				SoundManager::GetInstance()->SoundMenuMove();
+				m_pOptionArr[m_iCurrentOpt]->ToggleActive();
+				if (m_iCurrentOpt == 0) {
+					m_iCurrentOpt = 2;
+				}
+				else m_iCurrentOpt--;
+				m_pOptionArr[m_iCurrentOpt]->ToggleActive();
+				m_bControllerMoved = true;
 			}
-			else m_iCurrentOpt--;
-			m_pOptionArr[m_iCurrentOpt]->ToggleActive();
+			
 		}
-		else if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_DOWN] || INPUT_FIRST_PRESS == Input::m_iKeyState['s'])
+		else if (INPUT_FIRST_PRESS == Input::m_iSpecialKeyState[GLUT_KEY_DOWN] || INPUT_FIRST_PRESS == Input::m_iKeyState['s'] || -0.6f > m_pPlayerOneController->normalizedLY)
 		{
-			SoundManager::GetInstance()->SoundMenuMove();
-			m_pOptionArr[m_iCurrentOpt]->ToggleActive();
-			if (m_iCurrentOpt == 2) {
-				m_iCurrentOpt = 0;
+			if (m_bControllerMoved == false) {
+				SoundManager::GetInstance()->SoundMenuMove();
+				m_pOptionArr[m_iCurrentOpt]->ToggleActive();
+				if (m_iCurrentOpt == 2) {
+					m_iCurrentOpt = 0;
+				}
+				else m_iCurrentOpt++;
+				m_pOptionArr[m_iCurrentOpt]->ToggleActive();
+				m_bControllerMoved = true;
 			}
-			else m_iCurrentOpt++;
-			m_pOptionArr[m_iCurrentOpt]->ToggleActive();
+			
 		}
-		else if (INPUT_FIRST_PRESS == Input::m_iKeyState['\r'] || INPUT_FIRST_PRESS == Input::m_iKeyState[32])
+		else if (INPUT_FIRST_PRESS == Input::m_iKeyState['\r'] || INPUT_FIRST_PRESS == Input::m_iKeyState[32] || INPUT_FIRST_PRESS == m_pPlayerOneController->ControllerButtons[BOTTOM_FACE_BUTTON])
 		{
 			SoundManager::GetInstance()->SoundMenuClose();
 			switch (m_iCurrentOpt)
@@ -95,9 +108,16 @@ void MainMenu::ProcessLevel()
 				SceneManager::GetInstance()->SetTransitioning(true);
 				break;
 			}
+			case 1:
+			{
+				SceneManager::GetInstance()->SetTransitioning(true);
+				SceneManager::GetInstance()->InitializeScene(OPTION_SCENE);
+				break;
+			}
 			case 2:
 			{
 				glutLeaveMainLoop();
+				break;
 			}
 			default:break;
 			}
@@ -118,12 +138,25 @@ void MainMenu::ProcessLevel()
 			{
 				SceneManager::GetInstance()->SetOpacity(1.0f);
 				SceneManager::GetInstance()->SetTransitioning(false);
-				
-				SceneManager::GetInstance()->RestartLevelOne();
-				SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);					
+				if (m_iCurrentOpt == 0) {
+					SceneManager::GetInstance()->RestartLevelOne();
+					SceneManager::GetInstance()->InitializeScene(LEVEL1_SCENE);
+					SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
+					SoundManager::GetInstance()->StartLevelBGM();
+				}
+				else {
+					//SceneManager::GetInstance()->RestartLevelOne();
+					SceneManager::GetInstance()->SetCurrentScene(OPTION_SCENE);
+				}
+								
 			}
 		}
 	}
 	Input::Update();
+	if (m_pPlayerOneController->normalizedLY < 0.5f && m_pPlayerOneController->normalizedLY > -0.5f) {
+		m_bControllerMoved = false;
+	}
+	m_pPlayerOneController->Update();
+	SoundManager::GetInstance()->Update();
 }
 
