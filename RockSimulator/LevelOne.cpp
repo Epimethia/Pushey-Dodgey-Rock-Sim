@@ -52,6 +52,8 @@ LevelOne::LevelOne()
 	//	Initializing the HUD frame
 	m_pHUDFrame->Initialize("Resources/Images/HUD/HUD_Frame.png");
 
+	m_pSceneManager = SceneManager::GetInstance();
+
 	m_pPlayerOne = std::make_shared<PlayerCharacter>();
 	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
 	m_pPlayerOne->SetSpawnPosition(glm::vec3(3.0f, 4.5f, 0.0f));
@@ -248,16 +250,16 @@ void LevelOne::ProcessLevel(const float& _DeltaTick)
 	if (SceneManager::GetInstance()->GetState())
 	{
 		// Fade out 
-		float fSceneOpacity = SceneManager::GetInstance()->GetOpacity();
+		float fSceneOpacity = m_pSceneManager->GetOpacity();
 		if (0.0f < fSceneOpacity)
 		{
-			SceneManager::GetInstance()->SetOpacity(fSceneOpacity - (_DeltaTick));
+			m_pSceneManager->SetOpacity(fSceneOpacity - (_DeltaTick));
 		}
 		else
 		{
-			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);			
-			SceneManager::GetInstance()->SetOpacity(1.0f);
-			SceneManager::GetInstance()->SetTransitioning(false);
+			m_pSceneManager->SetCurrentScene(END_SCENE);
+			m_pSceneManager->SetOpacity(1.0f);
+			m_pSceneManager->SetTransitioning(false);
 		}
 	}
 }
@@ -322,10 +324,9 @@ void LevelOne::SpawnAsteroids(const float& _DeltaTick)
 			case 0:
 			{
 				// Left to right asteroid
-				std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
-				TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
-				TempAsteroid->Initialize();
-				m_vpAsteroidVec0.push_back(TempAsteroid);
+				m_vpAsteroidVec0.push_back(std::make_shared<Asteroid>(static_cast<float>(dis2(gen))));
+				m_vpAsteroidVec0.back()->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
+				m_vpAsteroidVec0.back()->Initialize();
 
 				// Unit Testing
 				if (kb_UNITTESTS)
@@ -338,10 +339,9 @@ void LevelOne::SpawnAsteroids(const float& _DeltaTick)
 			case 1:
 			{
 				// Right to left asteroid
-				std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
-				TempAsteroid->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
-				TempAsteroid->Initialize();
-				m_vpAsteroidVec1.push_back(TempAsteroid);
+				m_vpAsteroidVec1.push_back(std::make_shared<Asteroid>(static_cast<float>(dis2(gen))));
+				m_vpAsteroidVec1.back()->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
+				m_vpAsteroidVec1.back()->Initialize();
 
 				// Unit Testing
 				if (kb_UNITTESTS)
@@ -438,10 +438,12 @@ void LevelOne::CheckPlayerDeaths(const float& _DeltaTick)
 			// Check for win
 			if (2 < m_sDeathCount[0])
 			{
-				SceneManager::GetInstance()->SetTransitioning(true);
-				SceneManager::GetInstance()->InitializeScene(END_SCENE);
-				SceneManager::GetInstance()->SetWinner(1);
+				m_vpAsteroidVec0.clear();
+				m_vpAsteroidVec1.clear();
+				m_pSceneManager->SetTransitioning(true);
+				m_pSceneManager->InitializeScene(END_SCENE);
 				SoundManager::GetInstance()->StopBGM();
+				m_pSceneManager->SetWinner(1);
 			}
 
 			// Check that vectors were cleared properly
@@ -474,11 +476,12 @@ void LevelOne::CheckPlayerDeaths(const float& _DeltaTick)
 			// Check for win
 			if (2 < m_sDeathCount[1])
 			{
-				SceneManager::GetInstance()->SetTransitioning(true);
-				SceneManager::GetInstance()->InitializeScene(END_SCENE);
-
-
-				SceneManager::GetInstance()->SetWinner(0);
+				m_vpAsteroidVec0.clear();
+				m_vpAsteroidVec1.clear();
+				m_pSceneManager->SetTransitioning(true);
+				m_pSceneManager->InitializeScene(END_SCENE);
+				SoundManager::GetInstance()->StopBGM();
+				m_pSceneManager->SetWinner(0);
 			}
 
 			// Check that vectors were cleared properly
