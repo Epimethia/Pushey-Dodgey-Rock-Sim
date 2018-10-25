@@ -11,11 +11,8 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	if (nullptr != m_body)
-	{
-		Physics::GetInstance()->GetWorld()->DestroyBody(m_body);
-		m_body = nullptr;
-	}
+	Physics::GetInstance()->GetWorld()->DestroyBody(m_body);
+	m_body = nullptr;
 	m_Sprite.reset();
 }
 
