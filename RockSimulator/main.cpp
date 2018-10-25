@@ -8,10 +8,10 @@
 #include "SceneManager.h"
 #include "Utilities.h"
 #include "FrameBuffer.h"
+#include "Physics.h"
 #include <vld.h>
 
-SceneManager* g_pSceneManager{ nullptr };
-FrameBuffer* exampleFrameBuffer = new FrameBuffer();
+std::shared_ptr<FrameBuffer> exampleFrameBuffer = std::make_shared<FrameBuffer>();
 
 void Update();
 void Render();
@@ -33,9 +33,9 @@ int main(int argc, char** argv)
 	std::srand(static_cast<unsigned int>(time(NULL)));
 
 	// Initialize the starting scene
-	SceneManager::GetInstance()->InitializeScene(LEVEL1_SCENE);
+	SceneManager::GetInstance()->InitializeScene(MENU_SCENE);
 	// Set the starting scene
-	SceneManager::GetInstance()->SetCurrentScene(LEVEL1_SCENE);
+	SceneManager::GetInstance()->SetCurrentScene(MENU_SCENE);
 	// Init frame buffer
 	exampleFrameBuffer->Initialize();
 
@@ -67,9 +67,8 @@ void Update()
 }
 
 void ExitFunction()
-{
-	delete exampleFrameBuffer;
-	exampleFrameBuffer = nullptr;
+{	
 	SceneManager::DestroyInstance();
 	ShaderLoader::DestroyInstance();
+	Physics::DestroyInstance();
 }

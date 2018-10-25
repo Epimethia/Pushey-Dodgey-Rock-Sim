@@ -10,6 +10,7 @@ FrameBuffer::FrameBuffer()
 
 FrameBuffer::~FrameBuffer()
 {
+	
 }
 
 void FrameBuffer::Initialize()

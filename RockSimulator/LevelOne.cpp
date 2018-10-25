@@ -49,29 +49,31 @@ LevelOne::LevelOne()
 
 LevelOne::~LevelOne()
 {
-	unsigned int iX = 0;
-	for (iX = 0; iX < m_vpAsteroidVec0.size(); iX++)
-	{
-		m_vpAsteroidVec0[iX].reset();
-	}
-	for (iX = 0; iX < m_vpAsteroidVec1.size(); iX++)
-	{
-		m_vpAsteroidVec1[iX].reset();
-	}
-	for (iX = 0; iX < m_vpEntityVec.size(); iX++)
-	{
-		m_vpEntityVec[iX].reset();
-	}
+	// Clearing Vectors
+	m_vpAsteroidVec0.clear();
+	m_vpAsteroidVec1.clear();
+	m_vpEntityVec.clear();
+	
+	// Resetting Singular Objects
 	m_pPlayerOne.reset();
 	m_pPlayerTwo.reset();
 	m_pP1HealthBar.reset();
 	m_pP2HealthBar.reset();
 	m_pPlayerOneController.reset();
 	m_pPlayerTwoController.reset();
-	m_pBackground.reset();	
-	m_pTimeDisplay.reset();
+	m_pBackground.reset();
+	m_pCamera.reset();
+	m_pHUDFrame.reset();
 	m_pPointsSpriteArr[0].reset();
 	m_pPointsSpriteArr[1].reset();
+	m_pPOne_OnePoint.reset();
+	m_pPTwo_OnePoint.reset();
+	m_pZeroPoints.reset();
+	m_pTimeDisplay.reset();	
+	
+	// Dealing with raw pointers
+	MyContactListener::DestroyInstance();
+	
 }
 
 void LevelOne::Init()
@@ -82,7 +84,10 @@ void LevelOne::Init()
 	//	Initializing the HUD frame
 	m_pHUDFrame->Initialize("Resources/Images/HUD/HUD_Frame.png");
 
-	m_pPlayerOne = std::make_shared<PlayerCharacter>();
+	if (!m_pPlayerOne)
+	{
+		m_pPlayerOne = std::make_shared<PlayerCharacter>();
+	}	
 	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
 	m_pPlayerOne->SetSpawnPosition(glm::vec3(3.0f, 4.5f, 0.0f));
 	m_pPlayerOne->SetPlayerTexture("Resources/Images/Player_Sprite.png");
@@ -90,16 +95,20 @@ void LevelOne::Init()
 	m_pPlayerOne->Initialize();
 	m_vpEntityVec.push_back(m_pPlayerOne);
 
-
-	m_pP1HealthBar = std::make_shared<C_HealthBar>(
-		"Resources/Images/HUD/Player_One_Healthbar.png", 
-		"Resources/Images/HUD/Player_One_Half.png"
-	);
+	if (!m_pP1HealthBar)
+	{
+		m_pP1HealthBar = std::make_shared<C_HealthBar>(
+			"Resources/Images/HUD/Player_One_Healthbar.png",
+			"Resources/Images/HUD/Player_One_Half.png"
+			);
+	}	
 	m_pP1HealthBar->SetPosition(glm::vec3(1.88f, 8.55f, 0.0f));
 	m_pP1HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
 
-	
-	m_pPlayerTwo = std::make_shared<PlayerCharacter>();
+	if (!m_pPlayerTwo)
+	{
+		m_pPlayerTwo = std::make_shared<PlayerCharacter>();
+	}
 	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
 	m_pPlayerTwo->SetSpawnPosition(glm::vec3(13.0f, 4.5f, 0.0f));
 	m_pPlayerTwo->SetPlayerTexture("Resources/Images/Player_Sprite2.png");
@@ -107,11 +116,13 @@ void LevelOne::Init()
 	m_pPlayerTwo->Initialize();
 	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
 
-	m_pP2HealthBar = std::make_shared<C_HealthBar>(
-		"Resources/Images/HUD/Player_Two_Healthbar.png", 
-		"Resources/Images/HUD/Player_Two_Half.png"
-	);
-
+	if (!m_pP2HealthBar)
+	{
+		m_pP2HealthBar = std::make_shared<C_HealthBar>(
+			"Resources/Images/HUD/Player_Two_Healthbar.png",
+			"Resources/Images/HUD/Player_Two_Half.png"
+			);
+	}
 	m_pP2HealthBar->SetPosition(glm::vec3(14.11f, 8.55f, 0.0f));
 	m_pP2HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
 
@@ -124,12 +135,15 @@ void LevelOne::Init()
 	m_pPointsSpriteArr[1] = m_pZeroPoints;
 
 	//	Initializing the timer text to appear at the top of the screen
-	m_pTimeDisplay = 
-		std::make_shared<TextLabel>(
-			"1:30",	//Timer value itself
-			"Resources/Fonts/Thirteen-Pixel-Fonts.ttf",				//Font
-			glm::vec2(700.0f, 790.0f)								//Position of the timer
-		);
+	if (!m_pTimeDisplay)
+	{
+		m_pTimeDisplay =
+			std::make_shared<TextLabel>(
+				"1:30",	//Timer value itself
+				"Resources/Fonts/Thirteen-Pixel-Fonts.ttf",				//Font
+				glm::vec2(700.0f, 790.0f)								//Position of the timer
+				);
+	}	
 	m_pTimeDisplay->SetScale(1.9f);
 
 	//	Contact listeners to handle collision between Box2D entities
@@ -139,6 +153,23 @@ void LevelOne::Init()
 
 	//Starting the sound manager to play some music
 	SoundManager::GetInstance()->StartLevelBGM();
+
+	/// Checking reference counts
+	//std::cout << "\n m_pPlayerOne: " << m_pPlayerOne.use_count();
+	//std::cout << "\n m_pPlayerTwo: " << m_pPlayerTwo.use_count();
+	//std::cout << "\n m_pP1HealthBar: " << m_pP1HealthBar.use_count();
+	//std::cout << "\n m_pP2HealthBar: " << m_pP2HealthBar.use_count();
+	//std::cout << "\n m_pPlayerOneController: " << m_pPlayerOneController.use_count();
+	//std::cout << "\n m_pPlayerTwoController: " << m_pPlayerTwoController.use_count();
+	//std::cout << "\n m_pBackground: " << m_pBackground.use_count();
+	//std::cout << "\n m_pCamera: " << m_pCamera.use_count();
+	//std::cout << "\n m_pHUDFrame: " << m_pHUDFrame.use_count();
+	//std::cout << "\n m_pPointsSpriteArr: " << m_pPointsSpriteArr[0].use_count();
+	//std::cout << "\n m_pPointsSpriteArr: " << m_pPointsSpriteArr[1].use_count();
+	//std::cout << "\n m_pPOne_OnePoint: " << m_pPOne_OnePoint.use_count();
+	//std::cout << "\n m_pPTwo_OnePoint: " << m_pPTwo_OnePoint.use_count();
+	//std::cout << "\n m_pZeroPoints: " << m_pZeroPoints.use_count();
+	//std::cout << "\n m_pTimeDisplay: " << m_pTimeDisplay.use_count();
 }
 
 void LevelOne::ProcessLevel(const float& _DeltaTick)

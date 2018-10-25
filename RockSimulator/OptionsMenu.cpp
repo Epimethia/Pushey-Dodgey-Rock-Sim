@@ -18,7 +18,10 @@ OptionsMenu::OptionsMenu()
 
 OptionsMenu::~OptionsMenu()
 {
-
+	m_pBackground.reset();
+	m_pOptionTitle.reset();
+	m_pEffectLevel.reset();
+	m_pBGMLevel.reset();
 }
 
 void OptionsMenu::Init()

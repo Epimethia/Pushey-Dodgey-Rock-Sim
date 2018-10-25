@@ -24,6 +24,7 @@ MainMenu::~MainMenu()
 		it.reset();
 	}
 	m_pMenuTitle.reset();
+	//m_pBackground.reset();
 }
 
 void MainMenu::Init()
