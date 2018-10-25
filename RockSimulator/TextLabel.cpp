@@ -109,7 +109,12 @@ TextLabel::TextLabel(std::string newText, std::string newFont, glm::vec2 pos)
 
 TextLabel::~TextLabel()
 {
-	m_mCharacters.clear();
+	//	Testing another method.
+	while (0 < m_mCharacters.size())
+	{
+		m_mCharacters.erase(0);
+	}
+	//m_mCharacters.clear();
 }
 
 //Name:			    Render
