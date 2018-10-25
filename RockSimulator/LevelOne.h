@@ -19,6 +19,7 @@ class MyContactListener;
 class CClock;
 class TextLabel;
 class C_HealthBar;
+class SceneManager;
 
 
 class LevelOne	
@@ -50,6 +51,7 @@ private:
 	std::shared_ptr<XBOXController> m_pPlayerTwoController;
 	std::shared_ptr<Sprite> m_pBackground;
 	std::shared_ptr<Camera> m_pCamera;
+	std::shared_ptr<SceneManager> m_pSceneManager;
 	MyContactListener* m_pContactListener;
 	float m_fSpawnTime;	
 	CClock* m_pClock{ nullptr };

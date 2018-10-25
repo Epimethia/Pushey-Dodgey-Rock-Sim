@@ -1,4 +1,11 @@
+//	This include.
 #include "Asteroid.h"
+
+
+//	Library includes.
+
+
+//	Local includes.
 #include "Sprite.h"
 #include "Physics.h"
 #include "Dependencies/glm/gtx/string_cast.hpp"
@@ -94,4 +101,5 @@ void Asteroid::Initialize()
 
 void Asteroid::InitializeDebugDraw()
 {
+
 }

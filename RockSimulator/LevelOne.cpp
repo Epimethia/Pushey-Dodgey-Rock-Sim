@@ -82,6 +82,8 @@ void LevelOne::Init()
 	//	Initializing the HUD frame
 	m_pHUDFrame->Initialize("Resources/Images/HUD/HUD_Frame.png");
 
+	m_pSceneManager = SceneManager::GetInstance();
+
 	m_pPlayerOne = std::make_shared<PlayerCharacter>();
 	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
 	m_pPlayerOne->SetSpawnPosition(glm::vec3(3.0f, 4.5f, 0.0f));
@@ -238,16 +240,16 @@ void LevelOne::ProcessLevel(const float& _DeltaTick)
 	if (SceneManager::GetInstance()->GetState())
 	{
 		// Fade out 
-		float fSceneOpacity = SceneManager::GetInstance()->GetOpacity();
+		float fSceneOpacity = m_pSceneManager->GetOpacity();
 		if (0.0f < fSceneOpacity)
 		{
-			SceneManager::GetInstance()->SetOpacity(fSceneOpacity - (_DeltaTick));
+			m_pSceneManager->SetOpacity(fSceneOpacity - (_DeltaTick));
 		}
 		else
 		{
-			SceneManager::GetInstance()->SetCurrentScene(END_SCENE);			
-			SceneManager::GetInstance()->SetOpacity(1.0f);
-			SceneManager::GetInstance()->SetTransitioning(false);
+			m_pSceneManager->SetCurrentScene(END_SCENE);
+			m_pSceneManager->SetOpacity(1.0f);
+			m_pSceneManager->SetTransitioning(false);
 		}
 	}
 }
@@ -427,10 +429,10 @@ void LevelOne::CheckPlayerDeaths(const float& _DeltaTick)
 		// Check for win
 		if (2 < m_sDeathCount[0])
 		{			
-			SceneManager::GetInstance()->SetTransitioning(true);
-			SceneManager::GetInstance()->InitializeScene(END_SCENE);
-			SceneManager::GetInstance()->SetWinner(1);
+			m_pSceneManager->SetTransitioning(true);
+			m_pSceneManager->InitializeScene(END_SCENE);
 			SoundManager::GetInstance()->StopBGM();
+			m_pSceneManager->SetWinner(1);
 		}
 
 		// Check that vectors were cleared properly
@@ -463,10 +465,10 @@ void LevelOne::CheckPlayerDeaths(const float& _DeltaTick)
 		// Check for win
 		if (2 < m_sDeathCount[1])
 		{				
-			SceneManager::GetInstance()->SetTransitioning(true);
-			SceneManager::GetInstance()->InitializeScene(END_SCENE);
+			m_pSceneManager->SetTransitioning(true);
+			m_pSceneManager->InitializeScene(END_SCENE);
 			SoundManager::GetInstance()->StopBGM();
-			SceneManager::GetInstance()->SetWinner(0);			
+			m_pSceneManager->SetWinner(0);
 		}
 
 		// Check that vectors were cleared properly
