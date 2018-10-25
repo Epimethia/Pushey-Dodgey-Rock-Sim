@@ -314,10 +314,9 @@ void LevelOne::SpawnAsteroids(const float& _DeltaTick)
 			case 0:
 			{
 				// Left to right asteroid
-				std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
-				TempAsteroid->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
-				TempAsteroid->Initialize();
-				m_vpAsteroidVec0.push_back(TempAsteroid);
+				m_vpAsteroidVec0.push_back(std::make_shared<Asteroid>(static_cast<float>(dis2(gen))));
+				m_vpAsteroidVec0.back()->SetPosition(b2Vec2(-1.0f, static_cast<float>(dis(gen))));
+				m_vpAsteroidVec0.back()->Initialize();
 
 				// Unit Testing
 				if (kb_UNITTESTS)
@@ -330,10 +329,9 @@ void LevelOne::SpawnAsteroids(const float& _DeltaTick)
 			case 1:
 			{
 				// Right to left asteroid
-				std::shared_ptr<Asteroid> TempAsteroid = std::make_shared<Asteroid>(static_cast<float>(dis2(gen)));
-				TempAsteroid->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
-				TempAsteroid->Initialize();
-				m_vpAsteroidVec1.push_back(TempAsteroid);
+				m_vpAsteroidVec1.push_back(std::make_shared<Asteroid>(static_cast<float>(dis2(gen))));
+				m_vpAsteroidVec1.back()->SetPosition(b2Vec2(17.0f, static_cast<float>(dis(gen))));
+				m_vpAsteroidVec1.back()->Initialize();
 
 				// Unit Testing
 				if (kb_UNITTESTS)
