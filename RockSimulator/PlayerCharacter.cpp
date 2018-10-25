@@ -101,6 +101,10 @@ PlayerCharacter::~PlayerCharacter()
 	//CLEAR UP ALL THE POINTERS
 	delete Bullet;
 	Bullet = nullptr;
+	delete m_kcPlayerTexture;
+	m_kcPlayerTexture = nullptr;
+	delete m_pDeaths;
+	m_pDeaths = nullptr;
 }
 
 void PlayerCharacter::Initialize()
@@ -268,7 +272,7 @@ void PlayerCharacter::Shoot()
 
 void PlayerCharacter::LinkScore(short* _Deaths)
 {
-	m_pDeaths = _Deaths;
+	m_pDeaths = _Deaths;	
 }
 
 void PlayerCharacter::Respawn()

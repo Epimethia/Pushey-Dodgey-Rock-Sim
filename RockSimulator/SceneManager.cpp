@@ -45,6 +45,7 @@ SceneManager::SceneManager()
 		assert(UnitTests::ValidCheck(m_pMenuLevelScene.get()));
 		assert(UnitTests::ValidCheck(m_pEndLevelScene.get()));
 	}
+	SoundManager::GetInstance()->StartMenuBGM();
 }
 
 SceneManager::~SceneManager()
@@ -52,6 +53,7 @@ SceneManager::~SceneManager()
 	m_pLevelOneScene.reset();
 	m_pMenuLevelScene.reset();
 	m_pEndLevelScene.reset();
+	m_pOptionLevelScene.reset();
 }
 
 void SceneManager::RenderCurrentScene()
@@ -107,7 +109,7 @@ void SceneManager::UpdateCurrentScene()
 	}
 	default:break;
 	}
-	
+	SoundManager::GetInstance()->Update();
 }
 
 void SceneManager::RestartLevelOne()
@@ -115,7 +117,6 @@ void SceneManager::RestartLevelOne()
 	m_pLevelOneScene.reset();
 	m_pLevelOneScene = std::make_shared<LevelOne>();
 	m_pLevelOneScene->Init();
-
 }
 
 void SceneManager::SetWinner(unsigned int _WinningPlayer)
@@ -137,16 +138,17 @@ void SceneManager::InitializeScene(SceneState _scene)
 	switch (_scene)
 	{
 		case MENU_SCENE:
-		{
+		{			
 			m_pMenuLevelScene->Init();
 			break;
 		}
-		case OPTION_SCENE: {
+		case OPTION_SCENE:
+		{			
 			m_pOptionLevelScene->Init();
 			break;
 		}
 		case LEVEL1_SCENE:
-		{
+		{			
 			m_pLevelOneScene->Init();
 			break;
 		}

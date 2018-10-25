@@ -15,7 +15,7 @@ MainMenu::MainMenu()
 	m_pBackground = std::make_shared<Sprite>();
 
 	m_iCurrentOpt = 0;
-	m_pBackground->Initialize("Resources/Images/MenuBackground2.png");
+	m_pBackground->Initialize("Resources/Images/MenuBackground.png");
 
 	m_pMenuTitle = std::make_shared<TextLabel>("Pushy Dodgy Rock Simulator", "Resources/Fonts/Thirteen-Pixel-Fonts.ttf", glm::vec2(165.0f, 800.0f));
 	m_pMenuTitle->SetScale(1.6f);
@@ -35,6 +35,7 @@ MainMenu::~MainMenu()
 		it.reset();
 	}
 	m_pMenuTitle.reset();
+	//m_pBackground.reset();
 }
 
 void MainMenu::Init()
@@ -157,6 +158,5 @@ void MainMenu::ProcessLevel()
 		m_bControllerMoved = false;
 	}
 	m_pPlayerOneController->Update();
-	SoundManager::GetInstance()->Update();
 }
 

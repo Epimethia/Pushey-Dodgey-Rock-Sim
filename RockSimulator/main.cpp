@@ -8,10 +8,9 @@
 #include "SceneManager.h"
 #include "Utilities.h"
 #include "FrameBuffer.h"
-#include <vld.h>
+#include "Physics.h"
 
-SceneManager* g_pSceneManager{ nullptr };
-FrameBuffer* exampleFrameBuffer = new FrameBuffer();
+std::shared_ptr<FrameBuffer> exampleFrameBuffer = std::make_shared<FrameBuffer>();
 
 void Update();
 void Render();
@@ -51,7 +50,6 @@ int main(int argc, char** argv)
 
 void Render()
 {
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	exampleFrameBuffer->BindFrameBuffer(); // has clearing in here
 
 	SceneManager::GetInstance()->RenderCurrentScene();
@@ -67,9 +65,8 @@ void Update()
 }
 
 void ExitFunction()
-{
-	delete exampleFrameBuffer;
-	exampleFrameBuffer = nullptr;
+{	
 	SceneManager::DestroyInstance();
 	ShaderLoader::DestroyInstance();
+	Physics::DestroyInstance();
 }
