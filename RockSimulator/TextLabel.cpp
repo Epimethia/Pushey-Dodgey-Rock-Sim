@@ -105,15 +105,11 @@ TextLabel::TextLabel(std::string newText, std::string newFont, glm::vec2 pos)
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);		
-
-	newText.clear();
-	newFont.clear();
 }
 
 TextLabel::~TextLabel()
 {
 	m_mCharacters.clear();
-	m_sText.clear();
 }
 
 //Name:			    Render

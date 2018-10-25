@@ -29,17 +29,11 @@ OptionsMenu::OptionsMenu()
 	m_pOptionArr[3] = std::make_shared<Option>("Main Menu", glm::vec2(680.0f, 125.0f), glm::vec2(620.0f, 140.0f));
 
 	m_pPlayerOneController = std::make_shared<XBOXController>(1);
-
-	m_pEffectLevel->SetText(std::string("-- " + std::to_string(static_cast<int>(SoundManager::GetInstance()->EffectScale * 10.0f)) + " --").c_str());
-	m_pBGMLevel->SetText(std::string("-- " + std::to_string(static_cast<int>(SoundManager::GetInstance()->BGMScale * 10.0f)) + " --").c_str());
 }
 
 OptionsMenu::~OptionsMenu()
 {
-	m_pBackground.reset();
-	m_pOptionTitle.reset();
-	m_pEffectLevel.reset();
-	m_pBGMLevel.reset();
+
 }
 
 void OptionsMenu::Init()
@@ -186,4 +180,5 @@ void OptionsMenu::ProcessLevel()
 			}
 		}
 	}
+	SoundManager::GetInstance()->Update();
 }

@@ -31,7 +31,7 @@ void Sprite::Initialize(const char * _TextureFilepath)
 	};
 
 	m_iProgram = ShaderLoader::GetInstance().CreateProgram("Resources/Shaders/VertexShader.vs",
-		"Resources/Shaders/FragmentShader.fs");	
+		"Resources/Shaders/FragmentShader.fs");
 
 	glGenTextures(1, &m_iTexture);
 	glBindTexture(GL_TEXTURE_2D, m_iTexture);
@@ -101,7 +101,7 @@ void Sprite::Initialize(const char * _TextureFilepath)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
 		sizeof(indices),
 		indices,
-		GL_STATIC_DRAW);	
+		GL_STATIC_DRAW);
 }
 
 void Sprite::Update()

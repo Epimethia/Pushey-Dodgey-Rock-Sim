@@ -45,39 +45,7 @@ LevelOne::LevelOne()
 	m_fSpawnTime = 0.0f;
 	m_fTimeRemaining = 90;
 	m_fTimerTick = 0.0f;
-}
 
-LevelOne::~LevelOne()
-{
-	// Clearing Vectors
-	m_vpAsteroidVec0.clear();
-	m_vpAsteroidVec1.clear();
-	m_vpEntityVec.clear();
-	
-	// Resetting Singular Objects
-	m_pPlayerOne.reset();
-	m_pPlayerTwo.reset();
-	m_pP1HealthBar.reset();
-	m_pP2HealthBar.reset();
-	m_pPlayerOneController.reset();
-	m_pPlayerTwoController.reset();
-	m_pBackground.reset();
-	m_pCamera.reset();
-	m_pHUDFrame.reset();
-	m_pPointsSpriteArr[0].reset();
-	m_pPointsSpriteArr[1].reset();
-	m_pPOne_OnePoint.reset();
-	m_pPTwo_OnePoint.reset();
-	m_pZeroPoints.reset();
-	m_pTimeDisplay.reset();	
-	
-	// Dealing with raw pointers
-	MyContactListener::DestroyInstance();
-	
-}
-
-void LevelOne::Init()
-{
 	// Initialize Scene Background	
 	m_pBackground->Initialize("Resources/Images/New Background.png");
 
@@ -86,10 +54,7 @@ void LevelOne::Init()
 
 	m_pSceneManager = SceneManager::GetInstance();
 
-	if (!m_pPlayerOne)
-	{
-		m_pPlayerOne = std::make_shared<PlayerCharacter>();
-	}	
+	m_pPlayerOne = std::make_shared<PlayerCharacter>();
 	m_pPlayerOne->SetPosition(b2Vec2(3.0f, 4.5f));
 	m_pPlayerOne->SetSpawnPosition(glm::vec3(3.0f, 4.5f, 0.0f));
 	m_pPlayerOne->SetPlayerTexture("Resources/Images/Player_Sprite.png");
@@ -97,20 +62,16 @@ void LevelOne::Init()
 	m_pPlayerOne->Initialize();
 	m_vpEntityVec.push_back(m_pPlayerOne);
 
-	if (!m_pP1HealthBar)
-	{
-		m_pP1HealthBar = std::make_shared<C_HealthBar>(
-			"Resources/Images/HUD/Player_One_Healthbar.png",
-			"Resources/Images/HUD/Player_One_Half.png"
-			);
-	}	
+
+	m_pP1HealthBar = std::make_shared<C_HealthBar>(
+		"Resources/Images/HUD/Player_One_Healthbar.png",
+		"Resources/Images/HUD/Player_One_Half.png"
+		);
 	m_pP1HealthBar->SetPosition(glm::vec3(1.88f, 8.55f, 0.0f));
 	m_pP1HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
 
-	if (!m_pPlayerTwo)
-	{
-		m_pPlayerTwo = std::make_shared<PlayerCharacter>();
-	}
+
+	m_pPlayerTwo = std::make_shared<PlayerCharacter>();
 	m_pPlayerTwo->SetPosition(b2Vec2(13.0f, 4.5f));
 	m_pPlayerTwo->SetSpawnPosition(glm::vec3(13.0f, 4.5f, 0.0f));
 	m_pPlayerTwo->SetPlayerTexture("Resources/Images/Player_Sprite2.png");
@@ -118,13 +79,11 @@ void LevelOne::Init()
 	m_pPlayerTwo->Initialize();
 	m_pPlayerTwo->LinkScore(&m_sDeathCount[1]);
 
-	if (!m_pP2HealthBar)
-	{
-		m_pP2HealthBar = std::make_shared<C_HealthBar>(
-			"Resources/Images/HUD/Player_Two_Healthbar.png",
-			"Resources/Images/HUD/Player_Two_Half.png"
+	m_pP2HealthBar = std::make_shared<C_HealthBar>(
+		"Resources/Images/HUD/Player_Two_Healthbar.png",
+		"Resources/Images/HUD/Player_Two_Half.png"
 		);
-	}
+
 	m_pP2HealthBar->SetPosition(glm::vec3(14.11f, 8.55f, 0.0f));
 	m_pP2HealthBar->SetScale(glm::vec3(1.67f, 0.23f, 0.0f));
 
@@ -137,21 +96,61 @@ void LevelOne::Init()
 	m_pPointsSpriteArr[1] = m_pZeroPoints;
 
 	//	Initializing the timer text to appear at the top of the screen
-	if (!m_pTimeDisplay)
-	{
-		m_pTimeDisplay =
-			std::make_shared<TextLabel>(
-				"1:30",	//Timer value itself
-				"Resources/Fonts/Thirteen-Pixel-Fonts.ttf",				//Font
-				glm::vec2(700.0f, 790.0f)								//Position of the timer
+	m_pTimeDisplay =
+		std::make_shared<TextLabel>(
+			"1:30",													//Timer value itself
+			"Resources/Fonts/Thirteen-Pixel-Fonts.ttf",				//Font
+			glm::vec2(700.0f, 790.0f)								//Position of the timer
 			);
-	}	
 	m_pTimeDisplay->SetScale(1.9f);
 
 	//	Contact listeners to handle collision between Box2D entities
 	m_pContactListener = &MyContactListener::GetInstance();
 	m_pContactListener->SetPlayer(&(*m_pPlayerOne));
 	m_pContactListener->SetPlayer(&(*m_pPlayerTwo));
+}
+
+LevelOne::~LevelOne()
+{
+	unsigned int iX = 0;
+	for (iX = 0; iX < m_vpAsteroidVec0.size(); iX++)
+	{
+		m_vpAsteroidVec0[iX].reset();
+	}
+	for (iX = 0; iX < m_vpAsteroidVec1.size(); iX++)
+	{
+		m_vpAsteroidVec1[iX].reset();
+	}
+	for (iX = 0; iX < m_vpEntityVec.size(); iX++)
+	{
+		m_vpEntityVec[iX].reset();
+	}
+	m_pPlayerOne.reset();
+	m_pPlayerTwo.reset();
+	m_pP1HealthBar.reset();
+	m_pP2HealthBar.reset();
+	m_pPlayerOneController.reset();
+	m_pPlayerTwoController.reset();
+	m_pBackground.reset();	
+	m_pTimeDisplay.reset();
+	m_pPointsSpriteArr[0].reset();
+	m_pPointsSpriteArr[1].reset();
+}
+
+void LevelOne::Init()
+{
+	m_pP1HealthBar->SetHealth(HEALTH::FULL);
+	m_pP2HealthBar->SetHealth(HEALTH::FULL);
+	
+	m_pPointsSpriteArr[0] = m_pZeroPoints;
+	m_pPointsSpriteArr[1] = m_pZeroPoints;
+
+	m_pPlayerOne->ResetPlayer();
+	m_pPlayerTwo->ResetPlayer();
+
+	m_sDeathCount[0] = 0;
+	m_sDeathCount[1] = 0;
+	SoundManager::GetInstance()->StartLevelBGM();
 }
 
 void LevelOne::ProcessLevel(const float& _DeltaTick)
@@ -243,6 +242,9 @@ void LevelOne::ProcessLevel(const float& _DeltaTick)
 
 	// Clean up offscreen asteroids
 	OffscreenCleanup();
+
+	//	Process the SoundManager
+	SoundManager::GetInstance()->Update();
 
 	// Scene Transition
 	if (SceneManager::GetInstance()->GetState())

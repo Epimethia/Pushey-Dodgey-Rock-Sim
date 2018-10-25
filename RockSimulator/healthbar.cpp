@@ -19,9 +19,7 @@ C_HealthBar::C_HealthBar()
 
 C_HealthBar::~C_HealthBar()
 {
-	m_HealthBarFull.reset();
-	m_HealthBarHalf.reset();
-	m_Sprite.reset();
+
 }
 
 C_HealthBar::C_HealthBar(const char * _Filepath_Full, const char*  _Filepath_Half)

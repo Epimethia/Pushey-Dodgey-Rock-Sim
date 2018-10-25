@@ -43,14 +43,15 @@ private:
 	std::vector<std::shared_ptr<Asteroid>> m_vpAsteroidVec0;
 	std::vector<std::shared_ptr<Asteroid>> m_vpAsteroidVec1;
 	std::vector<std::shared_ptr<Entity>> m_vpEntityVec;
-	std::shared_ptr<PlayerCharacter> m_pPlayerOne = nullptr;
-	std::shared_ptr<PlayerCharacter> m_pPlayerTwo = nullptr;
-	std::shared_ptr<C_HealthBar> m_pP1HealthBar = nullptr;
-	std::shared_ptr<C_HealthBar> m_pP2HealthBar = nullptr;
-	std::shared_ptr<XBOXController> m_pPlayerOneController = nullptr;
-	std::shared_ptr<XBOXController> m_pPlayerTwoController = nullptr;
-	std::shared_ptr<Sprite> m_pBackground = nullptr;
-	std::shared_ptr<Camera> m_pCamera = nullptr;
+	std::shared_ptr<PlayerCharacter> m_pPlayerOne;
+	std::shared_ptr<PlayerCharacter> m_pPlayerTwo;
+	std::shared_ptr<C_HealthBar> m_pP1HealthBar;
+	std::shared_ptr<C_HealthBar> m_pP2HealthBar;
+	std::shared_ptr<XBOXController> m_pPlayerOneController;
+	std::shared_ptr<XBOXController> m_pPlayerTwoController;
+	std::shared_ptr<Sprite> m_pBackground;
+	std::shared_ptr<Camera> m_pCamera;
+	std::shared_ptr<SceneManager> m_pSceneManager;
 	MyContactListener* m_pContactListener;
 	float m_fSpawnTime;	
 	CClock* m_pClock{ nullptr };
@@ -59,18 +60,17 @@ private:
 	short m_fTimeRemaining;
 	float m_fTimerTick;
 
-	std::shared_ptr<Sprite> m_pHUDFrame = nullptr;
+	std::shared_ptr<Sprite> m_pHUDFrame;
 
 	std::shared_ptr<Sprite> m_pPointsSpriteArr[2];
-	std::shared_ptr<Sprite> m_pPOne_OnePoint = nullptr;
-	std::shared_ptr<Sprite> m_pPTwo_OnePoint = nullptr;
-	std::shared_ptr<Sprite> m_pTwoPoints = nullptr;
-	std::shared_ptr<Sprite> m_pZeroPoints = nullptr;
+	std::shared_ptr<Sprite> m_pPOne_OnePoint;
+	std::shared_ptr<Sprite> m_pPTwo_OnePoint;
+	std::shared_ptr<Sprite> m_pTwoPoints;
+	std::shared_ptr<Sprite> m_pZeroPoints;
 
 
 	std::shared_ptr<TextLabel> m_pTimeDisplay;
 
-	std::shared_ptr<SceneManager> m_pSceneManager = nullptr;
 
 };
 
