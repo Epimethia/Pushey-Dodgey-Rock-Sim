@@ -37,7 +37,11 @@ Asteroid::Asteroid(float _scale)
 
 Asteroid::~Asteroid()
 {
-
+	if (nullptr != m_body)
+	{
+		Physics::GetInstance()->GetWorld()->DestroyBody(m_body);
+		m_body = nullptr;
+	}
 }
 
 void Asteroid::Render()
@@ -60,7 +64,7 @@ void Asteroid::Update()
 
 //Update Overload
 //Moves the asteroid by the input Translate
-void Asteroid::AddVelocity(b2Vec2 _direction, const float& _Speed)
+void Asteroid::AddVelocity(const b2Vec2& _direction, const float& _Speed)
 {
 	b2Vec2 tempVec = m_body->GetLinearVelocity();
 
@@ -80,7 +84,7 @@ void Asteroid::AddRotation(const float& _AngularForce)
 	m_body->ApplyTorque(_AngularForce, true);
 }
 
-void Asteroid::SetPosition(b2Vec2 _position)
+void Asteroid::SetPosition(const b2Vec2& _position)
 {
 	m_body->SetTransform(_position, m_body->GetAngle());
 

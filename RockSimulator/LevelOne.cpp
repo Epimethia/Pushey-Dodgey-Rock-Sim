@@ -428,7 +428,9 @@ void LevelOne::CheckPlayerDeaths(const float& _DeltaTick)
 
 		// Check for win
 		if (2 < m_sDeathCount[0])
-		{			
+		{
+			m_vpAsteroidVec0.clear();
+			m_vpAsteroidVec1.clear();
 			m_pSceneManager->SetTransitioning(true);
 			m_pSceneManager->InitializeScene(END_SCENE);
 			SoundManager::GetInstance()->StopBGM();
@@ -464,7 +466,9 @@ void LevelOne::CheckPlayerDeaths(const float& _DeltaTick)
 
 		// Check for win
 		if (2 < m_sDeathCount[1])
-		{				
+		{
+			m_vpAsteroidVec0.clear();
+			m_vpAsteroidVec1.clear();
 			m_pSceneManager->SetTransitioning(true);
 			m_pSceneManager->InitializeScene(END_SCENE);
 			SoundManager::GetInstance()->StopBGM();
