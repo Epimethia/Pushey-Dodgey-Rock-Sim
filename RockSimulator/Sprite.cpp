@@ -8,17 +8,16 @@ Sprite::Sprite()
 
 }
 
-
 Sprite::~Sprite()
 {
-	glDeleteTextures(1, &m_iTexture);
+	//glDeleteTextures(1, &m_iTexture); // This breaks the sprites, makes the red F appear
 }
 
 void Sprite::Initialize(const char * _TextureFilepath)
 {
 
 	GLfloat m_vertices[32] = {
-		// Positions					    // Colors					// Tex Coords
+		// Positions					  // Colors					// Tex Coords
 		-1.0f, 1.0f, 0.0f,		0.0f, 1.0f, 0.0f,		0.0f, 0.0f, // Top Left
 		1.0f, 1.0f, 0.0f,		1.0f, 0.0f, 0.0f,		1.0f, 0.0f, // Top Right
 		1.0f, -1.0f, 0.0f,		1.0f, 1.0f, 0.0f,		1.0f, 1.0f, // Bottom Right
@@ -56,9 +55,10 @@ void Sprite::Initialize(const char * _TextureFilepath)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	SOIL_free_image_data(image);
+	glGenerateMipmap(GL_TEXTURE_2D);	
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	SOIL_free_image_data(image);
 
 	glGenVertexArrays(1, &m_iVAO);
 	glBindVertexArray(m_iVAO);

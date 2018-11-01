@@ -192,6 +192,11 @@ void SoundManager::StopBGM()
 //                  
 void SoundManager::SoundPew()
 {	
+	if (!CheckVolume())
+	{
+		return; 
+	}
+
 	m_audioMgr->playSound(m_pEffectPew, 0, false, &m_pEffectChannel);	
 	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
@@ -199,6 +204,10 @@ void SoundManager::SoundPew()
 void
 SoundManager::SoundTakeDamage()
 {
+	if (!CheckVolume())
+	{
+		return;
+	}
 		//	Add sound for this.
 	m_audioMgr->playSound(m_pEffectDamage, 0, false, &m_pEffectChannel);
 	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
@@ -206,12 +215,22 @@ SoundManager::SoundTakeDamage()
 
 void SoundManager::SoundMenuMove()
 {
+	if (!CheckVolume())
+	{
+		return;
+	}
+
 	m_audioMgr->playSound(m_pEffectMenuMove, 0, false, &m_pEffectChannel);
 	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
 
 void SoundManager::SoundMenuClose()
 {
+	if (!CheckVolume())
+	{
+		return;
+	}
+
 	m_audioMgr->playSound(m_pEffectMenuClose, 0, false, &m_pEffectChannel);
 	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
@@ -279,6 +298,10 @@ void SoundManager::SetEngineVolume(unsigned int _PlayerIndex, float _Vol)
 //                  
 void SoundManager::SoundSpawn()
 {	
+	if (!CheckVolume())
+	{
+		return;
+	}
 	m_audioMgr->playSound(m_pEffectSpawn, 0, false, &m_pEffectChannel);	
 	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
@@ -292,8 +315,11 @@ void SoundManager::SoundTimerTick(int _TickType){
 		default:sound = m_pEffectTimerTick0; break;
 	}
 
-	m_audioMgr->playSound(sound, 0, false, &m_pEffectChannel);	
-	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
+	if (CheckVolume())
+	{
+		m_audioMgr->playSound(sound, 0, false, &m_pEffectChannel);
+		m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
+	}	
 	sound = nullptr;
 }
 
@@ -305,6 +331,10 @@ void SoundManager::SoundTimerTick(int _TickType){
 //                  
 void SoundManager::SoundPlayerDeath()
 {	
+	if (!CheckVolume())
+	{
+		return;
+	}
 	m_audioMgr->playSound(m_pEffectPlayerDeath, 0, false, &m_pEffectChannel);	
 	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
@@ -317,6 +347,10 @@ void SoundManager::SoundPlayerDeath()
 //                  
 void SoundManager::SoundEnemyDeath()
 {	
+	if (!CheckVolume())
+	{
+		return;
+	}
 	m_audioMgr->playSound(m_pEffectEnemyDeath, 0, false, &m_pEffectChannel);	
 	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }
@@ -329,6 +363,10 @@ void SoundManager::SoundEnemyDeath()
 //                  
 void SoundManager::SoundPowerup()
 {	
+	if (!CheckVolume())
+	{
+		return;
+	}
 	m_audioMgr->playSound(m_pEffectPowerup, 0, false, &m_pEffectChannel);	
 	m_pEffectChannel->setVolume(m_fEffectsVolume * EffectScale);
 }

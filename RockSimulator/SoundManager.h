@@ -43,6 +43,7 @@ public:
 	void SoundTakeDamage();
 	void SoundMenuMove();
 	void SoundMenuClose();
+	bool CheckVolume() { if (m_fEffectsVolume * EffectScale < 0.05f) return false; else return true; }
 
 	//engine functions
 	void ToggleEngineSound(unsigned int _PlayerIndex, bool _EnablePlayback);
